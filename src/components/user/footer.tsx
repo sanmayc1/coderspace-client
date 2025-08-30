@@ -1,4 +1,4 @@
-import MotionScrollWrap from "../common/reuseable/motion-scroll-wraper";
+import MotionScrollWrap from "../common/motion-scroll-wraper";
 
 const Footer = () => {
   return (

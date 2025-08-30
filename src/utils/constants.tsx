@@ -1,4 +1,4 @@
-import type { ISectionProps } from "@/types/props.types";
+import type { FieldConfig, ISectionProps } from "@/types/props.types";
 import { Bell, CircleUserRound, MessageSquareText } from "lucide-react";
 
 export const navHeads = [
@@ -38,14 +38,83 @@ export const sectionData: ISectionProps[] = [
       "Put your skills to the test in real-time coding contests. Face off against other coders, climb the leaderboard, and sharpen your speed and accuracy under pressure.",
     exploreUrl: "/",
     bannerUrl: "competelearnwin.jpg",
-    reverse:true
+    reverse: true,
   },
   {
-    head:"Connect with Other Coders",
-    description:"Explore a wide range of coding problems designed to challenge and sharpen your skills. From beginner basics to advanced algorithm puzzles, CoderSpace has something for every coder.",
-    exploreUrl:"/",
-    bannerUrl:"connectwithother.jpg",
-    reverse:false
+    head: "Connect with Other Coders",
+    description:
+      "Explore a wide range of coding problems designed to challenge and sharpen your skills. From beginner basics to advanced algorithm puzzles, CoderSpace has something for every coder.",
+    exploreUrl: "/",
+    bannerUrl: "connectwithother.jpg",
+    reverse: false,
+  },
+];
 
-  }
+export const UserRegisterFormFields: FieldConfig[] = [
+  {
+    name: "username",
+    placeholder: "Username",
+    type: "text",
+  },
+  {
+    name: "name",
+    placeholder: "Name",
+    type: "text",
+  },
+  {
+    name: "email",
+    placeholder: "Email",
+    type: "text",
+  },
+  {
+    name: "password",
+    placeholder: "Password",
+    type: "password",
+  },
+  {
+    name: "confirmPassword",
+    placeholder: "Confirm Password",
+    type: "password",
+  },
+];
+
+export const LoginFileds: FieldConfig[] = [
+  {
+    name: "email",
+    placeholder: "Email",
+    type: "text",
+  },
+  {
+    name: "password",
+    placeholder: "Password",
+    type: "text",
+  },
+];
+
+export const CompanyRegisterFields: FieldConfig[] = [
+  {
+    name: "companyName",
+    placeholder: "Company Name",
+    type: "text",
+  },
+  {
+    name: "gstin",
+    placeholder: "GSTIN",
+    type: "text",
+  },
+  {
+    name: "email",
+    placeholder: "Email",
+    type: "text",
+  },
+  {
+    name: "password",
+    placeholder: "Password",
+    type: "password",
+  },
+  {
+    name: "confirmPassword",
+    placeholder: "Confirm Password",
+    type: "password",
+  },
 ];

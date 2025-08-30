@@ -32,7 +32,7 @@ const Header: React.FC = () => {
               <div className="flex items-center h-full xl:pl-8 md:p-4 pt-1  ">
                 <img
                   onClick={()=>navigateTo("/")}
-                  src="logo.png"
+                  src="/logo.png"
                   alt="logo"
                   className="max-h-12 min-h-10 min-w-32 select-none cursor-pointer"
                 />

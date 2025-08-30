@@ -1,11 +1,13 @@
 import App from "@/App";
-import CustomForm from "@/components/common/reuseable/form";
 import UserLayout from "@/components/layout/user-layout";
+import CompanyLogin from "@/pages/company/company-login";
 import AccessLogin from "@/pages/access-login";
 import PageNotFoundError from "@/pages/error";
-import Home from "@/pages/home";
-
+import Home from "@/pages/user/home";
+import UserLogin from "@/pages/user/user-login";
+import UserSignup from "@/pages/user/user-signup";
 import { createBrowserRouter } from "react-router-dom";
+import CompanyRegister from "@/pages/company/company-register";
 
 export const routers = createBrowserRouter([
   {
@@ -18,9 +20,17 @@ export const routers = createBrowserRouter([
         children: [
           { index: true, Component: Home },
           { path: "/access-login", Component: AccessLogin },
+          {path:"/user/signup", Component: UserSignup },
+          {path:"/user/login",Component:UserLogin},
+          {path:"/company/login",Component:CompanyLogin},
+          {path:"/company/register",Component:CompanyRegister}
+
         ],
       },
     ],
   },
-  { path: "/test", Component: CustomForm },
+  {
+    path: "/test"
+
+  },
 ]);

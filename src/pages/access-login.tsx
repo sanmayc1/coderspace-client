@@ -1,12 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-const AccessLogin = () => {
+const AccessLogin: React.FC = () => {
+  const navigate = useNavigate();
+
+  const navigateTo = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <>
       <motion.div
         initial={{ y: 500 }}
-        animate={{y: 0 }}
+        animate={{ y: 0 }}
         transition={{ duration: 0.6, stiffness: 80 }}
       >
         <div className="min-h-screen flex justify-center items-center">
@@ -19,12 +26,20 @@ const AccessLogin = () => {
                 Solve coding challenges, participate in <br /> contests, and
                 improve your coding skills.
               </p>
-              <Button variant="default" size="lg" className="">
+              <Button
+                variant="default"
+                size="lg"
+                className="cursor-pointer"
+                onClick={() => navigateTo("/user/login")}
+              >
                 Login
               </Button>
               <div className="flex flex-col justify-center items-center gap-2 ">
                 <p className="text-gray-600">Don't have an account ?</p>
-                <p className="cursor-pointer hover:scale-105 transition-all duration-500 select-none">
+                <p
+                  className="cursor-pointer hover:scale-105 transition-all duration-500 select-none"
+                  onClick={() => navigateTo("/user/signup")}
+                >
                   Signup
                 </p>
               </div>
@@ -39,12 +54,17 @@ const AccessLogin = () => {
                 <br /> create and monitor coding contests, and track
                 performance.{" "}
               </p>
-              <Button variant="default" size="lg" className="">
+              <Button
+                variant="default"
+                size="lg"
+                className="cursor-pointer"
+                onClick={() => navigateTo("/company/login")}
+              >
                 Login
               </Button>
               <div className="flex flex-col justify-center items-center gap-2 ">
                 <p className="text-gray-600">Don't have an account ?</p>
-                <p className="cursor-pointer hover:scale-105 transition-all duration-500 select-none">
+                <p className="cursor-pointer hover:scale-105 transition-all duration-500 select-none" onClick={()=>navigateTo("/company/register")}>
                   Register
                 </p>
               </div>
