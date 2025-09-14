@@ -1,14 +1,21 @@
-import { Menu, X } from "lucide-react";
+import { LoaderCircle, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { navIcons, navHeads } from "@/utils/constants";
 import { Button } from "../ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/redux-custom-hook";
+import { logout } from "@/api/auth/auth.api";
+import { clearAuth } from "@/app/redux-slice/authReducer";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [auth, setAuth] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const auth = useAppSelector((s) => s.authReducer.auth);
+  const profileUrl =
+  useAppSelector((s) => s.authReducer.profileUrl) || "/defaultProfile.jpg";
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const closeAndOpenMenu = () => {
     setIsOpen((prev) => !prev);
   };
@@ -17,6 +24,20 @@ const Header: React.FC = () => {
       closeAndOpenMenu();
     }
     navigate(path);
+  };
+
+  const userLogout = async () => {
+    try {
+      setLoading(true);
+      const res = await logout();
+      if (res && res.status === 204) {
+        dispatch(clearAuth());
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
   return (
     <>
@@ -31,7 +52,7 @@ const Header: React.FC = () => {
             <div className="flex items-center">
               <div className="flex items-center h-full xl:pl-8 md:p-4 pt-1  ">
                 <img
-                  onClick={()=>navigateTo("/")}
+                  onClick={() => navigateTo("/")}
                   src="/logo.png"
                   alt="logo"
                   className="max-h-12 min-h-10 min-w-32 select-none cursor-pointer"
@@ -61,10 +82,36 @@ const Header: React.FC = () => {
             {/* right - desktop only */}
             <div className="hidden md:flex flex-grow justify-end pr-8">
               {auth ? (
-                <ul className="flex xl:gap-5 md:gap-3  ">
+                <ul className="flex xl:gap-5 md:gap-3 items-center ">
                   {navIcons.map((icon, index) => (
-                    <li key={index}>{icon.icon}</li>
+                    <li
+                      className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400"
+                      key={index}
+                    >
+                      {icon.icon}
+                    </li>
                   ))}
+                  <li className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400">
+                    <img
+                      src={profileUrl}
+                      alt="profile"
+                      className="rounded-full h-8 border-2 border-black p-[1.5px] box-content "
+                    />
+                  </li>
+                  <li>
+                    <Button
+                      size="sm"
+                      className="cursor-pointer"
+                      onClick={userLogout}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <LoaderCircle className="animate-spin" />
+                      ) : (
+                        "Logout"
+                      )}
+                    </Button>
+                  </li>
                 </ul>
               ) : (
                 <div className="flex">
@@ -98,10 +145,17 @@ const Header: React.FC = () => {
             ))}
           </ul>
           {auth ? (
-            <ul className=" flex flex-row-reverse gap-6 text-xl text-center font-[anybody-regular]">
+            <ul className=" flex flex-row-reverse gap-6 text-xl text-center justify-center items-center font-[anybody-regular]">
               {navIcons.map((icon) => (
                 <li>{icon.icon}</li>
               ))}
+              <li>
+                <img
+                  src={profileUrl}
+                  alt="profile"
+                  className="rounded-full h-7 border-2 border-black p-[1.5px] box-content "
+                />
+              </li>
             </ul>
           ) : (
             <div className="flex gap-4">

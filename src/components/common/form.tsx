@@ -1,13 +1,16 @@
 import type { CustomFormProps } from "@/types/props.types";
 import { useState } from "react";
 import type { z, ZodObject } from "zod";
+import { Button } from "../ui/button";
 
 function CustomForm<T extends ZodObject<any>>({
   fields,
   zodSchema,
   onSubmit,
   gap,
-  btnName
+  btnName,
+  error,
+  btnDisable = false,
 }: CustomFormProps<T>) {
   type FormValues = z.infer<T>;
 
@@ -22,6 +25,9 @@ function CustomForm<T extends ZodObject<any>>({
     Partial<Record<keyof FormValues, string>>
   >({});
 
+  if (error) {
+    setErrors(error as Partial<Record<keyof FormValues, string>>);
+  }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
@@ -72,13 +78,15 @@ function CustomForm<T extends ZodObject<any>>({
     }
 
     setErrors({});
-    onSubmit(result.data);
+    onSubmit(formValues as FormValues, setErrors);
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className={`font-[anybody-regular] flex flex-col ${gap?`gap-${gap}`:"gap-3"} p-4 rounded-xl`}
+      className={`font-[anybody-regular] flex flex-col ${
+        gap ? `gap-${gap}` : "gap-3"
+      } p-4 rounded-xl`}
     >
       {fields.map((field) => (
         <div key={field.name} className="flex flex-col">
@@ -110,12 +118,9 @@ function CustomForm<T extends ZodObject<any>>({
         </div>
       ))}
 
-      <button
-        type="submit"
-        className="bg-black text-white p-2 rounded-md mt-2 hover:bg-gray-800"
-      >
-       {btnName}
-      </button>
+      <Button type="submit" disabled={btnDisable}>
+        {btnName}
+      </Button>
     </form>
   );
 }

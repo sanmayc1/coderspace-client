@@ -1,14 +1,20 @@
 import z from "zod";
 import { strongEmailRegex } from "../regex";
-import { nameSchema, passwordSchema} from "./user-validation";
+import { nameSchema, passwordSchema } from "./user-validation";
 
 export const CompanyRegistreSchema = z
   .object({
     companyName: nameSchema,
     email: z
       .string()
+      .trim()
       .regex(strongEmailRegex, { message: "Invalid email format" }),
-    gstin: z.string().min(5, { message: "Invalid GSTIN" }),
+    gstin: z
+      .string()
+      .trim()
+      .regex(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/, {
+        message: "Invalid GSTIN",
+      }),
     password: passwordSchema,
     confirmPassword: z.string(),
   })

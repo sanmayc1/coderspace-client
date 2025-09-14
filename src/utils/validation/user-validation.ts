@@ -10,9 +10,14 @@ export const nameSchema = z
   .string()
   .min(1, { message: "Name must be at least 2 characters long" })
   .trim()
-  .regex(/^[a-zA-Z]+$/, {
+  .regex(/^[a-zA-Z-\s]+$/, {
     message: "Name must contain only alphabetic characters",
   });
+
+export const emailSchema = z
+  .string()
+  .trim()
+  .regex(strongEmailRegex, { message: "Invalid email format" });
 
 export const usernameSchema = z
   .string()
@@ -41,9 +46,7 @@ export const passwordSchema = z
 export const RegistreSchema = z
   .object({
     name: nameSchema,
-    email: z
-      .string()
-      .regex(strongEmailRegex, { message: "Invalid email format" }),
+    email: emailSchema,
     username: usernameSchema,
     password: passwordSchema,
     confirmPassword: z.string(),
@@ -59,8 +62,25 @@ export const RegistreSchema = z
   });
 
 export const LoginShema = z.object({
-  email: z
-    .string()
-    .regex(strongEmailRegex, { message: "Invalid email format" }),
+  email: emailSchema,
   password: z.string().trim().min(1, { message: "Enter Password" }),
 });
+
+export const ForgetPasswordSchema = z.object({
+  email: emailSchema,
+});
+
+export const ResetPasswordSchema = z
+  .object({
+    newPassword: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .superRefine(({ newPassword, confirmPassword }, ctx) => {
+    if (newPassword !== confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Password do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });

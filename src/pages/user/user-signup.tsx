@@ -1,21 +1,64 @@
+import { sendOtp, userSignup } from "@/api/auth/auth.api";
 import AuthFormWraper from "@/components/common/auth-form-wraper";
 import CustomForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import { UserRegisterFormFields } from "@/utils/constants";
 import { RegistreSchema } from "@/utils/validation/user-validation";
-import { Github } from "lucide-react";
+import { AxiosError } from "axios";
+import { Github, LoaderCircle } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import type z from "zod";
 const googleAuthUrl = import.meta.env.VITE_REDIRECT_GOOGLE;
 const githubAuthUrl = import.meta.env.VITE_REDIRECT_GITHUB;
 
 const UserSignup: React.FC = () => {
+  const [isLoading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const navigateTo = (path: string) => {
     navigate(path);
   };
 
-  function onSubmit<T>(data: T) {}
+  async function onSubmit<T>(
+    data: T,
+    setErrors: React.Dispatch<
+      React.SetStateAction<Partial<Record<keyof z.core.output<T>, string>>>
+    >
+  ) {
+    try {
+      setLoading(true);
+      const res = await userSignup({ ...data, role: "user" });
+      if (res && res.status === 201) {
+        setLoading(false);
+        const res = await sendOtp();
+        if (res && res.status === 200) {
+          setLoading(false);
+          toast.success("OTP sent to email", { className: "w-10" });
+          navigateTo("/user/otp-verify");
+        }
+      }
+    } catch (error: any) {
+      const axiosError = error as AxiosError<any>;
+      console.log(axiosError);
+
+      setLoading(false);
+      if (
+        axiosError.status === 409 ||
+        (axiosError.status === 400 &&
+          axiosError.response?.data.message === "Validation error occurred")
+      ) {
+        let newError: Partial<Record<keyof z.infer<T>, string>> = {};
+        axiosError.response?.data?.errors.forEach(
+          (err: Record<string, string>) => {
+            newError[err?.path as keyof z.infer<T>] = err?.message;
+          }
+        );
+        setErrors(newError);
+      }
+    }
+  }
 
   const redirect = (path: string) => {
     window.location.href = path;
@@ -31,7 +74,10 @@ const UserSignup: React.FC = () => {
         zodSchema={RegistreSchema}
         onSubmit={onSubmit}
         gap="2"
-        btnName="Signup"
+        btnName={
+          isLoading ? <LoaderCircle className="animate-spin" /> : "Signup"
+        }
+        btnDisable={isLoading}
       />
       <div className="flex items-center justify-center ">
         <hr className="w-[40%] border-1 border-gray-200" />

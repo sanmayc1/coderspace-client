@@ -9,3 +9,15 @@ export interface IUserRegister {
     confirmPassword:string
 
 }
+
+
+export interface IUsersData {
+    id:string
+    username:string
+    email:string
+    profileUrl?:string
+    status:boolean
+    badge:string
+    level:number
+    actions?:string 
+}

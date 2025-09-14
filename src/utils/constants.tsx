@@ -1,5 +1,5 @@
 import type { FieldConfig, ISectionProps } from "@/types/props.types";
-import { Bell, CircleUserRound, MessageSquareText } from "lucide-react";
+import { Bell, BriefcaseBusiness, Code, CreditCard, Globe, LayoutDashboard, MessageSquare, MessageSquareText, Settings, Trophy, UserCheck, Users } from "lucide-react";
 
 export const navHeads = [
   { title: "Home", navigate: "" },
@@ -14,11 +14,6 @@ export const navIcons = [
   { icon: <Bell className="text-gray-600" size={24} />, navigate: "" },
   {
     icon: <MessageSquareText className="text-gray-500" size={24} />,
-    navigate: "",
-  },
-
-  {
-    icon: <CircleUserRound className="text-gray-500" size={24} />,
     navigate: "",
   },
 ];
@@ -52,13 +47,13 @@ export const sectionData: ISectionProps[] = [
 
 export const UserRegisterFormFields: FieldConfig[] = [
   {
-    name: "username",
-    placeholder: "Username",
+    name: "name",
+    placeholder: "Name",
     type: "text",
   },
   {
-    name: "name",
-    placeholder: "Name",
+    name: "username",
+    placeholder: "Username",
     type: "text",
   },
   {
@@ -66,6 +61,7 @@ export const UserRegisterFormFields: FieldConfig[] = [
     placeholder: "Email",
     type: "text",
   },
+
   {
     name: "password",
     placeholder: "Password",
@@ -87,7 +83,7 @@ export const LoginFileds: FieldConfig[] = [
   {
     name: "password",
     placeholder: "Password",
-    type: "text",
+    type: "password",
   },
 ];
 
@@ -118,3 +114,25 @@ export const CompanyRegisterFields: FieldConfig[] = [
     type: "password",
   },
 ];
+
+
+export const ResetPasswordFields:FieldConfig[]=[
+  {name:"newPassword",placeholder:"New Password",type:"password"},
+  {name:"confirmPassword",placeholder:"Confirm Password",type:"password"}
+]
+
+
+  export const adminMenuItems = [
+    { icon: LayoutDashboard, label: "Dashboard", active: true ,navigate:"/admin"},
+    { icon: Users, label: "Manage Users" ,navigate:"/admin/manage-user"},
+    {icon:BriefcaseBusiness,label:"Manage Business",navigate:"/admin/manage-business"},
+    { icon: Code, label: "Manage Problems" },
+    { icon: Trophy, label: "Manage Contests" },
+    { icon: Globe, label: "Manage Domains" },
+    { icon: MessageSquare, label: "Manage Interviews" },
+    { icon: UserCheck, label: "Community" },
+    { icon: CreditCard, label: "Plans" },
+    { icon: CreditCard, label: "Payment" },
+    { icon: Settings, label: "Settings" },
+    
+  ];
