@@ -8,8 +8,10 @@ export function mapLoginErrors<T>(
   >
 ) {
   if (
-    axiosError.status === 400 &&
-    axiosError.response?.data?.message === "Invalid credentials"
+    (axiosError.status === 400 &&
+      axiosError.response?.data?.message === "Invalid credentials") ||
+    (axiosError.status === 403 &&
+      axiosError.response?.data?.message === "Login access denied")
   ) {
     const newError: Partial<Record<keyof z.infer<T>, string>> = {};
     newError["password" as keyof z.infer<T>] =

@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const auth = useAppSelector((s) => s.authReducer.auth);
   const profileUrl =
-  useAppSelector((s) => s.authReducer.profileUrl) || "/defaultProfile.jpg";
+    useAppSelector((s) => s.authReducer.profileUrl) || "/defaultProfile.jpg";
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const closeAndOpenMenu = () => {
@@ -55,7 +55,7 @@ const Header: React.FC = () => {
                   onClick={() => navigateTo("/")}
                   src="/logo.png"
                   alt="logo"
-                  className="max-h-12 min-h-10 min-w-32 select-none cursor-pointer"
+                  className="max-h-12 min-h-10 min-w-32 select-none cursor-pointer "
                 />
               </div>
               <div className="hidden md:block pl-10">
@@ -91,11 +91,14 @@ const Header: React.FC = () => {
                       {icon.icon}
                     </li>
                   ))}
-                  <li className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400">
+                  <li
+                    className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400"
+                    onClick={() => navigate("/user")}
+                  >
                     <img
                       src={profileUrl}
                       alt="profile"
-                      className="rounded-full h-8 border-2 border-black p-[1.5px] box-content "
+                      className="rounded-full h-8 border-2 border-black p-[1.5px] min-w-8 box-content "
                     />
                   </li>
                   <li>

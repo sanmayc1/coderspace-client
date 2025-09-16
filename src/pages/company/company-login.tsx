@@ -5,6 +5,7 @@ import AuthFormWraper from "@/components/common/auth-form-wraper";
 import CustomForm from "@/components/common/form";
 import { LoginFileds } from "@/utils/constants";
 import { mapLoginErrors } from "@/utils/error-handlers/mapLoginErrors";
+import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { LoginShema } from "@/utils/validation/user-validation";
 import type { AxiosError } from "axios";
 import { useCallback } from "react";
@@ -38,14 +39,16 @@ const CompanyLogin: React.FC = () => {
               role: res.data?.data?.role,
             })
           );
-          toast.success("Logined");
+          toast.success("Successfully Logined", {
+            ...toastifyOptionsCenter,
+            position: "bottom-left",
+          });
           if (res.data?.data?.role === "admin") navigate("/admin");
         } else {
           navigate("/");
         }
       } catch (error) {
         console.log(error);
-
         mapLoginErrors(error as AxiosError<any>, setErrors);
       }
     },
@@ -63,7 +66,12 @@ const CompanyLogin: React.FC = () => {
         onSubmit={onSubmit}
         btnName="Login"
       />
-
+      <p
+        className="text-xs cursor-pointer text-right px-5 pb-2  hover:"
+        onClick={() => navigate("/auth/password/forget")}
+      >
+        Forgotten your password?
+      </p>
       <div className="flex justify-center items-center pt-4 ">
         <p
           className="text-gray-600 text-sm select-none"

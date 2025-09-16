@@ -13,6 +13,7 @@ import type z from "zod";
 import { setAuth } from "@/app/redux-slice/authReducer";
 import { useCallback } from "react";
 import { mapLoginErrors } from "@/utils/error-handlers/mapLoginErrors";
+import { toastifyOptionsCenter } from "@/utils/toastify.options";
 const googleAuthUrl = import.meta.env.VITE_REDIRECT_GOOGLE;
 const githubAuthUrl = import.meta.env.VITE_REDIRECT_GITHUB;
 
@@ -38,7 +39,7 @@ const UserLogin: React.FC = () => {
               role: res.data?.data?.role,
             })
           );
-          toast.success("User Logined");
+               toast.success("Successfully Logined",{...toastifyOptionsCenter,position:"bottom-left"}); 
           navigate("/");
         }
       } catch (error) {
@@ -67,7 +68,7 @@ const UserLogin: React.FC = () => {
       />
       <p
         className="text-xs cursor-pointer text-right px-5 pb-2  hover:"
-        onClick={() => navigate("/user/password")}
+        onClick={() => navigate("/auth/password/forget")}
       >
         Forgotten your password?
       </p>

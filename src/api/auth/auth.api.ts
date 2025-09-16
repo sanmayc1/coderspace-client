@@ -102,12 +102,33 @@ export async function resetPassword<T>(data: T) {
   }
 }
 
+
+
+// company or admin login
+
 export async function commonLogin<T>(
   data: T
 ): Promise<AxiosResponse<any> | void> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.post(
       "auth/common/login",
+      data
+    );
+    return res;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// company register
+
+// register user
+export async function companyRegister<T>(
+  data: T
+): Promise<AxiosResponse<any> | void> {
+  try {
+    const res: AxiosResponse<any> = await coderspaceBackend.post(
+      "/auth/company/register",
       data
     );
     return res;

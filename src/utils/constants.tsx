@@ -1,5 +1,19 @@
 import type { FieldConfig, ISectionProps } from "@/types/props.types";
-import { Bell, BriefcaseBusiness, Code, CreditCard, Globe, LayoutDashboard, MessageSquare, MessageSquareText, Settings, Trophy, UserCheck, Users } from "lucide-react";
+import type { ISideBarItems } from "@/types/types";
+import {
+  Bell,
+  BriefcaseBusiness,
+  Code,
+  CreditCard,
+  Globe,
+  LayoutDashboard,
+  MessageSquare,
+  MessageSquareText,
+  Settings,
+  Trophy,
+  UserCheck,
+  Users,
+} from "lucide-react";
 
 export const navHeads = [
   { title: "Home", navigate: "" },
@@ -115,24 +129,50 @@ export const CompanyRegisterFields: FieldConfig[] = [
   },
 ];
 
+export const ResetPasswordFields: FieldConfig[] = [
+  { name: "newPassword", placeholder: "New Password", type: "password" },
+  {
+    name: "confirmPassword",
+    placeholder: "Confirm Password",
+    type: "password",
+  },
+];
 
-export const ResetPasswordFields:FieldConfig[]=[
-  {name:"newPassword",placeholder:"New Password",type:"password"},
-  {name:"confirmPassword",placeholder:"Confirm Password",type:"password"}
-]
+export const adminMenuItems: ISideBarItems[] = [
+  {
+    icon: LayoutDashboard,
+    label: "Dashboard",
+    navigate: "/admin",
+  },
+  { icon: Users, label: "Manage Users", navigate: "/admin/manage-user" },
+  {
+    icon: BriefcaseBusiness,
+    label: "Manage Business",
+    navigate: "/admin/manage-business",
+  },
+  { icon: Code, label: "Manage Problems" },
+  { icon: Trophy, label: "Manage Contests" },
+  { icon: Globe, label: "Manage Domains" },
+  { icon: MessageSquare, label: "Manage Interviews" },
+  { icon: UserCheck, label: "Community" },
+  { icon: CreditCard, label: "Plans" },
+  { icon: CreditCard, label: "Payment" },
+  { icon: Settings, label: "Settings" },
+];
 
+export const companyMenuItems: ISideBarItems[] = [
+  {
+    icon: LayoutDashboard,
+    label: "Dashboard",
+    navigate: "/company",
+  },
+  { icon: Trophy, label: "Manage Contests" },
+  { icon: CreditCard, label: "Revenue" },
+  { icon: Settings, label: "Settings" },
+];
 
-  export const adminMenuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", active: true ,navigate:"/admin"},
-    { icon: Users, label: "Manage Users" ,navigate:"/admin/manage-user"},
-    {icon:BriefcaseBusiness,label:"Manage Business",navigate:"/admin/manage-business"},
-    { icon: Code, label: "Manage Problems" },
-    { icon: Trophy, label: "Manage Contests" },
-    { icon: Globe, label: "Manage Domains" },
-    { icon: MessageSquare, label: "Manage Interviews" },
-    { icon: UserCheck, label: "Community" },
-    { icon: CreditCard, label: "Plans" },
-    { icon: CreditCard, label: "Payment" },
-    { icon: Settings, label: "Settings" },
-    
-  ];
+export const Badges = [
+  { label: "Silver", value: "silver" },
+  { label: "Gold", value: "gold" },
+  { label: "Platinum", value: "platinum" },
+];

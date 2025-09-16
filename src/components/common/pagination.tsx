@@ -7,11 +7,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useState } from "react";
+import type { IPaginationProps } from "@/types/props.types";
 
-const CustomPagination: React.FC = () => {
-  const totalPages = 8;
-  const [currentPage, setCurrentPage] = useState(1);
+
+const CustomPagination: React.FC<IPaginationProps> = ({totalPages,currentPage,setCurrentPage}) => {
+
 
   const goToPage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -20,7 +20,7 @@ const CustomPagination: React.FC = () => {
   };
 
   return (
-    <Pagination className="p-2 w-fit">
+    <Pagination className="p-2 w-full">
       <PaginationContent>
         {/* Previous */}
         <PaginationItem>

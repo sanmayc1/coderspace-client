@@ -7,9 +7,10 @@ interface AuthSliceState {
     accountId:string
     profileComplete:boolean
     role:string
+    loading:boolean
 }
 
-const initialState:AuthSliceState = {auth:false ,profileUrl:"", accountId:"",profileComplete:false,role:""}
+const initialState:AuthSliceState = {auth:false ,profileUrl:"", accountId:"",profileComplete:false,role:"",loading:true}
 const authSlice = createSlice({
     name:"auth",
     initialState,
@@ -26,9 +27,12 @@ const authSlice = createSlice({
         state.profileUrl =""
         state.accountId = ""
         state.role = ""
+      },
+      setLoading:(state,actions)=>{
+        state.loading = actions.payload.loading
       }
     }
 })
 
-export const {clearAuth,setAuth} = authSlice.actions
+export const {clearAuth,setAuth,setLoading} = authSlice.actions
 export default authSlice.reducer

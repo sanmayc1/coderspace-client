@@ -3,6 +3,7 @@ import AuthFormWraper from "@/components/common/auth-form-wraper";
 import CustomForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
 import { UserRegisterFormFields } from "@/utils/constants";
+import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { RegistreSchema } from "@/utils/validation/user-validation";
 import { AxiosError } from "axios";
 import { Github, LoaderCircle } from "lucide-react";
@@ -21,22 +22,33 @@ const UserSignup: React.FC = () => {
     navigate(path);
   };
 
+  type IUserRegister = z.infer<typeof RegistreSchema>;
+
   async function onSubmit<T>(
-    data: T,
+    data: IUserRegister,
     setErrors: React.Dispatch<
       React.SetStateAction<Partial<Record<keyof z.core.output<T>, string>>>
     >
   ) {
     try {
       setLoading(true);
-      const res = await userSignup({ ...data, role: "user" });
+      const res = await userSignup({
+        username: data.username,
+        email: data.email,
+        name: data.name,
+        password: data.password,
+      });
       if (res && res.status === 201) {
         setLoading(false);
         const res = await sendOtp();
         if (res && res.status === 200) {
           setLoading(false);
-          toast.success("OTP sent to email", { className: "w-10" });
-          navigateTo("/user/otp-verify");
+
+          toast.success("OTP sent to email", {
+            ...toastifyOptionsCenter,
+            position: "bottom-left",
+          });
+          navigateTo("/auth/otp-verify");
         }
       }
     } catch (error: any) {

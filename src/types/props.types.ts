@@ -27,9 +27,49 @@ export interface CustomFormProps<T extends ZodObject<any>> {
   gap?: string;
   btnName: string | React.ReactNode;
   error?: Record<string, string>;
-  btnDisable?:boolean
+  btnDisable?: boolean;
 }
 
 export interface OtpProps {
   onSubmit: (otp: string) => Promise<void>;
 }
+
+export interface IAuthRequireProps {
+  role: string;
+  children: React.ReactNode;
+}
+
+interface ISelectTagOptions {
+  value: string;
+  label: string;
+}
+
+export interface ISelectTagProps {
+  placeholder: string;
+  label: string;
+  options: ISelectTagOptions[];
+  name:string
+}
+
+export interface ILoadingSkeletonWraper {
+  isLoading: boolean;
+  children: React.ReactNode;
+  Skeleton: React.ComponentType;
+}
+
+export interface IPaginationProps {
+  totalPages: number;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface IInputProps {
+  label?:string,
+  name:string,
+  placeholder:string,
+  value:string | number
+  type?:string
+  className?:string
+  handleChange:(e:React.ChangeEvent<HTMLInputElement>)=>void,
+  error?:string
+} 

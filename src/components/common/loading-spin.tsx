@@ -3,10 +3,10 @@ import { LoaderCircle } from "lucide-react"
 
 
 
-const LoadingSpin = ()=>{
+const LoadingSpin:React.FC<{size?:number}> = ({size})=>{
     return (
         <>
-         <LoaderCircle className="animate-spin"/>
+         <LoaderCircle size={size} className="animate-spin"/>
         </>
     )
 }
