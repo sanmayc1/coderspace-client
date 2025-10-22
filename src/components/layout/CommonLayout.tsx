@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import SideNavbar from "@/components/common/SideNavbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/redux-custom-hook";
 import { logout } from "@/api/auth/auth.api";
 import { clearAuth } from "@/app/redux-slice/authReducer";
@@ -9,12 +9,13 @@ import LoadingSpin from "../common/LoadingSpin";
 import { Button } from "../ui/Button";
 import type { ISideBarItems } from "@/types/types";
 
-const CommonLayout: React.FC<{ menuItems: ISideBarItems[] }> = ({
-  menuItems,
+const CommonLayout: React.FC<{ menuItems: ISideBarItems[],profileNavigate:string }> = ({
+  menuItems,profileNavigate
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
   const profileUrl =
     useAppSelector((s) => s.authReducer.profileUrl) || "/defaultProfile.jpg";
 
@@ -69,6 +70,7 @@ const CommonLayout: React.FC<{ menuItems: ISideBarItems[] }> = ({
             </Button>
             <img
               src={profileUrl}
+              onClick={()=>navigate(profileNavigate)}
               alt="profile"
               className="rounded-full h-8 border-2 border-black p-[1.5px] min-w-8 box-content "
             />

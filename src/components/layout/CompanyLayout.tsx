@@ -7,7 +7,7 @@ import CommonLayout from "./CommonLayout"
 const CompanyLayout:React.FC = ()=>{
     return (
         <>
-           <CommonLayout menuItems={companyMenuItems}/>
+           <CommonLayout menuItems={companyMenuItems} profileNavigate="/company/profile"/>
         </>
     )
 }
