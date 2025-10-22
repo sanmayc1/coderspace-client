@@ -1,5 +1,6 @@
 import type { AxiosResponse } from "axios";
 import { coderspaceBackend } from "../instance";
+import { API_ROUTES } from "../apiRoutes";
 
 interface getAllUsersParams {
   page: number;
@@ -19,7 +20,12 @@ export async function getAllUsers(
 ): Promise<AxiosResponse<any>> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.get(
-      `/admin/users?page=${params.page}&sort=${params.sort}&search=${params.search}&limit=${params.limit}`
+      API_ROUTES.GET_ALL_USERS(
+        params.page,
+        params.sort,
+        params.search,
+        params.limit
+      )
     );
     return res;
   } catch (error) {
@@ -32,7 +38,7 @@ export async function updateUser(
 ): Promise<AxiosResponse<any>> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.patch(
-      `/admin/users/${params.id}`,
+      API_ROUTES.UPDATE_USERS(params.id),
       { currentLevel: params.level, currentBadge: params.badge }
     );
     return res;
@@ -41,7 +47,9 @@ export async function updateUser(
   }
 }
 
-export async function updateUserStatus(id:string): Promise<AxiosResponse<any>> {
+export async function updateUserStatus(
+  id: string
+): Promise<AxiosResponse<any>> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.patch(
       `/admin/users/${id}/status`

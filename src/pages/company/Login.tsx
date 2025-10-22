@@ -1,3 +1,4 @@
+import { API_ROUTES } from "@/api/apiRoutes";
 import { authLogin } from "@/api/asyncThunk/thunk-api";
 import { useAppDispatch } from "@/app/hooks/redux-custom-hook";
 import AuthFormWraper from "@/components/common/AuthFormWraper";
@@ -13,7 +14,7 @@ import { LoginShema } from "@/utils/validation/user-validation";
 import { useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 import type z from "zod";
-const companyLoginUrl = import.meta.env.VITE_COMPANY_LOGIN_URL;
+
 
 const CompanyLogin: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const CompanyLogin: React.FC = () => {
       try {
          await dispatch(
           authLogin({
-            endpoint: companyLoginUrl,
+            endpoint: API_ROUTES.COMPANY_LOGIN,
             payload: data as ILoginPayload,
           })
         ).unwrap();

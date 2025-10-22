@@ -1,5 +1,6 @@
 import type {  AxiosResponse } from "axios";
 import { coderspaceBackend } from "../instance";
+import { API_ROUTES } from "../apiRoutes";
 
 
 // register user
@@ -8,7 +9,7 @@ export async function userSignup<T>(
 ): Promise<AxiosResponse<any> | void> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.post(
-      "/auth/signup",
+      API_ROUTES.USER_SIGNUP,
       data
     );
     return res;
@@ -20,7 +21,7 @@ export async function userSignup<T>(
 // Send otp
 export async function sendOtp(): Promise<AxiosResponse<any> | void> {
   try {
-    const res: AxiosResponse<any> = await coderspaceBackend.post("/auth/otp");
+    const res: AxiosResponse<any> = await coderspaceBackend.post(API_ROUTES.SEND_OTP);
     return res;
   } catch (error) {
     throw error;
@@ -34,7 +35,7 @@ export async function verifyOtp(
 ): Promise<AxiosResponse<any> | void> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.patch(
-      "/auth/verify",
+      API_ROUTES.VERIFY_OTP,
       { otp: data }
     );
 
@@ -44,35 +45,11 @@ export async function verifyOtp(
   }
 }
 
-// user login
-// export async function userLogin<T>(
-//   data: T
-// ): Promise<AxiosResponse<any> | void> {
-//   try {
-//     const res: AxiosResponse<any> = await coderspaceBackend.post(
-//       "/auth/login",
-//       data
-//     );
-//     return res;
-//   } catch (error) {
-//     throw error;
-//   }
-// }
-
-
-export async function authCheck(): Promise<AxiosResponse<any> | void> {
-  try {
-    const res: AxiosResponse<any> = await coderspaceBackend.get("/auth/me");
-    return res;
-  } catch (error) {
-    throw error;
-  }
-}
 
 export async function logout(): Promise<AxiosResponse<any> | void> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.post(
-      "/auth/logout"
+      API_ROUTES.LOGOUT
     );
     return res;
   } catch (error) {
@@ -83,7 +60,7 @@ export async function logout(): Promise<AxiosResponse<any> | void> {
 export async function forgetPassword<T>(data: T) {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.post(
-      "/auth/password/forget",
+      API_ROUTES.FORGET_PASSWORD ,
       data
     );
     return res;
@@ -95,7 +72,7 @@ export async function forgetPassword<T>(data: T) {
 export async function resetPassword<T>(data: T) {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.patch(
-      "/auth/password/reset",
+     API_ROUTES.REST_PASSWORD,
       data
     );
     return res;
@@ -104,31 +81,16 @@ export async function resetPassword<T>(data: T) {
   }
 }
 
-// company or admin login
 
-export async function commonLogin<T>(
-  data: T
-): Promise<AxiosResponse<any> | void> {
-  try {
-    const res: AxiosResponse<any> = await coderspaceBackend.post(
-      "auth/common/login",
-      data
-    );
-    return res;
-  } catch (error) {
-    throw error;
-  }
-}
 
 // company register
 
-// register user
 export async function companyRegister<T>(
   data: T
 ): Promise<AxiosResponse<any> | void> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.post(
-      "/auth/company/register",
+     API_ROUTES.COMPANY_REGISTER,
       data
     );
     return res;

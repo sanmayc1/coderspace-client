@@ -15,9 +15,10 @@ import type {
   ILoginPayload,
   ILoginResponse,
 } from "@/types/types";
+import { API_ROUTES } from "@/api/apiRoutes";
 const googleAuthUrl = import.meta.env.VITE_REDIRECT_GOOGLE;
 const githubAuthUrl = import.meta.env.VITE_REDIRECT_GITHUB;
-const userLoginUrl = import.meta.env.VITE_USER_LOGIN_URL;
+
 
 const UserLogin: React.FC = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const UserLogin: React.FC = () => {
       try {
         await dispatch(
           authLogin({
-            endpoint: userLoginUrl,
+            endpoint: API_ROUTES.USER_LOGIN,
             payload: data as ILoginPayload,
           })
         ).unwrap();

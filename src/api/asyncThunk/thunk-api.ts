@@ -7,12 +7,13 @@ import type {
   ILoginPayload,
   ILoginResponse,
 } from "@/types/types";
+import { API_ROUTES } from "../apiRoutes";
 
 export const fetchRoleData = createAsyncThunk(
   "fetch/role",
   async (_, thunkAPI) => {
     try {
-      const response = await coderspaceBackend.get("/auth/me");
+      const response = await coderspaceBackend.get(API_ROUTES.AUTH_CHECK);
       return response.data.data as IFetchRoleData;
     } catch (error) {
       return thunkAPI.rejectWithValue(

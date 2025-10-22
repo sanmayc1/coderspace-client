@@ -1,3 +1,4 @@
+import { API_ROUTES } from "@/api/apiRoutes";
 import { authLogin } from "@/api/asyncThunk/thunk-api";
 import { useAppDispatch } from "@/app/hooks/redux-custom-hook";
 import AuthFormWraper from "@/components/common/AuthFormWraper";
@@ -10,7 +11,6 @@ import { LoginShema } from "@/utils/validation/user-validation";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type z from "zod";
-const adminLoginUrl = import.meta.env.VITE_ADMIN_LOGIN_URL
 
 const AdminLogin: React.FC = () => {
   const [isLoading,setLoading] = useState(false)
@@ -28,7 +28,7 @@ const AdminLogin: React.FC = () => {
         setLoading(true)
         await dispatch(
           authLogin({
-            endpoint:adminLoginUrl ,
+            endpoint:API_ROUTES.ADMIN_LOGIN,
             payload: data as ILoginPayload,
           })
         ).unwrap();
