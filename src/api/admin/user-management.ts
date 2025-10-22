@@ -52,7 +52,7 @@ export async function updateUserStatus(
 ): Promise<AxiosResponse<any>> {
   try {
     const res: AxiosResponse<any> = await coderspaceBackend.patch(
-      `/admin/users/${id}/status`
+      API_ROUTES.UPDATE_USERS_STATUS(id)
     );
     return res;
   } catch (error) {
