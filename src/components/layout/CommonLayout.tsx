@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import SideNavbar from "@/components/common/side-navbar";
+import SideNavbar from "@/components/common/SideNavbar";
 import { Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/redux-custom-hook";
 import { logout } from "@/api/auth/auth.api";
 import { clearAuth } from "@/app/redux-slice/authReducer";
-import LoadingSpin from "../common/loading-spin";
-import { Button } from "../ui/button";
+import LoadingSpin from "../common/LoadingSpin";
+import { Button } from "../ui/Button";
 import type { ISideBarItems } from "@/types/types";
 
-const CommonLayout: React.FC<{menuItems:ISideBarItems[]}> = ({menuItems}) => {
+const CommonLayout: React.FC<{ menuItems: ISideBarItems[] }> = ({
+  menuItems,
+}) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -31,7 +33,7 @@ const CommonLayout: React.FC<{menuItems:ISideBarItems[]}> = ({menuItems}) => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex  w-[100%] min-h-screen bg-gray-100 ">
       <div
         className={`bg-white w-64 min-h-screen shadow-lg transition-transform duration-300 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -52,14 +54,18 @@ const CommonLayout: React.FC<{menuItems:ISideBarItems[]}> = ({menuItems}) => {
         <SideNavbar menuItems={menuItems} />
       </div>
 
-      <div className="flex-1 flex flex-col">
-        <header className="bg-white shadow-sm p-4 flex items-center md:justify-end justify-between">
+      <div className="flex flex-col w-full">
+        <header className="bg-white shadow-sm p-4 flex items-center md:justify-end justify-between ">
           <button onClick={() => setSidebarOpen(true)} className="md:hidden">
             <Menu className="w-6 h-6" />
           </button>
           <div className="flex gap-3 px-4 justify-center items-center">
             <Button size={"sm"} onClick={accountLogout}>
-              {isLoading ? <LoadingSpin /> : "Logout"}
+              {isLoading ? (
+                <LoadingSpin />
+              ) : (
+                <span className="pt-1"> Logout</span>
+              )}
             </Button>
             <img
               src={profileUrl}
@@ -68,7 +74,7 @@ const CommonLayout: React.FC<{menuItems:ISideBarItems[]}> = ({menuItems}) => {
             />
           </div>
         </header>
-        <main className="flex-1 p-6">
+        <main className="p-4 w-full ">
           <Outlet />
         </main>
       </div>

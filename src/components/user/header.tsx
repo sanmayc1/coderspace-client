@@ -1,14 +1,16 @@
 import { LoaderCircle, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { navIcons, navHeads } from "@/utils/constants";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/redux-custom-hook";
 import { logout } from "@/api/auth/auth.api";
 import { clearAuth } from "@/app/redux-slice/authReducer";
 
-const Header: React.FC = () => {
+const Header: React.FC<{ hideNavigation?: boolean }> = ({
+  hideNavigation = false,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setLoading] = useState(false);
   const auth = useAppSelector((s) => s.authReducer.auth);
@@ -58,18 +60,20 @@ const Header: React.FC = () => {
                   className="max-h-12 min-h-10 min-w-32 select-none cursor-pointer "
                 />
               </div>
-              <div className="hidden md:block pl-10">
-                <ul className="flex xl:gap-9 md:gap-5 md:text-xs xl:text-sm text-gray-600 font-[anybody-regular]">
-                  {navHeads.map((head, index) => (
-                    <li
-                      key={index}
-                      className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400"
-                    >
-                      {head.title}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {!hideNavigation && (
+                <div className="hidden md:block pl-10">
+                  <ul className="flex xl:gap-9 md:gap-5 md:text-xs xl:text-sm text-gray-600 font-[anybody-regular]">
+                    {navHeads.map((head, index) => (
+                      <li
+                        key={index}
+                        className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400"
+                      >
+                        {head.title}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             {/* Mobile menu button */}

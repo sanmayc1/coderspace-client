@@ -3,10 +3,10 @@ import {
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
+} from "@/components/ui/OtpInput";
 import type { OtpProps } from "@/types/props.types";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 import { sendOtp } from "@/api/auth/auth.api";
 import { toast } from "react-toastify";
 import type { AxiosError } from "axios";

@@ -150,7 +150,7 @@ export const adminMenuItems: ISideBarItems[] = [
     label: "Manage Business",
     navigate: "/admin/manage-business",
   },
-  { icon: Code, label: "Manage Problems" },
+  { icon: Code, label: "Manage Problems",navigate:"/admin/manage-problems" },
   { icon: Trophy, label: "Manage Contests" },
   { icon: Globe, label: "Manage Domains" },
   { icon: MessageSquare, label: "Manage Interviews" },

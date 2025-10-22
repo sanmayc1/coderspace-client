@@ -49,6 +49,9 @@ export interface ISelectTagProps {
   label: string;
   options: ISelectTagOptions[];
   name:string
+  handleChange:(value:string)=>void
+  value:string
+  head?:string
 }
 
 export interface ILoadingSkeletonWraper {
@@ -73,3 +76,13 @@ export interface IInputProps {
   handleChange:(e:React.ChangeEvent<HTMLInputElement>)=>void,
   error?:string
 } 
+
+export interface ITextAreaProps {
+  label?:string,
+  name:string,
+  placeholder:string,
+  value:string | number
+  className?:string
+  handleChange:(e:React.ChangeEvent<HTMLTextAreaElement>)=>void,
+  error?:string
+}

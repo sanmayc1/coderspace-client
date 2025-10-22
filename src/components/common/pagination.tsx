@@ -6,7 +6,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
+} from "@/components/ui/Pagination";
 import type { IPaginationProps } from "@/types/props.types";
 
 
@@ -20,10 +20,10 @@ const CustomPagination: React.FC<IPaginationProps> = ({totalPages,currentPage,se
   };
 
   return (
-    <Pagination className="p-2 w-full">
+    <Pagination  className="p-2 w-full justify-end text-xs" >
       <PaginationContent>
         {/* Previous */}
-        <PaginationItem>
+        <PaginationItem >
           <PaginationPrevious
             onClick={(e) => {
               e.preventDefault();

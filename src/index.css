@@ -110,6 +110,12 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+*{
+   user-select: none;
+   font-family: "anybody-regular";
+}
+
+
 @font-face {
   font-family:"anybody-regular";
   src: url("./assets/fonts/Anybody-Regular.otf") format("opentype");

@@ -1,25 +1,24 @@
-import { commonLogin } from "@/api/auth/auth.api";
+import { authLogin } from "@/api/asyncThunk/thunk-api";
 import { useAppDispatch } from "@/app/hooks/redux-custom-hook";
-import { setAuth } from "@/app/redux-slice/authReducer";
-import AuthFormWraper from "@/components/common/auth-form-wraper";
-import CustomForm from "@/components/common/form";
+import AuthFormWraper from "@/components/common/AuthFormWraper";
+import CustomForm from "@/components/common/Form";
+import type {
+  AuthLoginError,
+  ILoginPayload,
+  ILoginResponse,
+} from "@/types/types";
 import { LoginFileds } from "@/utils/constants";
 import { mapLoginErrors } from "@/utils/error-handlers/mapLoginErrors";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { LoginShema } from "@/utils/validation/user-validation";
-import type { AxiosError } from "axios";
-import { useCallback } from "react";
+import { useCallback} from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import type z from "zod";
+const companyLoginUrl = import.meta.env.VITE_COMPANY_LOGIN_URL;
 
 const CompanyLogin: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const navigateTo = (path: string) => {
-    navigate(path);
-  };
 
   const onSubmit = useCallback(
     async function <T>(
@@ -28,30 +27,24 @@ const CompanyLogin: React.FC = () => {
         React.SetStateAction<Partial<Record<keyof z.core.output<T>, string>>>
       >
     ) {
+
       try {
-        const res = await commonLogin(data);
-        if (res && res.status === 200) {
-          dispatch(
-            setAuth({
-              accountId: res.data?.data?.accountId,
-              profileUrl: res.data?.data?.profileUrl,
-              profileComplete: res.data?.data?.profileComplete,
-              role: res.data?.data?.role,
-            })
-          );
-          toast.success("Successfully Logined", {
-            ...toastifyOptionsCenter,
-            position: "bottom-left",
-          });
-          if (res.data?.data?.role === "admin") navigate("/admin");
-        } else {
-          navigate("/");
-        }
+         await dispatch(
+          authLogin({
+            endpoint: companyLoginUrl,
+            payload: data as ILoginPayload,
+          })
+        ).unwrap();
+        navigate("/company");
       } catch (error) {
-        console.log(error);
-        mapLoginErrors(error as AxiosError<any>, setErrors);
+        mapLoginErrors(
+          (error as AuthLoginError)?.error as ILoginResponse,
+          (error as AuthLoginError)?.statusCode as number,
+          setErrors
+        );
       }
     },
+
     [dispatch, navigate]
   );
 
@@ -67,7 +60,7 @@ const CompanyLogin: React.FC = () => {
         btnName="Login"
       />
       <p
-        className="text-xs cursor-pointer text-right px-5 pb-2  hover:"
+        className="text-xs cursor-pointer text-right px-5  py-2 hover:"
         onClick={() => navigate("/auth/password/forget")}
       >
         Forgotten your password?
@@ -75,7 +68,7 @@ const CompanyLogin: React.FC = () => {
       <div className="flex justify-center items-center pt-4 ">
         <p
           className="text-gray-600 text-sm select-none"
-          onClick={() => navigateTo("/company/register")}
+          onClick={() => navigate("/company/register")}
         >
           Don't have an account ?
           <span className="text-black hover:scale-110 cursor-pointer">

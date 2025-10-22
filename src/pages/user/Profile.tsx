@@ -1,7 +1,7 @@
 import { getUser } from "@/api/user/user.profile";
 import { useAppSelector } from "@/app/hooks/redux-custom-hook";
-import LoadingSpin from "@/components/common/loading-spin";
-import { Button } from "@/components/ui/button";
+import LoadingSpin from "@/components/common/LoadingSpin";
+import { Button } from "@/components/ui/Button";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import type { AxiosError } from "axios";
 import { CircleDot, LogOut, Settings } from "lucide-react";
@@ -24,7 +24,6 @@ export interface IGetUserUsecaseOutputDto {
 const UserProfile: React.FC = () => {
   const [user, setUser] = useState<IGetUserUsecaseOutputDto>();
   const [isLoading, setLoading] = useState(false);
-
   useEffect(() => {
     const fetchUser = async () => {
       try {

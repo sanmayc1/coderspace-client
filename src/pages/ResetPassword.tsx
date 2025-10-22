@@ -1,8 +1,8 @@
 import { resetPassword } from "@/api/auth/auth.api";
 import { useAppSelector } from "@/app/hooks/redux-custom-hook";
-import AuthFormWraper from "@/components/common/auth-form-wraper";
-import CustomForm from "@/components/common/form";
-import LoadingSpin from "@/components/common/loading-spin";
+import AuthFormWraper from "@/components/common/AuthFormWraper";
+import CustomForm from "@/components/common/Form";
+import LoadingSpin from "@/components/common/LoadingSpin";
 import { ResetPasswordFields } from "@/utils/constants";
 import { uuidRegex } from "@/utils/regex";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";

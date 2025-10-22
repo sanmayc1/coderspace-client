@@ -1,21 +1,23 @@
-import { userLogin } from "@/api/auth/auth.api";
 import { useAppDispatch } from "@/app/hooks/redux-custom-hook";
-import AuthFormWraper from "@/components/common/auth-form-wraper";
-import CustomForm from "@/components/common/form";
-import { Button } from "@/components/ui/button";
+import AuthFormWraper from "@/components/common/AuthFormWraper";
+import CustomForm from "@/components/common/Form";
+import { Button } from "@/components/ui/Button";
 import { LoginFileds } from "@/utils/constants";
 import { LoginShema } from "@/utils/validation/user-validation";
-import type { AxiosError } from "axios";
 import { Github } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import type z from "zod";
-import { setAuth } from "@/app/redux-slice/authReducer";
 import { useCallback } from "react";
 import { mapLoginErrors } from "@/utils/error-handlers/mapLoginErrors";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
+import { authLogin } from "@/api/asyncThunk/thunk-api";
+import type {
+  AuthLoginError,
+  ILoginPayload,
+  ILoginResponse,
+} from "@/types/types";
 const googleAuthUrl = import.meta.env.VITE_REDIRECT_GOOGLE;
 const githubAuthUrl = import.meta.env.VITE_REDIRECT_GITHUB;
+const userLoginUrl = import.meta.env.VITE_USER_LOGIN_URL;
 
 const UserLogin: React.FC = () => {
   const navigate = useNavigate();
@@ -29,25 +31,21 @@ const UserLogin: React.FC = () => {
       >
     ) {
       try {
-        const res = await userLogin(data);
-        if (res && res.status === 200) {
-          dispatch(
-            setAuth({
-              accountId: res.data?.data?.accountId,
-              profileUrl: res.data?.data?.profileUrl,
-              profileComplete: res.data?.data?.profileComplete,
-              role: res.data?.data?.role,
-            })
-          );
-               toast.success("Successfully Logined",{...toastifyOptionsCenter,position:"bottom-left"}); 
-          navigate("/");
-        }
+        await dispatch(
+          authLogin({
+            endpoint: userLoginUrl,
+            payload: data as ILoginPayload,
+          })
+        ).unwrap();
+        navigate("/");
       } catch (error) {
-        console.log(error);
-
-        mapLoginErrors(error as AxiosError<any>, setErrors);
+        mapLoginErrors(
+          (error as AuthLoginError)?.error as ILoginResponse,
+          (error as AuthLoginError)?.statusCode as number,
+          setErrors
+        );
       }
-    },
+    },  
     [dispatch, navigate]
   );
 
@@ -67,7 +65,7 @@ const UserLogin: React.FC = () => {
         btnName="Login"
       />
       <p
-        className="text-xs cursor-pointer text-right px-5 pb-2  hover:"
+        className="text-xs cursor-pointer text-right px-5 py-2  hover:"
         onClick={() => navigate("/auth/password/forget")}
       >
         Forgotten your password?

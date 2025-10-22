@@ -1,7 +1,7 @@
 import type { CustomFormProps } from "@/types/props.types";
 import { useState } from "react";
 import type { z, ZodObject } from "zod";
-import { Button } from "../ui/button";
+import { Button } from "../ui/Button";
 
 function CustomForm<T extends ZodObject<any>>({
   fields,
@@ -86,7 +86,7 @@ function CustomForm<T extends ZodObject<any>>({
       onSubmit={handleSubmit}
       className={`font-[anybody-regular] flex flex-col ${
         gap ? `gap-${gap}` : "gap-3"
-      } p-4 rounded-xl`}
+      } rounded-xl`}
     >
       {fields.map((field) => (
         <div key={field.name} className="flex flex-col">
@@ -103,10 +103,10 @@ function CustomForm<T extends ZodObject<any>>({
             placeholder={field.placeholder}
             value={(formValues[field.name as keyof FormValues] as string) || ""}
             onChange={handleChange}
-            className={`border-2 p-2 rounded-md text-sm ${
+            className={`border-1 p-2 rounded-md text-sm ${
               errors[field.name as keyof FormValues]
                 ? "outline-red-600 border-red-300"
-                : "outline-gray-700"
+                : "outline-gray-200"  
             }`}
           />
 

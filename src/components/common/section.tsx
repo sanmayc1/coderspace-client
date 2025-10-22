@@ -1,5 +1,5 @@
 import type { ISectionProps } from "@/types/props.types";
-import MotionScrollWrap from "./motion-scroll-wraper";
+import MotionScrollWrap from "./MotionScrollWraper";
 import { ChevronRight } from "lucide-react";
 
 const Section: React.FC<ISectionProps> = ({

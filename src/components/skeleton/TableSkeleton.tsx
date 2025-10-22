@@ -1,9 +1,9 @@
 import type { IUsersData } from "@/types/types";
-import Table from "../common/table";
-import { Skeleton } from "../ui/skeleton";
+import Table from "../common/Table";
+import { Skeleton } from "../ui/Skeleton";
 
 const UserManagementTableSkeleton: React.FC = () => {
-  const data: IUsersData[] = new Array(6).fill(null).map((v) => ({
+  const data: IUsersData[] = new Array(5).fill(null).map((_) => ({
     accountId: "",
     username: "",
     email: "",

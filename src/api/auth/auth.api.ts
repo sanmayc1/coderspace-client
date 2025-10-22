@@ -1,5 +1,6 @@
-import type { AxiosResponse } from "axios";
+import type {  AxiosResponse } from "axios";
 import { coderspaceBackend } from "../instance";
+
 
 // register user
 export async function userSignup<T>(
@@ -44,19 +45,20 @@ export async function verifyOtp(
 }
 
 // user login
-export async function userLogin<T>(
-  data: T
-): Promise<AxiosResponse<any> | void> {
-  try {
-    const res: AxiosResponse<any> = await coderspaceBackend.post(
-      "/auth/login",
-      data
-    );
-    return res;
-  } catch (error) {
-    throw error;
-  }
-}
+// export async function userLogin<T>(
+//   data: T
+// ): Promise<AxiosResponse<any> | void> {
+//   try {
+//     const res: AxiosResponse<any> = await coderspaceBackend.post(
+//       "/auth/login",
+//       data
+//     );
+//     return res;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
 
 export async function authCheck(): Promise<AxiosResponse<any> | void> {
   try {
@@ -102,8 +104,6 @@ export async function resetPassword<T>(data: T) {
   }
 }
 
-
-
 // company or admin login
 
 export async function commonLogin<T>(
@@ -136,3 +136,5 @@ export async function companyRegister<T>(
     throw error;
   }
 }
+
+

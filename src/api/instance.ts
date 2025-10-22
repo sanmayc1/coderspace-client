@@ -1,4 +1,7 @@
 import axios from "axios";
+import { logout } from "./auth/auth.api";
+import { store } from "@/app/store";
+import { clearAuth } from "@/app/redux-slice/authReducer";
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 export const coderspaceBackend = axios.create({
@@ -43,10 +46,24 @@ coderspaceBackend.interceptors.response.use(
         return coderspaceBackend(originalRequest);
       } catch (error) {
         processQueue(error);
-        console.log(error)
         return Promise.reject(error);
       } finally {
         isRefreshing = false;
+      }
+    } else if (
+      (error.response.status === 403 &&
+        error.response.data.message === "Your Account blocked by admin") ||
+      (error.response.status === 403 &&
+        error.response.data.message ===
+          "Token has been revoked or blacklisted") ||
+      (error.response.status === 403 &&
+        error.response.data.message === "Session Expired")
+    ) {
+      try {
+        await logout();
+        store.dispatch(clearAuth());
+      } catch (error) {
+        console.log(error);
       }
     }
 

@@ -1,5 +1,5 @@
 import { companyMenuItems } from "@/utils/constants"
-import CommonLayout from "./common-layout"
+import CommonLayout from "./CommonLayout"
 
 
 

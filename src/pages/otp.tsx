@@ -1,6 +1,6 @@
 import { verifyOtp } from "@/api/auth/auth.api";
-import AuthFormWraper from "@/components/common/auth-form-wraper";
-import OtpForm from "@/components/common/otp";
+import AuthFormWraper from "@/components/common/AuthFormWraper";
+import OtpForm from "@/components/common/Otp";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import type { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
