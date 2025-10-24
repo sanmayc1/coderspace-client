@@ -8,6 +8,7 @@ import type {
   ILoginResponse,
 } from "@/types/types";
 import { API_ROUTES } from "../apiRoutes";
+import type { IErrorResponse } from "@/types/response.types";
 
 export const fetchRoleData = createAsyncThunk(
   "fetch/role",
@@ -17,7 +18,7 @@ export const fetchRoleData = createAsyncThunk(
       return response.data.data as IFetchRoleData;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        (error as AxiosError<any>).response?.data
+        (error as AxiosError<IErrorResponse>).response?.data
       );
     }
   }
@@ -34,7 +35,7 @@ export const authLogin = createAsyncThunk<
   } catch (error) {
     return thunkAPI.rejectWithValue({
       error: (error as AxiosError<ILoginResponse>).response?.data,
-      statusCode: (error as AxiosError<any>).status,
+      statusCode: (error as AxiosError<IErrorResponse>).status,
     });
   }
 });

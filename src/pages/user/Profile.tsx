@@ -2,6 +2,7 @@ import { getUser } from "@/api/user/user.profile";
 import { useAppSelector } from "@/app/hooks/redux-custom-hook";
 import LoadingSpin from "@/components/common/LoadingSpin";
 import { Button } from "@/components/ui/Button";
+import type { IErrorResponse } from "@/types/response.types";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import type { AxiosError } from "axios";
 import { CircleDot, LogOut, Settings } from "lucide-react";
@@ -34,7 +35,7 @@ const UserProfile: React.FC = () => {
         console.log(userProfile.data?.data);
       } catch (error) {
         setLoading(false);
-        const axiosError = error as AxiosError<any>;
+        const axiosError = error as AxiosError<IErrorResponse>;
         toast.error(axiosError.response?.data?.message, toastifyOptionsCenter);
       }
     };

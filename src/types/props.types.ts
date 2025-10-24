@@ -63,6 +63,7 @@ export interface ILoadingSkeletonWraper {
 export interface IPaginationProps {
   totalPages: number;
   currentPage: number;
+  className?:string
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 

@@ -112,9 +112,8 @@
 
 *{
    user-select: none;
-   font-family: "anybody-regular";
+   font-family: "anybody-regular";  
 }
-
 
 @font-face {
   font-family:"anybody-regular";

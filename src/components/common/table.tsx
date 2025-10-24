@@ -88,6 +88,7 @@ const Table = <T extends Record<string, any>>({
             )}
             {currentPage && setCurrentPage && totalPages && (
               <PaginationComponent
+                className="justify-end"
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 totalPages={totalPages}

@@ -10,7 +10,7 @@ import {
 import type { IPaginationProps } from "@/types/props.types";
 
 
-const CustomPagination: React.FC<IPaginationProps> = ({totalPages,currentPage,setCurrentPage}) => {
+const CustomPagination: React.FC<IPaginationProps> = ({totalPages,currentPage,setCurrentPage,className}) => {
 
 
   const goToPage = (page: number) => {
@@ -20,7 +20,7 @@ const CustomPagination: React.FC<IPaginationProps> = ({totalPages,currentPage,se
   };
 
   return (
-    <Pagination  className="p-2 w-full justify-end text-xs" >
+    <Pagination  className={`p-2 w-full ${className} text-xs`} >
       <PaginationContent>
         {/* Previous */}
         <PaginationItem >

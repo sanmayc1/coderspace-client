@@ -1,6 +1,11 @@
 import type { AxiosResponse } from "axios";
 import { coderspaceBackend } from "../instance";
 import { API_ROUTES } from "../apiRoutes";
+import type {
+  ICommonResponse,
+  IGetAllUsersResponse,
+  ISuccessResponse,
+} from "@/types/response.types";
 
 interface getAllUsersParams {
   page: number;
@@ -17,9 +22,9 @@ interface updateUserData {
 
 export async function getAllUsers(
   params: getAllUsersParams
-): Promise<AxiosResponse<any>> {
-  try {
-    const res: AxiosResponse<any> = await coderspaceBackend.get(
+): Promise<AxiosResponse<ISuccessResponse<IGetAllUsersResponse>>> {
+  const res: AxiosResponse<ISuccessResponse<IGetAllUsersResponse>> =
+    await coderspaceBackend.get(
       API_ROUTES.GET_ALL_USERS(
         params.page,
         params.sort,
@@ -27,35 +32,24 @@ export async function getAllUsers(
         params.limit
       )
     );
-    return res;
-  } catch (error) {
-    throw error;
-  }
+  return res;
 }
 
 export async function updateUser(
   params: updateUserData
-): Promise<AxiosResponse<any>> {
-  try {
-    const res: AxiosResponse<any> = await coderspaceBackend.patch(
-      API_ROUTES.UPDATE_USERS(params.id),
-      { currentLevel: params.level, currentBadge: params.badge }
-    );
-    return res;
-  } catch (error) {
-    throw error;
-  }
+): Promise<AxiosResponse<ICommonResponse>> {
+  const res: AxiosResponse<ICommonResponse> = await coderspaceBackend.patch(
+    API_ROUTES.UPDATE_USERS(params.id),
+    { currentLevel: params.level, currentBadge: params.badge }
+  );
+  return res;
 }
 
 export async function updateUserStatus(
   id: string
-): Promise<AxiosResponse<any>> {
-  try {
-    const res: AxiosResponse<any> = await coderspaceBackend.patch(
-      API_ROUTES.UPDATE_USERS_STATUS(id)
-    );
-    return res;
-  } catch (error) {
-    throw error;
-  }
+): Promise<AxiosResponse<ICommonResponse>> {
+  const res: AxiosResponse<ICommonResponse> = await coderspaceBackend.patch(
+    API_ROUTES.UPDATE_USERS_STATUS(id)
+  );
+  return res;
 }

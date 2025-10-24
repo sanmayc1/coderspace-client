@@ -20,7 +20,7 @@ const UserManagementTableSkeleton: React.FC = () => {
         {
           key: "profileUrl",
           label: "Username",
-          render: (_value = "/defaultProfile.jpg") => {
+          render: () => {
             return (
               <div className="flex justify-start  items-center gap-3">
                 <Skeleton className="h-9 w-9 bg-gray-200 rounded-full" />
@@ -32,7 +32,7 @@ const UserManagementTableSkeleton: React.FC = () => {
         {
           key: "email",
           label: "Email",
-          render: (_value = "/defaultProfile.jpg") => {
+          render: () => {
             return (
               <div className="flex justify-start  items-center gap-3">
                 <Skeleton className="h-4 w-20 bg-gray-200" />
@@ -43,7 +43,7 @@ const UserManagementTableSkeleton: React.FC = () => {
         {
           key: "level",
           label: "Level",
-          render: (_value = "/defaultProfile.jpg") => {
+          render: () => {
             return (
               <div className="flex justify-start  items-center gap-3">
                 <Skeleton className="h-4 w-12 bg-gray-200" />
@@ -54,7 +54,7 @@ const UserManagementTableSkeleton: React.FC = () => {
         {
           key: "badge",
           label: "Badge",
-          render: (_value = "/defaultProfile.jpg") => {
+          render: () => {
             return (
               <div className="flex justify-start  items-center gap-3">
                 <Skeleton className="h-4 w-12 bg-gray-200" />
@@ -65,7 +65,7 @@ const UserManagementTableSkeleton: React.FC = () => {
         {
           key: "blocked",
           label: "Status",
-          render: (_value = "/defaultProfile.jpg") => {
+          render: () => {
             return (
               <div className="flex justify-start  items-center gap-3">
                 <Skeleton className="h-4 w-12 bg-gray-200" />
@@ -76,7 +76,7 @@ const UserManagementTableSkeleton: React.FC = () => {
         {
           key: "userId",
           label: "Actions",
-          render: (_value = "/defaultProfile.jpg") => {
+          render: () => {
             return (
               <div className="flex justify-start  items-center gap-3">
                 <Skeleton className="h-6 w-11 bg-gray-200 " />

@@ -2,6 +2,7 @@ import { companyRegister, sendOtp } from "@/api/auth/auth.api";
 import AuthFormWraper from "@/components/common/AuthFormWraper";
 import CustomForm from "@/components/common/Form";
 import LoadingSpin from "@/components/common/LoadingSpin";
+import type { IErrorResponse } from "@/types/response.types";
 import { CompanyRegisterFields } from "@/utils/constants";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { CompanyRegistreSchema } from "@/utils/validation/company-validation";
@@ -44,8 +45,8 @@ const CompanyRegister: React.FC = () => {
           navigateTo("/auth/otp-verify");
         }
       }
-    } catch (error: any) {
-      const axiosError = error as AxiosError<any>;
+    } catch (error) {
+      const axiosError = error as AxiosError<IErrorResponse>;
       console.log(axiosError);
 
       setLoading(false);
@@ -54,8 +55,8 @@ const CompanyRegister: React.FC = () => {
         (axiosError.status === 400 &&
           axiosError.response?.data.message === "Validation error occurred")
       ) {
-        let newError: Partial<Record<keyof z.infer<T>, string>> = {};
-        axiosError.response?.data?.errors.forEach(
+        const newError: Partial<Record<keyof z.infer<T>, string>> = {};
+        axiosError.response?.data?.errors?.forEach(
           (err: Record<string, string>) => {
             newError[err?.path as keyof z.infer<T>] = err?.message;
           }

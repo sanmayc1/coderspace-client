@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type ReactEventHandler } from "react";
+import { useState, type ChangeEvent } from "react";
 import Modal from "../common/Modal";
 import { Button } from "../ui/Button";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/redux-custom-hook";
@@ -7,6 +7,7 @@ import { setProfileComplete } from "@/app/redux-slice/authReducer";
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import LoadingSpin from "../common/LoadingSpin";
+import type { IErrorResponse } from "@/types/response.types";
 
 const UserExperienceModal: React.FC = () => {
   const [selected, setSelect] = useState("easy");
@@ -28,10 +29,7 @@ const UserExperienceModal: React.FC = () => {
       }
       setLoading(false);
     } catch (error) {
-      const axiosError = error as AxiosError<{
-        success: boolean;
-        message: string;
-      }>;
+      const axiosError = error as AxiosError<IErrorResponse>;
       toast.error(axiosError.response?.data.message);
       setLoading(false);
     }

@@ -8,6 +8,7 @@ import { updateUser } from "@/api/admin/user-management";
 import { toast } from "react-toastify";
 import type { AxiosError } from "axios";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
+import type { IErrorResponse } from "@/types/response.types";
 
 interface IEditUserProps {
   user: IUsersData;
@@ -59,9 +60,9 @@ const EditUser: React.FC<IEditUserProps> = ({ user, onClose, setRefetch }) => {
       onClose();
       setRefetch((prev) => !prev);
     } catch (error) {
-      const axiosError = error as AxiosError<any>;
+      const axiosError = error as AxiosError<IErrorResponse>;
       toast.error(
-        axiosError.response?.data.errors[0].error,
+        axiosError.response?.data.errors?.[0]?.error,
         toastifyOptionsCenter
       );
     }

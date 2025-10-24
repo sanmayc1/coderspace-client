@@ -12,7 +12,7 @@ export const API_ROUTES = {
   USER_LOGIN: "/auth/login",
   COMPANY_LOGIN: "/auth/company/login",
   ADMIN_LOGIN: "/auth/admin/login",
-  GET_ALL_USERS: (page: Number, sort: string, search: string, limit: string) =>
+  GET_ALL_USERS: (page: number, sort: string, search: string, limit: string) =>
     `/admin/users?page=${page}&sort=${sort}&search=${search}&limit=${limit}`,
   UPDATE_USERS: (id: string) => `/admin/users/${id}`,
   UPDATE_USERS_STATUS: (id: string) => `/admin/users/${id}/status`,

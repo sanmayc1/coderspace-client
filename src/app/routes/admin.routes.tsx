@@ -4,6 +4,8 @@ import type { IAppRoutes } from "@/types/types";
 import Table from "@/components/common/Table";
 import ProblemManagement from "@/pages/admin/manage-problems/ManageProblems";
 import AddProblem from "@/pages/admin/manage-problems/AddProblem";
+import AddLanguage from "@/pages/admin/manage-problems/AddLanguage";
+import AddTestcase from "@/pages/admin/manage-problems/AddTestcase";
 
 export const adminRoutes: IAppRoutes[] = [
   {
@@ -42,6 +44,17 @@ export const adminRoutes: IAppRoutes[] = [
         element: <AddProblem />,
         allowedRoles: ["admin"],
       },
+      {
+        path:"/admin/manage-problems/language/:id",
+        element:<AddLanguage/>,
+        allowedRoles:["admin"]
+      },
+            {
+        path:"/admin/manage-problems/testcase/:id",
+        element:<AddTestcase/>,
+        allowedRoles:["admin"]
+      },
+
     ],
   },
 ];

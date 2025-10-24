@@ -8,6 +8,7 @@ import Table from "@/components/common/Table";
 import UserManagementTableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/Button";
 import { Switch } from "@/components/ui/Switch";
+import type { IErrorResponse } from "@/types/response.types";
 import type { IUsersData } from "@/types/types";
 import { SORT_SELECT_1 } from "@/utils/constants-admin";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
@@ -44,7 +45,7 @@ const UserManagement: React.FC = () => {
           Math.min(res.data?.data?.page, res.data?.data?.totalPages)
         );
       } catch (error) {
-        const axiosError = error as AxiosError<any>;
+        const axiosError = error as AxiosError<IErrorResponse>;
         toast.error(axiosError.response?.data.message, toastifyOptionsCenter);
       } finally {
         setLoading(false);
@@ -108,6 +109,7 @@ const UserManagement: React.FC = () => {
     } catch (error) {
       setUsers(prevUsers);
       toast.error("Failed to update user status", toastifyOptionsCenter);
+      console.log(error)
     }
   };
 
