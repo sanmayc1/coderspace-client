@@ -3,7 +3,14 @@ import CustomPagination from "@/components/common/Pagination";
 import SelectTag from "@/components/common/Select";
 import { Button } from "@/components/ui/Button";
 import { SORT_SELECT_1 } from "@/utils/constants-admin";
-import { Edit, MoveRight, PlusCircleIcon, Trash2 } from "lucide-react";
+import {
+  Edit,
+  Eye,
+  EyeOff,
+  MoveRight,
+  PlusCircleIcon,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -68,19 +75,30 @@ const ProblemManagement: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className=" grid xl:grid-cols-4 lg:grid-cols-3  gap-4 sm:grid-cols-1 md:grid-cols-2 grid-cols-1  rounded-md ">
+        <div className=" grid xl:grid-cols-4  lg:grid-cols-3  gap-4 sm:grid-cols-1 md:grid-cols-2 grid-cols-1  rounded-md ">
           {Array(4)
             .fill(0)
-            .map(() => (
+            .map((_, i) => (
               <div className="p-5 bg-white group h-fit   rounded-2xl shadow-md flex  border-1   flex-col gap-3">
                 <div className="flex justify-between items-center">
                   <p className="text-lg">
                     <span>1. </span>Two Sum
                   </p>
                   <div className="flex gap-3 items-center">
+                    {i % 2 == 0 ? (
+                      <Eye
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
+                        size={20}
+                      />
+                    ) : (
+                      <EyeOff
+                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
+                        size={20}
+                      />
+                    )}
                     <Edit
                       size={20}
-                      className=" opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
+                      className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
                     />
                     <Trash2
                       size={20}
@@ -122,7 +140,12 @@ const ProblemManagement: React.FC = () => {
                     </div>
                   ))}
                 </div>
-                <Button onClick={()=>navigate(`/admin/manage-problems/testcase/sdfsafd`)}  className="hover:scale-105 transition-all duration-300  text-sm shadow-md py-2 px-3  rounded-md flex justify-center items-center border-1 cursor-pointer">
+                <Button
+                  onClick={() =>
+                    navigate(`/admin/manage-problems/testcase/sdfsafd`)
+                  }
+                  className="hover:scale-105 transition-all duration-300  text-sm shadow-md py-2 px-3  rounded-md flex justify-center items-center border-1 cursor-pointer"
+                >
                   Testcase
                 </Button>
               </div>

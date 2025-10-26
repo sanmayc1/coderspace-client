@@ -16,5 +16,6 @@ export const API_ROUTES = {
     `/admin/users?page=${page}&sort=${sort}&search=${search}&limit=${limit}`,
   UPDATE_USERS: (id: string) => `/admin/users/${id}`,
   UPDATE_USERS_STATUS: (id: string) => `/admin/users/${id}/status`,
-  GET_COMPANY:"/company"
+  GET_COMPANY:"/company",
+  CREATE_PROBLEM:"/admin/problems"
 };

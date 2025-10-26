@@ -16,7 +16,8 @@ const SelectTag: React.FC<ISelectTagProps> = ({
   name,
   handleChange,
   value,
-  head
+  head,
+  error
 
 }) => {
   return (
@@ -36,7 +37,13 @@ const SelectTag: React.FC<ISelectTagProps> = ({
           ))}
         </SelectGroup>
       </SelectContent>
-    </Select></div>
+    </Select>
+          {error && (
+        <span className="text-xs pt-1 pl-1 text-red-400">
+          {error}
+        </span>
+      )}
+    </div>
     </>
   );
 };
