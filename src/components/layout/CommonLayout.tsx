@@ -9,13 +9,14 @@ import LoadingSpin from "../common/LoadingSpin";
 import { Button } from "../ui/Button";
 import type { ISideBarItems } from "@/types/types";
 
-const CommonLayout: React.FC<{ menuItems: ISideBarItems[],profileNavigate:string }> = ({
-  menuItems,profileNavigate
-}) => {
+const CommonLayout: React.FC<{
+  menuItems: ISideBarItems[];
+  profileNavigate: string;
+}> = ({ menuItems, profileNavigate }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const profileUrl =
     useAppSelector((s) => s.authReducer.profileUrl) || "/defaultProfile.jpg";
 
@@ -34,7 +35,7 @@ const CommonLayout: React.FC<{ menuItems: ISideBarItems[],profileNavigate:string
   };
 
   return (
-    <div className="flex  w-[100%] min-h-screen bg-gray-100 ">
+    <div className="flex w-[100%]  bg-gray-100 ">
       <div
         className={`bg-white w-64 min-h-screen shadow-lg transition-transform duration-300 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -52,7 +53,9 @@ const CommonLayout: React.FC<{ menuItems: ISideBarItems[],profileNavigate:string
             </button>
           </div>
         </div>
-        <SideNavbar menuItems={menuItems} />
+     
+          <SideNavbar menuItems={menuItems} />
+       
       </div>
 
       <div className="flex flex-col w-full">
@@ -70,13 +73,13 @@ const CommonLayout: React.FC<{ menuItems: ISideBarItems[],profileNavigate:string
             </Button>
             <img
               src={profileUrl}
-              onClick={()=>navigate(profileNavigate)}
+              onClick={() => navigate(profileNavigate)}
               alt="profile"
               className="rounded-full h-8 border-2 border-black p-[1.5px] min-w-8 box-content "
             />
           </div>
         </header>
-        <main className="p-4 w-full ">
+        <main className="p-4 w-full  ">
           <Outlet />
         </main>
       </div>

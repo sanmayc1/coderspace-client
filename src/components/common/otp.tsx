@@ -11,6 +11,7 @@ import { sendOtp } from "@/api/auth/auth.api";
 import { toast } from "react-toastify";
 import type { AxiosError } from "axios";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
+import type { IErrorResponse } from "@/types/response.types";
 
 const OtpForm: React.FC<OtpProps> = ({ onSubmit }) => {
   const [otp, setOtp] = useState<string>("");
@@ -42,9 +43,9 @@ const OtpForm: React.FC<OtpProps> = ({ onSubmit }) => {
         toast.success("Otp resend successfully", toastifyOptionsCenter);
       }
     } catch (error) {
-      const axiosError = error as AxiosError<any>;
+      const axiosError = error as AxiosError<IErrorResponse>;
       toast.error(
-        axiosError.response?.data?.errors[0]?.error,
+        axiosError.response?.data?.errors?.[0]?.error,
         toastifyOptionsCenter
       );
     }

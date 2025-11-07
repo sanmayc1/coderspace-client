@@ -11,7 +11,6 @@ import {
   MessageSquareText,
   Settings,
   Trophy,
-  UserCheck,
   Users,
 } from "lucide-react";
 
@@ -20,7 +19,6 @@ export const navHeads = [
   { title: "Problems", navigate: "" },
   { title: "Contest", navigate: "" },
   { title: "Coders", navigate: "" },
-  { title: "Discussion", navigate: "" },
   { title: "Interview", navigate: "" },
 ];
 
@@ -154,7 +152,6 @@ export const adminMenuItems: ISideBarItems[] = [
   { icon: Trophy, label: "Manage Contests" },
   { icon: Globe, label: "Manage Domains" },
   { icon: MessageSquare, label: "Manage Interviews" },
-  { icon: UserCheck, label: "Community" },
   { icon: CreditCard, label: "Plans" },
   { icon: CreditCard, label: "Payment" },
   { icon: Settings, label: "Settings" },

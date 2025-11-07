@@ -52,6 +52,7 @@ export interface ISelectTagProps {
   handleChange:(value:string)=>void
   value:string
   head?:string
+  error?:string
 }
 
 export interface ILoadingSkeletonWraper {
@@ -63,6 +64,7 @@ export interface ILoadingSkeletonWraper {
 export interface IPaginationProps {
   totalPages: number;
   currentPage: number;
+  className?:string
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -85,4 +87,10 @@ export interface ITextAreaProps {
   className?:string
   handleChange:(e:React.ChangeEvent<HTMLTextAreaElement>)=>void,
   error?:string
+}
+
+export interface ISkillProps {
+  title:string
+  id:string
+  removeSkill:(id:string)=>void
 }

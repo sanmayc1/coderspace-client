@@ -16,7 +16,7 @@ function App() {
     socket.on("connect",()=>{
       console.log("Connected to socket server",socket.id)
     })
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return (

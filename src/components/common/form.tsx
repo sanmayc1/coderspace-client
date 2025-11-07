@@ -49,7 +49,7 @@ function CustomForm<T extends ZodObject<any>>({
         }));
       } else {
         setErrors((prev) => {
-          const { [name]: _, ...rest } = prev;
+          const { [name]:_, ...rest } = prev;
           return rest as Partial<Record<keyof FormValues, string>>;
         });
       }

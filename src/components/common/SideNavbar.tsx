@@ -6,7 +6,7 @@ const SideNavbar: React.FC<{menuItems:ISideBarItems[]}> = ({menuItems}) => {
   const [selectedMenuItem, setSelectedMenuItem] = useState("Dashboard");
   const navigate = useNavigate();
   return (
-    <nav className="py-3 px-4">
+    <nav className="py-3 px-4 ">
       {menuItems.map((item, index) => (
         <a
           key={index}

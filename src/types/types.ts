@@ -47,6 +47,31 @@ export interface AuthLoginError {
   statusCode?: number;
 }
 
+
+export interface IProblemState{
+    title:string
+    description:string
+    difficulty:string
+    skill:string
+    premium:boolean
+    domain:string
+    constrain:string
+    example:IExample
+}
+
+
+export interface IExample{
+  id:string
+  input:string
+  output:string
+  explanation:string
+}
+
+export interface ISkill {
+  title:string
+  id:string
+}
+
 export type TSort = "NEWEST" | "OLDEST" | "NAME_ASC" | "NAME_DESC";
 
 export type Role = "admin" | "user" | "company" | "guest";

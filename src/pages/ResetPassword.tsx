@@ -3,6 +3,7 @@ import { useAppSelector } from "@/app/hooks/redux-custom-hook";
 import AuthFormWraper from "@/components/common/AuthFormWraper";
 import CustomForm from "@/components/common/Form";
 import LoadingSpin from "@/components/common/LoadingSpin";
+import type { IErrorResponse } from "@/types/response.types";
 import { ResetPasswordFields } from "@/utils/constants";
 import { uuidRegex } from "@/utils/regex";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
@@ -40,10 +41,10 @@ const RestPassword: React.FC = () => {
         }
       } catch (error) {
         setLoading(false);
-        const axiosError = error as AxiosError<any>;
+        const axiosError = error as AxiosError<IErrorResponse>;
         console.log(axiosError);
 
-        const errorMessage = axiosError.response?.data?.errors[0].error;
+        const errorMessage = axiosError.response?.data?.errors?.[0].error;
         if (errorMessage) {
           toast.error(errorMessage, toastifyOptionsCenter);
         }
