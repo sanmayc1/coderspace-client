@@ -16,6 +16,13 @@ export const API_ROUTES = {
     `/admin/users?page=${page}&sort=${sort}&search=${search}&limit=${limit}`,
   UPDATE_USERS: (id: string) => `/admin/users/${id}`,
   UPDATE_USERS_STATUS: (id: string) => `/admin/users/${id}/status`,
-  GET_COMPANY:"/company",
-  CREATE_PROBLEM:"/admin/problems"
+  GET_COMPANY: "/company",
+  CREATE_PROBLEM: "/admin/problems",
+
+  CREATE_DOMAIN: "/admin/domain",
+  GET_ALL_DOMAINS: "/admin/domains",
+  DELETE_DOMAIN: (id: string) => `/admin/domain/${id}`,
+  CREATE_SKILL: "/admin/skill",
+  GET_ALL_SKILLS: "/admin/skills",
+  DELETE_SKILL: (id: string) => `/admin/skill/${id}`,
 };

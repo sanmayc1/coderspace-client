@@ -150,7 +150,7 @@ export const adminMenuItems: ISideBarItems[] = [
   },
   { icon: Code, label: "Manage Problems",navigate:"/admin/manage-problems" },
   { icon: Trophy, label: "Manage Contests" },
-  { icon: Globe, label: "Manage Domains" },
+  { icon: Globe, label: "Manage Domains & Skills",navigate:"/admin/manage-skills-and-domains" },
   { icon: MessageSquare, label: "Manage Interviews" },
   { icon: CreditCard, label: "Plans" },
   { icon: CreditCard, label: "Payment" },

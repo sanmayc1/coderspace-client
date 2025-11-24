@@ -1,15 +1,19 @@
 import { createProblem } from "@/api/admin/problem-management";
-import Skill from "@/components/admin/Skill";
+import {
+  getAllDomains,
+  getAllSkills,
+} from "@/api/admin/skill-and-domain-management";
+import SkillsAndDomainCapsule from "@/components/admin/SkillsAndDomainCapsule";
 import InputFiled from "@/components/common/Input";
 import SelectTag from "@/components/common/Select";
 import TextArea from "@/components/common/Textarea";
 import { Button } from "@/components/ui/Button";
 import { Switch } from "@/components/ui/Switch";
-import type { IExample, IProblemState, ISkill } from "@/types/types";
+import type { IDomain, IExample, IProblemState, ISkill } from "@/types/types";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { createProblemSchema } from "@/utils/validation/admin-validation";
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { v4 as uuid } from "uuid";
@@ -37,15 +41,35 @@ const AddProblem: React.FC = () => {
     example: { id: "", explanation: "", input: "", output: "" },
   });
 
-  const [skills, setSkills] = useState<ISkill[]>([
-    { id: "1", title: "Array" },
-    { id: "2", title: "Object" },
-    { id: "3", title: "HashTable" },
-  ]);
+  const [skills, setSkills] = useState<ISkill[]>([]);
+  const [domains, setDomains] = useState<IDomain[]>([]);
 
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
   const [examples, setExamples] = useState<IExample[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchAllDomains() {
+      try {
+        const res = await getAllDomains();
+        setDomains(res.data.domains);
+      } catch (error) {
+        toast.error("Something Went Wrong", toastifyOptionsCenter);
+      }
+    }
+    async function fetchAllSkills() {
+      try {
+        const res = await getAllSkills();
+
+        setSkills(res.data.skills);
+      } catch (error) {
+        toast.error("Something Went Wrong", toastifyOptionsCenter);
+      }
+    }
+    fetchAllDomains();
+    fetchAllSkills();
+  }, []);
+
   const handleChangeInputField = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -121,7 +145,7 @@ const AddProblem: React.FC = () => {
     setExamples((prev) => prev.filter((ex) => ex.id !== id));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const body = { ...data, examples: examples, skills: selectedSkills };
     const result = createProblemSchema.safeParse(body);
 
@@ -166,7 +190,24 @@ const AddProblem: React.FC = () => {
       example: { id: "", explanation: "", input: "", output: "" },
     });
 
-    console.log(result.data);
+    try {
+      const problemBody = {
+        title: data.title,
+        constrain: data.constrain,
+        description: data.description,
+        difficulty: data.difficulty,
+        domain: data.domain,
+        premium: data.premium,
+        skills: skills.map((s) => s.id),
+        examples: examples,
+      };
+
+      await createProblem(problemBody);
+    } catch (error) {
+      console.log(error);
+
+      toast.error("Something went wrong", toastifyOptionsCenter);
+    }
   };
 
   return (
@@ -218,7 +259,10 @@ const AddProblem: React.FC = () => {
             <div className="flex flex-col gap-4">
               <div className="flex items-end  gap-4">
                 <SelectTag
-                  options={skills.map((s) => ({ label: s.title, value: s.id }))}
+                  options={skills.map((s) => ({
+                    label: s.title.charAt(0).toUpperCase() + s.title.slice(1),
+                    value: s.id,
+                  }))}
                   placeholder="Select Skill"
                   label="Skills"
                   head="Skills"
@@ -242,11 +286,11 @@ const AddProblem: React.FC = () => {
               >
                 {selectedSkills.map((v) => {
                   return (
-                    <Skill
+                    <SkillsAndDomainCapsule
                       key={v.id}
                       id={v.id}
                       title={v.title}
-                      removeSkill={removeSkill}
+                      deleteFn={removeSkill}
                     />
                   );
                 })}
@@ -265,10 +309,10 @@ const AddProblem: React.FC = () => {
               />
             </div>
             <SelectTag
-              options={[
-                { label: "Javascript", value: "javascript" },
-                { label: "DSA", value: "DSA" },
-              ]}
+              options={domains.map((d) => ({
+                label: d.title.charAt(0).toUpperCase() + d.title.slice(1),
+                value: d.id,
+              }))}
               placeholder="Select Domain"
               label="Domain"
               head="Domain"

@@ -72,6 +72,11 @@ export interface ISkill {
   id:string
 }
 
+export interface IDomain {
+  title:string
+  id:string
+}
+
 export type TSort = "NEWEST" | "OLDEST" | "NAME_ASC" | "NAME_DESC";
 
 export type Role = "admin" | "user" | "company" | "guest";

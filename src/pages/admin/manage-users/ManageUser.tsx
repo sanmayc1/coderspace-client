@@ -2,7 +2,7 @@ import { getAllUsers, updateUserStatus } from "@/api/admin/user-management";
 import EditUser from "@/components/admin/EditUser";
 import InputFiled from "@/components/common/Input";
 import LoadingSkeletonWraper from "@/components/common/LoadingWraper";
-import Modal from "@/components/common/Modal";
+import Modal from "@/components/common/modal";
 import SelectTag from "@/components/common/Select";
 import Table from "@/components/common/Table";
 import UserManagementTableSkeleton from "@/components/skeleton/TableSkeleton";
@@ -128,7 +128,7 @@ const UserManagement: React.FC = () => {
 
   return (
     <>
-      <div className="w-full  flex flex-col gap-4 ">
+      <div className="w-full flex flex-col gap-4 ">
         <div className="shadow-md sm:w-full w-[100%] p-3 bg-gray-50 rounded-md h-fit flex flex-col gap-4">
           <h1 className="text-2xl font-semibold px-2">Manage Users</h1>
           <InputFiled

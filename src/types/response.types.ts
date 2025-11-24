@@ -1,3 +1,5 @@
+import type { IDomain, ISkill } from "./types";
+
 export interface ICommonResponse {
   success: boolean;
   message: string;
@@ -46,4 +48,12 @@ export interface IGetUserResponse {
   about?: string;
   premiumActive: boolean;
   skills: any[];
+}
+
+export interface IGetAllDomains {
+  domains:IDomain[]
+}
+
+export interface IGetAllSkills {
+  skills:ISkill[]
 }

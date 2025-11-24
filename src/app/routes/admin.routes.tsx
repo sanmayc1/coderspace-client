@@ -6,6 +6,7 @@ import ProblemManagement from "@/pages/admin/manage-problems/ManageProblems";
 import AddProblem from "@/pages/admin/manage-problems/AddProblem";
 import AddLanguage from "@/pages/admin/manage-problems/AddLanguage";
 import AddTestcase from "@/pages/admin/manage-problems/AddTestcase";
+import ManageSkillsAndDomains from "@/pages/admin/manage-skills-and-domains/ManageSkillsAndDomains";
 
 export const adminRoutes: IAppRoutes[] = [
   {
@@ -45,16 +46,20 @@ export const adminRoutes: IAppRoutes[] = [
         allowedRoles: ["admin"],
       },
       {
-        path:"/admin/manage-problems/language/:id",
-        element:<AddLanguage/>,
-        allowedRoles:["admin"]
+        path: "/admin/manage-problems/language/:id",
+        element: <AddLanguage />,
+        allowedRoles: ["admin"],
       },
-            {
-        path:"/admin/manage-problems/testcase/:id",
-        element:<AddTestcase/>,
-        allowedRoles:["admin"]
+      {
+        path: "/admin/manage-problems/testcase/:id",
+        element: <AddTestcase />,
+        allowedRoles: ["admin"],
       },
-
+      {
+        path:"manage-skills-and-domains",
+        element:<ManageSkillsAndDomains/>,
+        allowedRoles:["admin"]
+      }
     ],
   },
 ];

@@ -29,17 +29,7 @@ const ProblemManagement: React.FC = () => {
   const handleSortChange = (value: string) => {
     setSort(value);
   };
-  const renderUserEdit = (_: string, item: any) => (
-    <Button
-      size="sm"
-      className="text-xs pt-1"
-      onClick={() => {
-        alert("edit");
-      }}
-    >
-      Edit
-    </Button>
-  );
+
 
   return (
     <>

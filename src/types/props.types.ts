@@ -92,5 +92,5 @@ export interface ITextAreaProps {
 export interface ISkillProps {
   title:string
   id:string
-  removeSkill:(id:string)=>void
+  deleteFn:(id:string)=>void
 }

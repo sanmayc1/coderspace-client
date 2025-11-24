@@ -2,7 +2,7 @@ import InputFiled from "@/components/common/Input";
 import CustomPagination from "@/components/common/Pagination";
 import { Button } from "@/components/ui/Button";
 import { Editor } from "@monaco-editor/react";
-import { Edit, Edit2, Trash2 } from "lucide-react";
+import { Edit,  Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -100,7 +100,7 @@ const AddTestcase = () => {
               </div>
             ))}
         </div>
-        <CustomPagination totalPages={10}/>
+        <CustomPagination currentPage={1} setCurrentPage={()=>{}} totalPages={10}/>
       </div>
     </div>
   );
