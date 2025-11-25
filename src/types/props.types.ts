@@ -99,4 +99,5 @@ export interface ISkillProps {
 
 export interface IProblemCardProps{
   problem:IProblemListing
+  refetch:React.Dispatch<React.SetStateAction<boolean>>
 }

@@ -143,13 +143,13 @@ export const adminMenuItems: ISideBarItems[] = [
     navigate: "/admin",
   },
   { icon: Users, label: "Manage Users", navigate: "/admin/manage-user" },
-  {
-    icon: BriefcaseBusiness,
-    label: "Manage Business",
-    navigate: "/admin/manage-business",
-  },
+  // {
+  //   icon: BriefcaseBusiness,
+  //   label: "Manage Business",
+  //   navigate: "/admin/manage-business",
+  // },
   { icon: Code, label: "Manage Problems", navigate: "/admin/manage-problems" },
-  { icon: Trophy, label: "Manage Contests" },
+  // { icon: Trophy, label: "Manage Contests" },
   {
     icon: Globe,
     label: "Manage Domains & Skills",
@@ -162,7 +162,7 @@ export const adminMenuItems: ISideBarItems[] = [
 ];
 
 export const LANGUAGES:{label:string,value:TLanguages}[] = [
-  { value: "c++", label: "C++" },
+  { value: "cpp", label: "C++" },
   { value: "java", label: "Java" },
   { value: "javascript", label: "Javascript" },
   { value: "python", label: "Python" },

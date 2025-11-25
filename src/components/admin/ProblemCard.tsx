@@ -8,9 +8,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { addLanguage } from "@/api/admin/problem-management";
-import type { TLanguages } from "@/types/types";
 
-const ProblemCard: React.FC<IProblemCardProps> = ({ problem }) => {
+
+const ProblemCard: React.FC<IProblemCardProps> = ({ problem,refetch }) => {
   const [language, setLanguage] = useState("");
   const navigate = useNavigate();
   const addNewLanguage = async () => {
@@ -22,7 +22,7 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem }) => {
     try {
       await addLanguage({ problemId: problem.id, language });
       toast.success("Language added successfully", toastifyOptionsCenter);
-      problem.languages.push(language as TLanguages);
+      refetch((prev)=>!prev)
       setLanguage("");
     } catch (error) {
       toast.error("Something went wrong", toastifyOptionsCenter);
@@ -57,15 +57,12 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem }) => {
             size={20}
             className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
           />
-          <Trash2
-            size={20}
-            className="text-red-600 opacity-0 group-hover:opacity-100 transition-all duration-300  cursor-pointer"
-          />
+
         </div>
       </div>
       <div
         className={`flex items-center gap-3 ${LANGUAGES.filter(
-          (l) => !problem.languages.includes(l.value)
+          (l) => !problem.languages.some(pl=> pl.language == l.value)
         ).length === 0 ?"opacity-50 pointer-events-none" :""}`}
       >
         <SelectTag
@@ -73,7 +70,7 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem }) => {
           name="language"
           value={language}
           options={LANGUAGES.filter(
-            (l) => !problem.languages.includes(l.value)
+            (l) => !problem.languages.some(pl=> pl.language == l.value)
           )}
           placeholder="Select Language"
           label="Language"
@@ -90,10 +87,11 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem }) => {
         {problem.languages.length !== 0 ? (
           problem.languages.map((l) => (
             <div
-              onClick={() => navigate(`/admin/manage-problems/language/${l}`)}
+            key={l.id}
+              onClick={() => navigate(`/admin/manage-problems/language/${l.id}`)}
               className="bg-white hover:scale-105 transition-all duration-300  text-sm shadow-md py-2 px-3  rounded-md flex justify-between items-center border-1 cursor-pointer"
             >
-              {l}
+              {l.language.charAt(0).toUpperCase() + l.language.slice(1)}
               <span>
                 <MoveRight size={15} className="text-gray-500" />
               </span>
@@ -104,7 +102,7 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem }) => {
         )}
       </div>
       <Button
-        onClick={() => navigate(`/admin/manage-problems/testcase/sdfsafd`)}
+        onClick={() => navigate(`/admin/manage-problems/testcase/${problem.id}`)}
         className="hover:scale-105 transition-all duration-300  text-sm shadow-md py-2 px-3  rounded-md flex justify-center items-center border-1 cursor-pointer"
       >
         Testcase

@@ -28,6 +28,7 @@ const ProblemManagement: React.FC = () => {
   const [selectedSort, setSort] = useState<string>("OLDEST");
   const [itemsPerPage, setItemsPerPage] = useState<string>("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [refetch,setRefetch] = useState(false)
 
   const navigate = useNavigate();
 
@@ -52,7 +53,7 @@ const ProblemManagement: React.FC = () => {
       }
     }
     fetchAllProblems();
-  }, [search, selectedSort, currentPage]);
+  }, [search, selectedSort, currentPage,refetch]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -65,7 +66,7 @@ const ProblemManagement: React.FC = () => {
     setSort(value);
   };
 
-  const addLanguage = (id: string, language: TLanguages) => {};
+ 
 
   return (
     <>
@@ -103,7 +104,7 @@ const ProblemManagement: React.FC = () => {
         </div>
         <div className=" grid xl:grid-cols-4  lg:grid-cols-3  gap-4 sm:grid-cols-1 md:grid-cols-2 grid-cols-1  rounded-md ">
           {problems.length !== 0 ? (
-            problems.map((p) => <ProblemCard key={p.id} problem={p} />)
+            problems.map((p) => <ProblemCard key={p.id} problem={p} refetch={setRefetch} />)
           ) : (
             <div className="col-span-4 p-8">
               <p className="text-center">No Problems Found</p>

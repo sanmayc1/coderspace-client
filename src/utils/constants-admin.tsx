@@ -15,4 +15,4 @@ export const SORT_SELECT_2 = [
 ];
 
 
-export const LANGUAGES:TLanguages[] = ["c++","java","javascript","python"]
+export const LANGUAGES:TLanguages[] = ["cpp","java","javascript","python"]

@@ -67,3 +67,19 @@ export interface IGetAllProblemAdminListing{
     problems:IProblemListing[]
 
 }
+
+
+export interface IGetLanguageDetails{
+    id:string
+    language:TLanguages
+    tmpCode:string
+    solution:string
+    fnName:string
+}
+
+export interface IGetTestcase{
+  id:string,
+  input:string,
+  output:string,
+  example?:boolean
+}

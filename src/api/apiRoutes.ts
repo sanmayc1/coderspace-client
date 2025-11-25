@@ -27,6 +27,11 @@ export const API_ROUTES = {
   DELETE_SKILL: (id: string) => `/admin/skill/${id}`,
     CREATE_PROBLEM: "/admin/problems",
   GET_ALL_PROBLEM_ADMIN_LISTING:(search:string,page:string,sortBy:string)=>`/admin/problems?search=${search}&page=${page}&sortBy=${sortBy}`,
-  ADD_LANGUAGE:"/admin/problems/language"
+  ADD_LANGUAGE:"/admin/problems/language",
+   GET_LANGUAGE:(id:string)=>`/admin/problems/${id}/language`,
+   UPDATE_LANGUAGE:"/admin/problems/language",
+   ADD_TESTCASE:"/admin/problems/testcase",
+   GET_TESTCASES:(id:string)=>`/admin/problems/${id}/testcases`,
+   TESTCASE_DELETED:(id:string)=>`/admin/problems/${id}/testcase`
 
 };
