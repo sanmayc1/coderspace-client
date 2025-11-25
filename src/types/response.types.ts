@@ -1,4 +1,4 @@
-import type { IDomain, IProblemListing, ISkill, TLanguages, TView } from "./types";
+import type { IDomain, IExample, IProblemListing, ISkill, TLanguages} from "./types";
 
 export interface ICommonResponse {
   success: boolean;
@@ -82,4 +82,16 @@ export interface IGetTestcase{
   input:string,
   output:string,
   example?:boolean
+}
+
+
+export interface IGetProblem{
+  title: string;
+  description: string;
+  difficulty: string;
+  skills: ISkill[];
+  premium: boolean;
+  domain: string;
+  constrain: string;
+  examples: IExample[];
 }

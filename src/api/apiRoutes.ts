@@ -32,6 +32,8 @@ export const API_ROUTES = {
    UPDATE_LANGUAGE:"/admin/problems/language",
    ADD_TESTCASE:"/admin/problems/testcase",
    GET_TESTCASES:(id:string)=>`/admin/problems/${id}/testcases`,
-   TESTCASE_DELETED:(id:string)=>`/admin/problems/${id}/testcase`
+   TESTCASE_DELETED:(id:string)=>`/admin/problems/${id}/testcase`,
+   GET_PROBLEM:(id:string) =>`/admin/problems/${id}`,
+   UPDATE_PROBLEM:"/admin/problems"
 
 };

@@ -4,18 +4,10 @@ import InputFiled from "@/components/common/Input";
 import CustomPagination from "@/components/common/Pagination";
 import SelectTag from "@/components/common/Select";
 import { Button } from "@/components/ui/Button";
-import type { IProblemListing, TLanguages } from "@/types/types";
-import { LANGUAGES } from "@/utils/constants";
-import { SORT_SELECT_1, SORT_SELECT_2 } from "@/utils/constants-admin";
+import type { IProblemListing } from "@/types/types";
+import { SORT_SELECT_2 } from "@/utils/constants-admin";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import {
-  Edit,
-  Eye,
-  EyeOff,
-  MoveRight,
-  PlusCircleIcon,
-  Trash2,
-} from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -26,9 +18,8 @@ const ProblemManagement: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedSort, setSort] = useState<string>("OLDEST");
-  const [itemsPerPage, setItemsPerPage] = useState<string>("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [refetch,setRefetch] = useState(false)
+  const [refetch, setRefetch] = useState(false);
 
   const navigate = useNavigate();
 
@@ -53,7 +44,7 @@ const ProblemManagement: React.FC = () => {
       }
     }
     fetchAllProblems();
-  }, [search, selectedSort, currentPage,refetch]);
+  }, [search, selectedSort, currentPage, refetch]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -65,8 +56,6 @@ const ProblemManagement: React.FC = () => {
   const handleSortChange = (value: string) => {
     setSort(value);
   };
-
- 
 
   return (
     <>
@@ -104,7 +93,9 @@ const ProblemManagement: React.FC = () => {
         </div>
         <div className=" grid xl:grid-cols-4  lg:grid-cols-3  gap-4 sm:grid-cols-1 md:grid-cols-2 grid-cols-1  rounded-md ">
           {problems.length !== 0 ? (
-            problems.map((p) => <ProblemCard key={p.id} problem={p} refetch={setRefetch} />)
+            problems.map((p) => (
+              <ProblemCard key={p.id} problem={p} refetch={setRefetch} />
+            ))
           ) : (
             <div className="col-span-4 p-8">
               <p className="text-center">No Problems Found</p>

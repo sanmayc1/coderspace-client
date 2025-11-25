@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import type { IGetTestcase } from "@/types/response.types";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { Editor } from "@monaco-editor/react";
-import { Edit, Trash2 } from "lucide-react";
+import {  Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";

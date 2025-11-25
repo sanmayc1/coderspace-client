@@ -7,6 +7,7 @@ import AddProblem from "@/pages/admin/manage-problems/AddProblem";
 import AddLanguage from "@/pages/admin/manage-problems/AddLanguage";
 import AddTestcase from "@/pages/admin/manage-problems/AddTestcase";
 import ManageSkillsAndDomains from "@/pages/admin/manage-skills-and-domains/ManageSkillsAndDomains";
+import EditProblem from "@/pages/admin/manage-problems/EditProblem";
 
 export const adminRoutes: IAppRoutes[] = [
   {
@@ -54,6 +55,12 @@ export const adminRoutes: IAppRoutes[] = [
         path: "/admin/manage-problems/testcase/:id",
         element: <AddTestcase />,
         allowedRoles: ["admin"],
+      },
+      {
+        path:"/admin/manage-problems/:id/edit",
+        element:<EditProblem/>,
+        allowedRoles:["admin"]
+
       },
       {
         path:"manage-skills-and-domains",

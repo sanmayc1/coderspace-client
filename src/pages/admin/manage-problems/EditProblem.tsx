@@ -1,4 +1,4 @@
-import { createProblem } from "@/api/admin/problem-management";
+import { getProblem, updateProblem } from "@/api/admin/problem-management";
 import {
   getAllDomains,
   getAllSkills,
@@ -14,11 +14,11 @@ import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { createProblemSchema } from "@/utils/validation/admin-validation";
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { v4 as uuid } from "uuid";
 
-const AddProblem: React.FC = () => {
+const EditProblem: React.FC = () => {
   const [data, setData] = useState<IProblemState>({
     constrain: "",
     description: "",
@@ -47,12 +47,33 @@ const AddProblem: React.FC = () => {
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
   const [examples, setExamples] = useState<IExample[]>([]);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     async function fetchAllDomains() {
       try {
         const res = await getAllDomains();
         setDomains(res.data.domains);
+      } catch (error) {
+        toast.error("Something Went Wrong", toastifyOptionsCenter);
+      }
+    }
+    async function fetchProblemDetails() {
+      try {
+        const res = (await getProblem(id as string)).data;
+        setSelectedSkills(res.skills);
+        setExamples(res.examples)
+        setData((prev) => ({
+          ...prev,
+          ...{
+            constrain: res.constrain,
+            description: res.description,
+            difficulty: res.difficulty,
+            domain: res.domain,
+            premium: res.premium,
+            title: res.title,
+          },
+        }));
       } catch (error) {
         toast.error("Something Went Wrong", toastifyOptionsCenter);
       }
@@ -65,6 +86,9 @@ const AddProblem: React.FC = () => {
       } catch (error) {
         toast.error("Something Went Wrong", toastifyOptionsCenter);
       }
+    }
+    if (id) {
+      fetchProblemDetails();
     }
     fetchAllDomains();
     fetchAllSkills();
@@ -192,6 +216,7 @@ const AddProblem: React.FC = () => {
 
     try {
       const problemBody = {
+        problemId:id,
         title: data.title,
         constrain: data.constrain,
         description: data.description,
@@ -201,10 +226,9 @@ const AddProblem: React.FC = () => {
         skills: selectedSkills.map((s) => s.id),
         examples: examples,
       };
-
-      await createProblem(problemBody);
-      toast.success("Problem Added",toastifyOptionsCenter)
-      navigate(`/admin/manage-problems?search=${problemBody.title}`)
+     await updateProblem(problemBody)
+      toast.success("Problem Edited", toastifyOptionsCenter);
+      navigate(`/admin/manage-problems`);
     } catch (error) {
       console.log(error);
 
@@ -224,7 +248,7 @@ const AddProblem: React.FC = () => {
               Back
             </Button>
           </div>
-          <h1 className="text-xl text-center p-3">Add Problem</h1>
+          <h1 className="text-xl text-center p-3">Edit Problem</h1>
         </div>
         <div className="w-full p-6 bg-white shadow-md rounded-md flex flex-col gap-9">
           <form className="space-y-4">
@@ -417,4 +441,4 @@ const AddProblem: React.FC = () => {
   );
 };
 
-export default AddProblem;
+export default EditProblem;

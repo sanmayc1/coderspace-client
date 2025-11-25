@@ -2,6 +2,7 @@ import type {
   ICommonResponse,
   IGetAllProblemAdminListing,
   IGetLanguageDetails,
+  IGetProblem,
   IGetTestcase,
   ISuccessResponse,
 } from "@/types/response.types";
@@ -94,6 +95,28 @@ export async function deleteTestcase(
 ): Promise<ICommonResponse> {
   try {
     const res = await coderspaceBackend.delete(API_ROUTES.TESTCASE_DELETED(id));
+
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getProblem(
+  id: string
+): Promise<ISuccessResponse<IGetProblem>> {
+  try {
+    const res = await coderspaceBackend.get(API_ROUTES.GET_PROBLEM(id));
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export async function updateProblem<T>(data: T): Promise<ICommonResponse> {
+  try {
+    const res = await coderspaceBackend.patch(API_ROUTES.UPDATE_PROBLEM, data);
 
     return res.data;
   } catch (error) {

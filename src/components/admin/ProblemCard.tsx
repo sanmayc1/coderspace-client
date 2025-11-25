@@ -1,4 +1,4 @@
-import { Edit, Eye, EyeOff, MoveRight, Trash2 } from "lucide-react";
+import { Edit, Eye, EyeOff, MoveRight } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useNavigate } from "react-router-dom";
 import type { IProblemCardProps } from "@/types/props.types";
@@ -56,6 +56,7 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem,refetch }) => {
           <Edit
             size={20}
             className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
+            onClick={()=>navigate(`/admin/manage-problems/${problem.id}/edit`)}
           />
 
         </div>
