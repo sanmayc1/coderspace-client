@@ -17,7 +17,7 @@ export const API_ROUTES = {
   UPDATE_USERS: (id: string) => `/admin/users/${id}`,
   UPDATE_USERS_STATUS: (id: string) => `/admin/users/${id}/status`,
   GET_COMPANY: "/company",
-  CREATE_PROBLEM: "/admin/problems",
+
 
   CREATE_DOMAIN: "/admin/domain",
   GET_ALL_DOMAINS: "/admin/domains",
@@ -25,4 +25,8 @@ export const API_ROUTES = {
   CREATE_SKILL: "/admin/skill",
   GET_ALL_SKILLS: "/admin/skills",
   DELETE_SKILL: (id: string) => `/admin/skill/${id}`,
+    CREATE_PROBLEM: "/admin/problems",
+  GET_ALL_PROBLEM_ADMIN_LISTING:(search:string,page:string,sortBy:string)=>`/admin/problems?search=${search}&page=${page}&sortBy=${sortBy}`,
+  ADD_LANGUAGE:"/admin/problems/language"
+
 };

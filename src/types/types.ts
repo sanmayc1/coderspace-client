@@ -76,7 +76,17 @@ export interface IDomain {
   title:string
   id:string
 }
+export interface IProblemListing{
+    title:string
+    number:number
+    languages:TLanguages[]
+    id:string
+    view:TView
 
+}
 export type TSort = "NEWEST" | "OLDEST" | "NAME_ASC" | "NAME_DESC";
 
 export type Role = "admin" | "user" | "company" | "guest";
+
+export type TLanguages = "javascript" |"java"|"python"|"c++"
+export type TView = "public" | "private";

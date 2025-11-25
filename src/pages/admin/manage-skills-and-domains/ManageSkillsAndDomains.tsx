@@ -11,7 +11,7 @@ import InputFiled from "@/components/common/Input";
 import { Button } from "@/components/ui/Button";
 import type { IDomain, ISkill } from "@/types/types";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import axios, { AxiosError } from "axios";
+import  { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 

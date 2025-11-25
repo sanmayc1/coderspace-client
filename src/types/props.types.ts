@@ -1,4 +1,5 @@
 import type { z, ZodObject } from "zod";
+import type { IProblemListing } from "./types";
 
 export interface ISectionProps {
   reverse?: boolean;
@@ -93,4 +94,9 @@ export interface ISkillProps {
   title:string
   id:string
   deleteFn:(id:string)=>void
+}
+
+
+export interface IProblemCardProps{
+  problem:IProblemListing
 }

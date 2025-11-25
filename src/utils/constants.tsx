@@ -1,5 +1,5 @@
 import type { FieldConfig, ISectionProps } from "@/types/props.types";
-import type { ISideBarItems } from "@/types/types";
+import type { ISideBarItems, TLanguages } from "@/types/types";
 import {
   Bell,
   BriefcaseBusiness,
@@ -148,13 +148,24 @@ export const adminMenuItems: ISideBarItems[] = [
     label: "Manage Business",
     navigate: "/admin/manage-business",
   },
-  { icon: Code, label: "Manage Problems",navigate:"/admin/manage-problems" },
+  { icon: Code, label: "Manage Problems", navigate: "/admin/manage-problems" },
   { icon: Trophy, label: "Manage Contests" },
-  { icon: Globe, label: "Manage Domains & Skills",navigate:"/admin/manage-skills-and-domains" },
+  {
+    icon: Globe,
+    label: "Manage Domains & Skills",
+    navigate: "/admin/manage-skills-and-domains",
+  },
   { icon: MessageSquare, label: "Manage Interviews" },
   { icon: CreditCard, label: "Plans" },
   { icon: CreditCard, label: "Payment" },
   { icon: Settings, label: "Settings" },
+];
+
+export const LANGUAGES:{label:string,value:TLanguages}[] = [
+  { value: "c++", label: "C++" },
+  { value: "java", label: "Java" },
+  { value: "javascript", label: "Javascript" },
+  { value: "python", label: "Python" },
 ];
 
 export const companyMenuItems: ISideBarItems[] = [

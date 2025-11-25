@@ -203,6 +203,8 @@ const AddProblem: React.FC = () => {
       };
 
       await createProblem(problemBody);
+      toast.success("Problem Added",toastifyOptionsCenter)
+      navigate(`/admin/manage-problems?search=${problemBody.title}`)
     } catch (error) {
       console.log(error);
 

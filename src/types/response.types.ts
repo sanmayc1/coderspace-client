@@ -1,4 +1,4 @@
-import type { IDomain, ISkill } from "./types";
+import type { IDomain, IProblemListing, ISkill, TLanguages, TView } from "./types";
 
 export interface ICommonResponse {
   success: boolean;
@@ -56,4 +56,14 @@ export interface IGetAllDomains {
 
 export interface IGetAllSkills {
   skills:ISkill[]
+}
+
+
+
+
+export interface IGetAllProblemAdminListing{
+    totalPages:number
+    currentPage:number
+    problems:IProblemListing[]
+
 }
