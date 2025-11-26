@@ -6,7 +6,6 @@ const Section: React.FC<ISectionProps> = ({
   reverse = false,
   bannerUrl,
   description,
-  exploreUrl,
   head,
 }) => {
   return (

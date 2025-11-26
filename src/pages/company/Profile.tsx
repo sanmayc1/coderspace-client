@@ -1,25 +1,62 @@
-import { getComapny } from "@/api/company/company";
+import { getComapny, updateCompany } from "@/api/company/company";
 import LoadingSpin from "@/components/common/LoadingSpin";
+import { Button } from "@/components/ui/Button";
 import type { IGetCompanyResponse } from "@/types/response.types";
-import { Building2, FileText, Mail} from "lucide-react";
-import { useEffect, useState } from "react";
+import { toastifyOptionsCenter } from "@/utils/toastify.options";
+import { Building2, Edit, FileText, Mail } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
 const CompanyProfile = () => {
+  const [companyData, setCompanyData] = useState<IGetCompanyResponse | null>(
+    null
+  );
+  const [isEditing, setIsEditing] = useState(false);
+  const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    setTimeout(() => inputRef.current?.focus(), 0);
+  };
+
+  const handleUpdate = async () => {
+    setIsEditing(false);
+
+    if(!value.trim()){
+      toast.error("Name can't be empty",toastifyOptionsCenter)
+      setValue(companyData?.companyName as string)
+      return
+    }
+
+    if(!/^[a-zA-z]+$/.test(value)){
+      toast.error("Only letters are allowed",toastifyOptionsCenter)
+      setValue(companyData?.companyName as string)
+      return
+    }
+
+    try {
+     await updateCompany({companyName:value})
+      toast.success("Name updated", toastifyOptionsCenter);
+    } catch (error) {
+      toast.error("Some thing went wrong",toastifyOptionsCenter)
+    }
+
+    console.log("Updated:", value);
+  };
+
   useEffect(() => {
     const fetchCompany = async () => {
       try {
         const company = await getComapny();
         setCompanyData(company);
+        setValue(company.companyName);
       } catch (error) {
         console.log(error);
       }
     };
     fetchCompany();
   }, []);
-
-  const [companyData, setCompanyData] = useState<IGetCompanyResponse | null>(
-    null
-  );
 
   if (!companyData) {
     return (
@@ -106,8 +143,31 @@ const CompanyProfile = () => {
                   <div className="text-xs  font-medium text-slate-500 mb-1">
                     Registered Name
                   </div>
-                  <div className="text-sm  text-slate-900 font-medium break-words">
-                    {companyData?.companyName}
+                  <div className="flex items-center justify-between">
+                    <input
+                      ref={inputRef}
+                      disabled={!isEditing}
+                      value={value}
+                      onChange={(e) => setValue(e.target.value)}
+                      className={`text-sm text-slate-900 font-medium break-words py-2 rounded-lg
+          ${isEditing ? "border px-2" : "border-none bg-transparent"}
+        `}
+                    />
+
+                    {isEditing ? (
+                      <Button
+                        variant={"ghost"}
+                        onClick={handleUpdate}
+                        className="text-blue-600 text-sm font-medium"
+                        disabled={companyData?.companyName === value}
+                      >
+                        Update
+                      </Button>
+                    ) : (
+                      <button onClick={handleEdit}>
+                        <Edit size={20} />
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

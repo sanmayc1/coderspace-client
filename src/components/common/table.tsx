@@ -2,7 +2,7 @@ import type { IPaginationProps } from "@/types/props.types";
 import PaginationComponent from "./Pagination";
 import SelectTag from "./Select";
 
-interface TableColumn<T> {
+export interface TableColumn<T> {
   key: keyof T;
   label: string;
   render?: (value: any, item: T) => React.ReactNode;

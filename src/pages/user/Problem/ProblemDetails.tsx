@@ -12,7 +12,6 @@ import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import type { IUserGetProblemDetailed } from "@/types/response.types";
 import SelectTag from "@/components/common/Select";
 
-
 const ProblemDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"description" | "solution">(
     "description"
@@ -33,8 +32,8 @@ const ProblemDetails: React.FC = () => {
     async function fetchProblemDetails() {
       try {
         const res = await getProblemUser(id as string);
-        setLanguage(res.data.templateCodes[0].language)
-        setCode(res.data.templateCodes[0].templateCode)
+        setLanguage(res.data.templateCodes[0].language);
+        setCode(res.data.templateCodes[0].templateCode);
         setProblem(res.data);
       } catch (error) {
         toast.error("Something went wrong", toastifyOptionsCenter);
@@ -45,11 +44,12 @@ const ProblemDetails: React.FC = () => {
     }
   }, []);
 
-  useEffect(()=>{
-
-    setCode(problem?.templateCodes.find((t)=>t.language === language)?.templateCode as string)
-
-  },[language])
+  useEffect(() => {
+    setCode(
+      problem?.templateCodes.find((t) => t.language === language)
+        ?.templateCode as string
+    );
+  }, [language]);
 
   const handleRunCode = () => {
     setIsRunning(true);
@@ -76,12 +76,9 @@ const ProblemDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white flex flex-col ">
-      {/* Main Content */}
       <div className="flex-1 flex flex-col lg:flex-row my-28 mx-14 border-2 rounded-lg p-2">
-        {/* Left Panel - Problem Description */}
         <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-gray-200 overflow-y-auto">
           <div className="p-4 md:p-8">
-            {/* Tabs */}
             <div className="flex border-b border-gray-200 mb-6">
               <button
                 onClick={() => setActiveTab("description")}
@@ -100,20 +97,20 @@ const ProblemDetails: React.FC = () => {
                     ? "border-b-2 border-black text-black"
                     : "text-gray-600"
                 }`}
-              >
-                {/* Solution */}
-              </button>
+              ></button>
             </div>
 
-            {/* Problem Content */}
             <div>
               <h2 className="text-xl md:text-2xl font-bold mb-6">
-                {problem?.number}. {problem?.title}
+                {problem?.number}.{" "}
+                {problem?.title
+                  .split(" ")
+                  .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+                  .join(" ")}
               </h2>
 
               <p className="text-gray-700 mb-4">{problem?.description}</p>
 
-              {/* Example */}
               {problem?.examples.map((ex, i) => (
                 <div className="mb-6" key={ex.id}>
                   <p className="font-semibold mb-2">Example {i + 1}:</p>
@@ -132,7 +129,6 @@ const ProblemDetails: React.FC = () => {
                 </div>
               ))}
 
-              {/* Constraints */}
               <div className="mb-6">
                 <p className="font-semibold mb-2">Constraints:</p>
                 <ul className="list-disc list-inside text-gray-700 space-y-1">
@@ -140,7 +136,6 @@ const ProblemDetails: React.FC = () => {
                 </ul>
               </div>
 
-              {/* Tags */}
               <div className="flex flex-wrap gap-2">
                 {problem?.skills.map((s) => (
                   <span
@@ -155,9 +150,7 @@ const ProblemDetails: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Panel - Code Editor */}
         <div className="w-full lg:w-1/2 flex flex-col">
-          {/* Code Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <div className="flex items-center space-x-2">
               <span className="font-mono text-sm">&lt;/&gt;</span>
@@ -167,27 +160,34 @@ const ProblemDetails: React.FC = () => {
               options={
                 problem?.templateCodes
                   ? problem.templateCodes.map((t) => ({
-                      label: t.language.charAt(0).toUpperCase() + t.language.slice(1),
+                      label:
+                        t.language.charAt(0).toUpperCase() +
+                        t.language.slice(1),
                       value: t.language,
                     }))
                   : []
               }
               placeholder="Languages"
-              handleChange={(v)=>{setLanguage(v)}}
+              handleChange={(v) => {
+                setLanguage(v);
+              }}
               label="Languages"
               name="languages"
               value={language}
-
-            
             />
           </div>
 
-          {/* Code Editor */}
-          <div className="flex-1 bg-gray-900  overflow-auto">
-            <Editor className="p-2" height={300} theme={"vs-dark"} language={language} value={code} onChange={(v)=>setCode(v as string)} />
+          <div className="flex-1  overflow-auto">
+            <Editor
+              className="p-2 "
+              height={400}
+              theme={"vs-dark"}
+              language={language}
+              value={code}
+              onChange={(v) => setCode(v as string)}
+            />
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center justify-between p-4 border-t border-gray-200">
             <button
               onClick={handleRunCode}
@@ -211,7 +211,6 @@ const ProblemDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* Output Panel */}
           <div className="border-t border-gray-200 bg-white">
             <div className="flex border-b border-gray-200">
               <button

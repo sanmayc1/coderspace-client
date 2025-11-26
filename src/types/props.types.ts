@@ -77,7 +77,8 @@ export interface IInputProps {
   type?:string
   className?:string
   handleChange:(e:React.ChangeEvent<HTMLInputElement>)=>void,
-  error?:string
+  error?:string,
+  min?:string
 } 
 
 export interface ITextAreaProps {

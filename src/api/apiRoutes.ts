@@ -20,7 +20,9 @@ export const API_ROUTES = {
   GET_PROBLEM_USER:(id:string)=>`/user/${id}/problem`,
 
   GET_COMPANY: "/company",
-
+  UPDATE_COMPANY:"/company",
+  CREATE_CONTEST_BY_COMPANY:"/company/contests",
+  GET_ALL_CONTEST_CREATED_BY_COMPANY:(search:string,page:string) =>`/company/contests?search=${search}&page=${page}`,
 
   CREATE_DOMAIN: "/admin/domain",
   GET_ALL_DOMAINS: "/admin/domains",

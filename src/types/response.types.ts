@@ -1,4 +1,4 @@
-import type { IDomain, IExample, IProblemListing, ISkill, TLanguages} from "./types";
+import type { IDomain, IExample, IListContestState, IProblemListing, ISkill, TLanguages} from "./types";
 
 export interface ICommonResponse {
   success: boolean;
@@ -131,3 +131,14 @@ export interface IUserGetProblemDetailed{
   examples: IExample[];
   templateCodes:ITemplateCodes[]
 }
+
+
+
+export interface IGetAllContest{
+  contests:IListContestState[]
+  currentPage:number
+  totalPages:number
+
+  
+}
+

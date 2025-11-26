@@ -9,7 +9,8 @@ const InputFiled:React.FC<IInputProps> = ({
   type = "text",
   className,
   error,
-  handleChange
+  handleChange,
+  min
 })=> {
   return (
     <div className="flex flex-col">
@@ -25,6 +26,7 @@ const InputFiled:React.FC<IInputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
+        min={min || ""}
         className={`border-1 py-2 px-3 rounded-md text-sm ${
           error
             ? "outline-red-600 border-red-300"

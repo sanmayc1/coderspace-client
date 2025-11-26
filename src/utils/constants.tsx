@@ -173,7 +173,7 @@ export const companyMenuItems: ISideBarItems[] = [
     label: "Dashboard",
     navigate: "/company",
   },
-  { icon: Trophy, label: "Manage Contests" },
+  { icon: Trophy, label: "Manage Contests" ,navigate:"/company/manage-contest"},
   { icon: CreditCard, label: "Revenue" },
   { icon: Settings, label: "Settings" },
 ];
