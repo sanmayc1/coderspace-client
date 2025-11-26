@@ -123,3 +123,14 @@ export async function updateProblem<T>(data: T): Promise<ICommonResponse> {
     throw error;
   }
 }
+
+
+export async function changeVisibility<T>(data: T): Promise<ICommonResponse> {
+  try {
+    const res = await coderspaceBackend.patch(API_ROUTES.CHANGE_VISIBILITY, data);
+
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}

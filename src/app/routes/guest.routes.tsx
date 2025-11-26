@@ -8,6 +8,8 @@ import UserOtpVerificationPage from "@/pages/Otp";
 import RestPassword from "@/pages/ResetPassword";
 import Home from "@/pages/user/Home";
 import UserLogin from "@/pages/user/Login";
+import ProblemDetails from "@/pages/user/Problem/ProblemDetails";
+import ProblemListing from "@/pages/user/Problem/ProblemListing";
 import UserSignup from "@/pages/user/Signup";
 import type { IAppRoutes } from "@/types/types";
 
@@ -18,6 +20,17 @@ export const guestRoutes: IAppRoutes[] = [
     allowedRoles: ["guest", "user"],
     children: [
       { index: true, element: <Home />, allowedRoles: ["user", "guest"] },
+
+      {
+        path: "problems",
+        element: <ProblemListing />,
+        allowedRoles: ["user", "guest"],
+      },
+      {
+        path: "problem/:id",
+        element: <ProblemDetails />,
+        allowedRoles: ["user", "guest"],
+      },
 
       // Guest-only routes grouped
 

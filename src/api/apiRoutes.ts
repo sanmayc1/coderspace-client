@@ -16,6 +16,9 @@ export const API_ROUTES = {
     `/admin/users?page=${page}&sort=${sort}&search=${search}&limit=${limit}`,
   UPDATE_USERS: (id: string) => `/admin/users/${id}`,
   UPDATE_USERS_STATUS: (id: string) => `/admin/users/${id}/status`,
+  GET_ALL_PROBLEMS_USER:(search:string,page:string)=>`/user/problems?search=${search}&page=${page}`,
+  GET_PROBLEM_USER:(id:string)=>`/user/${id}/problem`,
+
   GET_COMPANY: "/company",
 
 
@@ -34,6 +37,7 @@ export const API_ROUTES = {
    GET_TESTCASES:(id:string)=>`/admin/problems/${id}/testcases`,
    TESTCASE_DELETED:(id:string)=>`/admin/problems/${id}/testcase`,
    GET_PROBLEM:(id:string) =>`/admin/problems/${id}`,
-   UPDATE_PROBLEM:"/admin/problems"
+   UPDATE_PROBLEM:"/admin/problems",
+   CHANGE_VISIBILITY:"/admin/problems/visibility"
 
 };

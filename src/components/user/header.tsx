@@ -66,6 +66,7 @@ const Header: React.FC<{ hideNavigation?: boolean }> = ({
                     {navHeads.map((head, index) => (
                       <li
                         key={index}
+                        onClick={()=>navigate(head.navigate)}
                         className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400"
                       >
                         {head.title}

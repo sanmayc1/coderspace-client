@@ -2,7 +2,6 @@ import type { FieldConfig, ISectionProps } from "@/types/props.types";
 import type { ISideBarItems, TLanguages } from "@/types/types";
 import {
   Bell,
-  BriefcaseBusiness,
   Code,
   CreditCard,
   Globe,
@@ -16,7 +15,7 @@ import {
 
 export const navHeads = [
   { title: "Home", navigate: "" },
-  { title: "Problems", navigate: "" },
+  { title: "Problems", navigate: "/problems" },
   { title: "Contest", navigate: "" },
   { title: "Coders", navigate: "" },
   { title: "Interview", navigate: "" },

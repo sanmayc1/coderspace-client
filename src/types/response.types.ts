@@ -95,3 +95,39 @@ export interface IGetProblem{
   constrain: string;
   examples: IExample[];
 }
+
+
+export interface IUserGetProblem{
+  id:string
+  title: string;
+  number:number
+  difficulty: string;
+  skills: ISkill[];
+}
+
+export interface IUserGetProblemsResponse{
+  problems:IUserGetProblem[],
+  totalPages:number,
+  currentPage:number
+}
+
+
+
+export interface ITemplateCodes{
+  language:string
+  id:string,
+  templateCode:string
+}
+
+export interface IUserGetProblemDetailed{
+  title: string;
+  description: string;
+  number:number
+  difficulty: string;
+  skills: ISkill[];
+  premium: boolean;
+  domain: string;
+  constrain: string;
+  examples: IExample[];
+  templateCodes:ITemplateCodes[]
+}

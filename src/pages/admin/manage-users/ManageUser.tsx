@@ -2,7 +2,7 @@ import { getAllUsers, updateUserStatus } from "@/api/admin/user-management";
 import EditUser from "@/components/admin/EditUser";
 import InputFiled from "@/components/common/Input";
 import LoadingSkeletonWraper from "@/components/common/LoadingWraper";
-import Modal from "@/components/common/modal";
+import Modal from "@/components/common/Modal";
 import SelectTag from "@/components/common/Select";
 import Table from "@/components/common/Table";
 import UserManagementTableSkeleton from "@/components/skeleton/TableSkeleton";
