@@ -6,6 +6,7 @@ import SelectTag from "@/components/common/Select";
 import { Button } from "@/components/ui/Button";
 import type { IProblemListing } from "@/types/types";
 import { SORT_SELECT_2 } from "@/utils/constants-admin";
+import { debounce } from "@/utils/debouncing";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { PlusCircleIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -30,7 +31,7 @@ const ProblemManagement: React.FC = () => {
       return;
     }
 
-    async function fetchAllProblems() {
+    const debouncedFetchAllProblems = debounce(async function () {
       try {
         const res = await getAllProblemAdminListing(
           search,
@@ -42,8 +43,9 @@ const ProblemManagement: React.FC = () => {
       } catch (error) {
         toast.error("Something went wrong", toastifyOptionsCenter);
       }
-    }
-    fetchAllProblems();
+    }, 500);
+
+    debouncedFetchAllProblems();
   }, [search, selectedSort, currentPage, refetch]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

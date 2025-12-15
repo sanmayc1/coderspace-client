@@ -16,8 +16,8 @@ import {
 export const navHeads = [
   { title: "Home", navigate: "" },
   { title: "Problems", navigate: "/problems" },
-  { title: "Contest", navigate: "" },
-  { title: "Coders", navigate: "" },
+  { title: "Contest", navigate: "/contest" },
+  { title: "Coders", navigate: "/coders" },
   { title: "Interview", navigate: "" },
 ];
 

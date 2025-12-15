@@ -3,6 +3,8 @@ import Header from "@/components/user/Header";
 import { CloudAlert } from "lucide-react";
 
 const PageNotFoundError:React.FC = () => {
+
+  
   return (
     <>
       <Header hideNavigation />

@@ -103,6 +103,7 @@ export interface IUserGetProblem{
   number:number
   difficulty: string;
   skills: ISkill[];
+  premium:boolean
 }
 
 export interface IUserGetProblemsResponse{

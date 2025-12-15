@@ -1,7 +1,8 @@
 import {
   getAllDomains,
-  getAllSkills,
+ 
 } from "@/api/admin/skill-and-domain-management";
+import { getAllSkills } from "@/api/common/common.api";
 import { createContest } from "@/api/company/company";
 import { getProblemsUser } from "@/api/user/user.problem";
 import SkillsAndDomainCapsule from "@/components/admin/SkillsAndDomainCapsule";

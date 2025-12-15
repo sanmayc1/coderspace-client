@@ -1,8 +1,9 @@
 import { createProblem } from "@/api/admin/problem-management";
 import {
   getAllDomains,
-  getAllSkills,
+  
 } from "@/api/admin/skill-and-domain-management";
+import { getAllSkills } from "@/api/common/common.api";
 import SkillsAndDomainCapsule from "@/components/admin/SkillsAndDomainCapsule";
 import InputFiled from "@/components/common/Input";
 import SelectTag from "@/components/common/Select";

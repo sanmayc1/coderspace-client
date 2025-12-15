@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { LoginFileds } from "@/utils/constants";
 import { LoginShema } from "@/utils/validation/user-validation";
 import { Github } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import type z from "zod";
 import { useCallback } from "react";
 import { mapLoginErrors } from "@/utils/error-handlers/mapLoginErrors";
@@ -23,6 +23,7 @@ const githubAuthUrl = import.meta.env.VITE_REDIRECT_GITHUB;
 const UserLogin: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  
 
   const onSubmit = useCallback(
     async function <T>(
@@ -38,7 +39,7 @@ const UserLogin: React.FC = () => {
             payload: data as ILoginPayload,
           })
         ).unwrap();
-        navigate("/");
+        navigate("/",{replace:true,state:{from:"/"}});
       } catch (error) {
         mapLoginErrors(
           (error as AuthLoginError)?.error as ILoginResponse,

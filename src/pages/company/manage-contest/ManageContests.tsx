@@ -1,10 +1,9 @@
 import { getAllCreatedContestsOfCompany } from "@/api/company/company";
 import InputFiled from "@/components/common/Input";
-import LoadingSkeletonWraper from "@/components/common/LoadingWraper";
 import Table, { type TableColumn } from "@/components/common/Table";
-import UserManagementTableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/Button";
 import type { IListContestState } from "@/types/types";
+import { debounce } from "@/utils/debouncing";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import { PlusCircleIcon } from "lucide-react";
 
@@ -14,15 +13,16 @@ import { toast } from "react-toastify";
 
 const ManageContests: React.FC = () => {
   const [contests, setContests] = useState<IListContestState[]>([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState<string>("");
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
+
   useEffect(() => {
-    async function getAllContest() {
+    const debouncedFetchAllContests = debounce(async () => {
       setLoading(true);
       try {
         const res = await getAllCreatedContestsOfCompany(search, String(currentPage));
@@ -33,12 +33,13 @@ const ManageContests: React.FC = () => {
         toast.error("Something went wrong", toastifyOptionsCenter);
       }
       setLoading(false);
-    }
-    getAllContest();
+    }, 500);
+    debouncedFetchAllContests();
   }, [search, currentPage, itemsPerPage]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+
   };
 
   // Table columns for contests
@@ -96,10 +97,7 @@ const ManageContests: React.FC = () => {
         </div>
       </div>
 
-      <LoadingSkeletonWraper
-        isLoading={isLoading}
-        Skeleton={UserManagementTableSkeleton}
-      >
+
         <Table
           columns={columns}
           data={contests}
@@ -108,8 +106,9 @@ const ManageContests: React.FC = () => {
           totalPages={totalPages}
           setItemsPerPage={setItemsPerPage}
           itemsPerPage={itemsPerPage}
+          loading={isLoading}
         />
-      </LoadingSkeletonWraper>
+  
     </div>
   );
 };

@@ -1,16 +1,15 @@
 import { getAllUsers, updateUserStatus } from "@/api/admin/user-management";
 import EditUser from "@/components/admin/EditUser";
 import InputFiled from "@/components/common/Input";
-import LoadingSkeletonWraper from "@/components/common/LoadingWraper";
 import Modal from "@/components/common/Modal";
 import SelectTag from "@/components/common/Select";
 import Table from "@/components/common/Table";
-import UserManagementTableSkeleton from "@/components/skeleton/TableSkeleton";
 import { Button } from "@/components/ui/Button";
 import { Switch } from "@/components/ui/Switch";
 import type { IErrorResponse } from "@/types/response.types";
 import type { IUsersData } from "@/types/types";
 import { SORT_SELECT_1 } from "@/utils/constants-admin";
+import { debounce } from "@/utils/debouncing";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import type { AxiosError } from "axios";
 import { useEffect, useState } from "react";
@@ -19,7 +18,7 @@ import { toast } from "react-toastify";
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<IUsersData[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedSort, setSort] = useState<string>("");
@@ -29,7 +28,7 @@ const UserManagement: React.FC = () => {
   const [refetch, setRefetch] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchAllUsers = async () => {
+    const debouncedFetchAllUsers = debounce(async () => {
       try {
         setLoading(true);
         const res = await getAllUsers({
@@ -50,9 +49,9 @@ const UserManagement: React.FC = () => {
       } finally {
         setLoading(false);
       }
-    };
+    },500)
 
-    fetchAllUsers();
+    debouncedFetchAllUsers();
   }, [selectedSort, currentPage, itemsPerPage, search, refetch]);
 
   const handleSortChange = (value: string) => {
@@ -150,11 +149,9 @@ const UserManagement: React.FC = () => {
           </div>
         </div>
 
-        <LoadingSkeletonWraper
-          isLoading={isLoading}
-          Skeleton={UserManagementTableSkeleton}
-        >
+
           <Table
+         
             columns={[
               {
                 key: "profileUrl",
@@ -190,6 +187,7 @@ const UserManagement: React.FC = () => {
                 render: renderUserEdit,
               },
             ]}
+            loading={isLoading}
             data={users}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
@@ -197,7 +195,7 @@ const UserManagement: React.FC = () => {
             setItemsPerPage={setItemsPerPage}
             itemsPerPage={itemsPerPage}
           />
-        </LoadingSkeletonWraper>
+        
       </div>
       {selectedUser && (
         <Modal isOpen={isOpen}>

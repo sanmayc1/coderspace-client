@@ -16,30 +16,44 @@ export const API_ROUTES = {
     `/admin/users?page=${page}&sort=${sort}&search=${search}&limit=${limit}`,
   UPDATE_USERS: (id: string) => `/admin/users/${id}`,
   UPDATE_USERS_STATUS: (id: string) => `/admin/users/${id}/status`,
-  GET_ALL_PROBLEMS_USER:(search:string,page:string)=>`/user/problems?search=${search}&page=${page}`,
-  GET_PROBLEM_USER:(id:string)=>`/user/${id}/problem`,
+  GET_ALL_PROBLEMS_USER: (
+    search: string,
+    page: string,
+    difficulty: string,
+    skill: string
+  ) =>
+    `/user/problems?${search ? `search=${search}&` : ""}${
+      page ? `page=${page}&` : ""
+    }${difficulty ? `difficulty=${difficulty}&` : ""}${
+      skill ? `skill=${skill}&` : ""
+    }`,
+  GET_PROBLEM_USER: (id: string) => `/user/problems/${id}`,
 
   GET_COMPANY: "/company",
-  UPDATE_COMPANY:"/company",
-  CREATE_CONTEST_BY_COMPANY:"/company/contests",
-  GET_ALL_CONTEST_CREATED_BY_COMPANY:(search:string,page:string) =>`/company/contests?search=${search}&page=${page}`,
+  UPDATE_COMPANY: "/company",
+  CREATE_CONTEST_BY_COMPANY: "/company/contests",
+  GET_ALL_CONTEST_CREATED_BY_COMPANY: (search: string, page: string) =>
+    `/company/contests?search=${search}&page=${page}`,
 
   CREATE_DOMAIN: "/admin/domain",
   GET_ALL_DOMAINS: "/admin/domains",
   DELETE_DOMAIN: (id: string) => `/admin/domain/${id}`,
   CREATE_SKILL: "/admin/skill",
-  GET_ALL_SKILLS: "/admin/skills",
+  GET_ALL_SKILLS: "/common/skills",
   DELETE_SKILL: (id: string) => `/admin/skill/${id}`,
-    CREATE_PROBLEM: "/admin/problems",
-  GET_ALL_PROBLEM_ADMIN_LISTING:(search:string,page:string,sortBy:string)=>`/admin/problems?search=${search}&page=${page}&sortBy=${sortBy}`,
-  ADD_LANGUAGE:"/admin/problems/language",
-   GET_LANGUAGE:(id:string)=>`/admin/problems/${id}/language`,
-   UPDATE_LANGUAGE:"/admin/problems/language",
-   ADD_TESTCASE:"/admin/problems/testcase",
-   GET_TESTCASES:(id:string)=>`/admin/problems/${id}/testcases`,
-   TESTCASE_DELETED:(id:string)=>`/admin/problems/${id}/testcase`,
-   GET_PROBLEM:(id:string) =>`/admin/problems/${id}`,
-   UPDATE_PROBLEM:"/admin/problems",
-   CHANGE_VISIBILITY:"/admin/problems/visibility"
-
+  CREATE_PROBLEM: "/admin/problems",
+  GET_ALL_PROBLEM_ADMIN_LISTING: (
+    search: string,
+    page: string,
+    sortBy: string
+  ) => `/admin/problems?search=${search}&page=${page}&sortBy=${sortBy}`,
+  ADD_LANGUAGE: "/admin/problems/language",
+  GET_LANGUAGE: (id: string) => `/admin/problems/${id}/language`,
+  UPDATE_LANGUAGE: "/admin/problems/language",
+  ADD_TESTCASE: "/admin/problems/testcase",
+  GET_TESTCASES: (id: string) => `/admin/problems/${id}/testcases`,
+  TESTCASE_DELETED: (id: string) => `/admin/problems/${id}/testcase`,
+  GET_PROBLEM: (id: string) => `/admin/problems/${id}`,
+  UPDATE_PROBLEM: "/admin/problems",
+  CHANGE_VISIBILITY: "/admin/problems/visibility",
 };

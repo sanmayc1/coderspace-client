@@ -62,7 +62,7 @@ const Header: React.FC<{ hideNavigation?: boolean }> = ({
               </div>
               {!hideNavigation && (
                 <div className="hidden md:block pl-10">
-                  <ul className="flex xl:gap-9 md:gap-5 md:text-xs xl:text-sm text-gray-600 font-[anybody-regular]">
+                  <ul className="flex xl:gap-9 md:gap-5 md:text-xs xl:text-sm text-gray-600 font-[anybody-regular] ">
                     {navHeads.map((head, index) => (
                       <li
                         key={index}
