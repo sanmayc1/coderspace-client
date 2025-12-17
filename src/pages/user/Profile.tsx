@@ -24,6 +24,7 @@ export interface IGetUserUsecaseOutputDto {
   premiumActive: boolean;
   skills: any[];
   profileUrl: string;
+  auth:string
 }
 
 const UserProfile: React.FC = () => {
@@ -111,9 +112,9 @@ const UserProfile: React.FC = () => {
               Upgrade
             </Button>
             {/* settings ,logout ,xp */}
-            <div className="px-14 flex items-center gap-4 ">
-              <p className="px-2 py-1 flex gap-1 border-1 border-black rounded-full font-semibold cursor-pointer">
-                <CircleDot className="fill-amber-500" /> {user?.xpCoin} Xp
+            <div className="px-14 flex items-center gap-4  ">
+              <p className="px-2 py-1 flex gap-1 border-1 border-black rounded-full font-semibold cursor-pointer items-center justify-center">
+                <img src="/coin.png" className="w-7 h-7" alt="xp-coin" /> {user?.xpCoin} Xp
               </p>
               <Settings
                 className="cursor-pointer"
@@ -358,7 +359,7 @@ const UserProfile: React.FC = () => {
       <SettingsModal
         isOpen={isSettingsModalOpen}
         onClose={() => setSettingsModalOpen(false)}
-
+        auth={user?.auth as string}
       />
     </div>
   );

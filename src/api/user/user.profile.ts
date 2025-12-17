@@ -35,3 +35,14 @@ export async function updateUserProfile<T>(
   );
   return res;
 }
+
+
+export async function updateUserPassword<T>(
+  data: T
+): Promise<AxiosResponse<ICommonResponse>> {
+  const res: AxiosResponse<ICommonResponse> = await coderspaceBackend.patch(
+    API_ROUTES.UPDATE_USER_PASSWORD,
+    data
+  );
+  return res;
+}

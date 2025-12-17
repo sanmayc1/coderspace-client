@@ -49,6 +49,7 @@ export interface IGetUserResponse {
   premiumActive: boolean;
   profileUrl:string
   skills: any[];
+  auth:string
 }
 
 export interface IGetAllDomains {
