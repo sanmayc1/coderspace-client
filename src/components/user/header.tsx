@@ -57,7 +57,7 @@ const Header: React.FC<{ hideNavigation?: boolean }> = ({
                   onClick={() => navigateTo("/")}
                   src="/logo.png"
                   alt="logo"
-                  className="max-h-12 min-h-10 min-w-32 select-none cursor-pointer "
+                  className="max-h-12 min-h-10 min-w-32 select-none cursor-pointer  "
                 />
               </div>
               {!hideNavigation && (
@@ -103,7 +103,7 @@ const Header: React.FC<{ hideNavigation?: boolean }> = ({
                     <img
                       src={profileUrl}
                       alt="profile"
-                      className="rounded-full h-8 border-2 border-black p-[1.5px] min-w-8 box-content "
+                      className="rounded-full h-8 border-2 border-black p-[1.5px] w-8 box-content object-cover"
                     />
                   </li>
                   <li>

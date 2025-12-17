@@ -33,6 +33,8 @@ const handleRoleDataRejected = (state: IAuthSliceState) => {
   state.loading = false;
 };
 
+
+
 const initialState: IAuthSliceState = {
   auth: false,
   profileUrl: "",
@@ -61,6 +63,9 @@ const authSlice = createSlice({
     setProfileComplete(state) {
       state.profileComplete = true;
     },
+    updateProfileUrl(state, actions) {
+      state.profileUrl = actions.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -74,5 +79,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearAuth, setAuth, setProfileComplete } = authSlice.actions;
+export const { clearAuth, setAuth, setProfileComplete,updateProfileUrl } = authSlice.actions;
 export default authSlice.reducer;

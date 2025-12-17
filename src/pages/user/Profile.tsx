@@ -1,18 +1,16 @@
 import { getUser } from "@/api/user/user.profile";
-import { useAppSelector } from "@/app/hooks/redux-custom-hook";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/redux-custom-hook";
 import LoadingSpin from "@/components/common/LoadingSpin";
-import InputFiled from "@/components/common/Input";
-import Modal from "@/components/common/Modal";
-import TextArea from "@/components/common/Textarea";
 import { Button } from "@/components/ui/Button";
-import { Switch } from "@/components/ui/Switch";
 import type { IErrorResponse } from "@/types/response.types";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import type { AxiosError } from "axios";
-import { CircleDot, ImageUp, LogOut, Settings } from "lucide-react";
+import { CircleDot, LogOut, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import SettingsModal from "@/components/user/SettingsModal";
+import EditProfileModal from "@/components/user/EditProfileModal";
+import { updateProfileUrl } from "@/app/redux-slice/authReducer";
 
 export interface IGetUserUsecaseOutputDto {
   id: string;
@@ -25,6 +23,7 @@ export interface IGetUserUsecaseOutputDto {
   about?: string;
   premiumActive: boolean;
   skills: any[];
+  profileUrl: string;
 }
 
 const UserProfile: React.FC = () => {
@@ -32,21 +31,12 @@ const UserProfile: React.FC = () => {
   const [isLoading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("Overview");
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const [editFormData, setEditFormData] = useState({
-    name: "",
-    username: "",
-    about: "",
-  });
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(false);
-  const [settingsActiveTab, setSettingsActiveTab] = useState<
-    "password" | "notification"
-  >("password");
-  const [notificationEnabled, setNotificationEnabled] = useState(true);
-  const [passwordData, setPasswordData] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
+  const [refetch, setRefetch] = useState(false);
+  const profileUrl =
+    useAppSelector((s) => s.authReducer.profileUrl) || "/defaultProfile.jpg";
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -54,7 +44,9 @@ const UserProfile: React.FC = () => {
         const userProfile = await getUser();
         setUser(userProfile.data?.data as IGetUserUsecaseOutputDto);
         setLoading(false);
-        console.log(userProfile.data?.data);
+        if (profileUrl !== userProfile.data.data.profileUrl) {
+          dispatch(updateProfileUrl(userProfile.data.data.profileUrl));
+        }
       } catch (error) {
         setLoading(false);
         const axiosError = error as AxiosError<IErrorResponse>;
@@ -62,56 +54,13 @@ const UserProfile: React.FC = () => {
       }
     };
     fetchUser();
-  }, []);
+  }, [refetch]);
 
   const handleEditOpen = () => {
     if (user) {
-      setEditFormData({
-        name: user.name,
-        username: user.username,
-        about: user.about || "",
-      });
       setEditModalOpen(true);
     }
   };
-
-  const handleEditChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setEditFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // const handleEditSubmit = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await updateUser(editFormData);
-  //     if (res.data.success) {
-  //       setUser((prev) =>
-  //         prev
-  //           ? {
-  //               ...prev,
-  //               name: editFormData.name,
-  //               username: editFormData.username,
-  //               about: editFormData.about,
-  //             }
-  //           : prev
-  //       );
-  //       toast.success("Profile updated successfully", toastifyOptionsCenter);
-  //       setEditModalOpen(false);
-  //     }
-  //     setLoading(false);
-  //   } catch (error) {
-  //     setLoading(false);
-  //     const axiosError = error as AxiosError<IErrorResponse>;
-  //     toast.error(axiosError.response?.data?.message, toastifyOptionsCenter);
-  //   }
-  // };
-
-  console.log(user);
-
-  const profileUrl =
-    useAppSelector((s) => s.authReducer.profileUrl) || "/defaultProfile.jpg";
 
   if (isLoading) {
     return (
@@ -127,7 +76,11 @@ const UserProfile: React.FC = () => {
       <div className="h-52 flex gap-5">
         {/* left */}
         <div className="h-full flex items-center gap-5">
-          <img src={profileUrl} alt="profile" className="h-40 rounded-full " />
+          <img
+            src={user?.profileUrl || "/defaultProfile.jpg"}
+            alt="profile"
+            className="h-40  w-40 border  rounded-full object-cover object-center "
+          />
           <div className="flex flex-col gap-10">
             <p className="flex flex-col gap-1">
               <span className="text-3xl font-bold select-none ">
@@ -166,7 +119,6 @@ const UserProfile: React.FC = () => {
                 className="cursor-pointer"
                 onClick={() => setSettingsModalOpen(true)}
               />
-              <LogOut className="cursor-pointer" />
             </div>
           </div>
           {/* bottom */}
@@ -201,11 +153,12 @@ const UserProfile: React.FC = () => {
             className="absolute top-0 left-0 h-full bg-black rounded-full transition-all duration-500 flex justify-end "
             style={{ width: `${Math.min(user?.currentLevel || 0, 100)}%` }}
           >
-            {user?.currentLevel && user.currentLevel > 0 && (
-              <span className="font-semibold text-lg pt-10">
-                Level {user?.currentLevel}
-              </span>
-            )}
+            <span
+              className="font-semibold text-lg pt-10 text-nowrap
+            "
+            >
+              Level {user?.currentLevel}
+            </span>
           </div>
 
           {/* Silver Node */}
@@ -230,7 +183,13 @@ const UserProfile: React.FC = () => {
 
           {/* Gold Node */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className="w-5 h-5 bg-black rotate-45 transform"></div>
+            <div
+              className={`w-5 h-5 rotate-45 transform ${
+                user?.currentLevel && user.currentLevel >= 50
+                  ? "bg-black"
+                  : "bg-gray-200"
+              }`}
+            ></div>
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 flex flex-col items-center w-max">
               <img
                 src="/gold.png"
@@ -312,8 +271,9 @@ const UserProfile: React.FC = () => {
               <h3 className="text-xl font-bold">About</h3>
             </div>
             <p className="text-gray-700 leading-relaxed text-sm">
-              {user?.about ||
-                "Full-stack developer passionate about algorithms and system design. Always eager to learn and share knowledge with the coding community."}
+              {user?.about || (
+                <span className="text-gray-500">No about added yet.</span>
+              )}
             </p>
           </div>
 
@@ -384,82 +344,24 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
       </div>
-      <Modal
-        isOpen={isEditModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        className="max-w-lg"
-      >
-        <div className="flex flex-col gap-6">
-          <h2 className="text-2xl font-bold text-center">Edit Profile</h2>
-          <div className="flex justify-center items-center ">
-            <div className="relative cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                className=" w-full h-full absolute opacity-0 cursor-pointer z-22"
-              />
-              <img
-                src={profileUrl}
-                alt="profile"
-                className="h-28 w-28 rounded-full "
-              />
-              <ImageUp
-                size={20}
-                className="absolute bottom-0 right-0 bg-gray-300 box-content p-1 rounded-full z-10"
-              />
-            </div>
-          </div>
 
-          <InputFiled
-            label="Name"
-            name="name"
-            placeholder="Enter your name"
-            value={editFormData.name}
-            handleChange={handleEditChange}
-          />
-          <InputFiled
-            label="Username"
-            name="username"
-            placeholder="Enter your username"
-            value={editFormData.username}
-            handleChange={handleEditChange}
-          />
-          <TextArea
-            label="About"
-            name="about"
-            placeholder="Tell us about yourself"
-            value={editFormData.about}
-            handleChange={handleEditChange}
-          />
-          <div className="flex justify-end gap-4">
-            <Button
-              variant="outline"
-              onClick={() => setEditModalOpen(false)}
-              disabled={isLoading}
-            >
-              Cancel
-            </Button>
-            <Button disabled={isLoading}>
-              {isLoading ? <LoadingSpin /> : "Save Changes"}
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      {user && (
+        <EditProfileModal
+          setRefetch={setRefetch}
+          isOpen={isEditModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          data={user}
+          setEditModalOpen={setEditModalOpen}
+        />
+      )}
 
       <SettingsModal
         isOpen={isSettingsModalOpen}
         onClose={() => setSettingsModalOpen(false)}
-        activeTab={settingsActiveTab}
-        setActiveTab={setSettingsActiveTab}
-        notificationEnabled={notificationEnabled}
-        setNotificationEnabled={setNotificationEnabled}
-        passwordData={passwordData}
-        setPasswordData={setPasswordData}
+
       />
     </div>
   );
 };
 
 export default UserProfile;
-
-

@@ -8,6 +8,7 @@ export const API_ROUTES = {
   REST_PASSWORD: "/auth/password/reset",
   COMPANY_REGISTER: "/auth/company/register",
   GET_USER_PROFILE: "/user",
+  UPDATE_USER_PROFILE: "/user",
   UPDATE_USER_SUGGESTION_LEVEL: "/user/suggestion/level",
   USER_LOGIN: "/auth/login",
   COMPANY_LOGIN: "/auth/company/login",

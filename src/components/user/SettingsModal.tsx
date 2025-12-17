@@ -1,29 +1,33 @@
-import { Switch } from "@radix-ui/react-switch";
 import InputFiled from "../common/Input";
 import { Button } from "../ui/Button";
 import Modal from "../common/Modal";
+import { Switch } from "../ui/Switch";
+import { useState } from "react";
 
 const SettingsModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
-  activeTab: "password" | "notification";
-  setActiveTab: (tab: "password" | "notification") => void;
-  notificationEnabled: boolean;
-  setNotificationEnabled: (enabled: boolean) => void;
-  passwordData: any;
-  setPasswordData: React.Dispatch<React.SetStateAction<any>>;
-}> = ({
-  isOpen,
-  onClose,
-  activeTab,
-  setActiveTab,
-  notificationEnabled,
-  setNotificationEnabled,
-  passwordData,
-  setPasswordData,
-}) => {
+}> = ({ isOpen, onClose }) => {
+  const [activeTab, setActiveTab] = useState<"password" | "notification">(
+    "password"
+  );
+  const [error, setErrors] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  const [notificationEnabled, setNotificationEnabled] = useState(true);
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    
     setPasswordData((prev: any) => ({ ...prev, [name]: value }));
   };
 

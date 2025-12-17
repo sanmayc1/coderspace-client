@@ -84,3 +84,16 @@ export const ResetPasswordSchema = z
       });
     }
   });
+
+
+
+
+
+export const UserProfileEditSchema = z.object({
+      name: nameSchema,
+      username: usernameSchema,
+      about: z
+        .string()
+        .min(10, "About must be at least 10 characters long")
+        .max(100).optional(),
+    });

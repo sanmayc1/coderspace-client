@@ -47,6 +47,7 @@ export interface IGetUserResponse {
   accountId: string;
   about?: string;
   premiumActive: boolean;
+  profileUrl:string
   skills: any[];
 }
 

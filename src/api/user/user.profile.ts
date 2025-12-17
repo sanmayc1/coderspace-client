@@ -24,3 +24,14 @@ export async function updateSuggestionLevel<T>(
   );
   return res;
 }
+
+
+export async function updateUserProfile<T>(
+  data: T
+): Promise<AxiosResponse<ICommonResponse>> {
+  const res: AxiosResponse<ICommonResponse> = await coderspaceBackend.patch(
+    API_ROUTES.UPDATE_USER_PROFILE,
+    data
+  );
+  return res;
+}

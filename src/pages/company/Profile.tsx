@@ -23,23 +23,23 @@ const CompanyProfile = () => {
   const handleUpdate = async () => {
     setIsEditing(false);
 
-    if(!value.trim()){
-      toast.error("Name can't be empty",toastifyOptionsCenter)
-      setValue(companyData?.companyName as string)
-      return
+    if (!value.trim()) {
+      toast.error("Name can't be empty", toastifyOptionsCenter);
+      setValue(companyData?.companyName as string);
+      return;
     }
 
-    if(!/^[a-zA-z]+$/.test(value)){
-      toast.error("Only letters are allowed",toastifyOptionsCenter)
-      setValue(companyData?.companyName as string)
-      return
+    if (!/^[a-zA-z]+$/.test(value)) {
+      toast.error("Only letters are allowed", toastifyOptionsCenter);
+      setValue(companyData?.companyName as string);
+      return;
     }
 
     try {
-     await updateCompany({companyName:value})
+      await updateCompany({ companyName: value });
       toast.success("Name updated", toastifyOptionsCenter);
     } catch (error) {
-      toast.error("Some thing went wrong",toastifyOptionsCenter)
+      toast.error("Some thing went wrong", toastifyOptionsCenter);
     }
 
     console.log("Updated:", value);
