@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import type { IErrorResponse } from "@/types/response.types";
 import { toastifyOptionsCenter } from "@/utils/toastify.options";
 import type { AxiosError } from "axios";
-import { CircleDot, LogOut, Settings } from "lucide-react";
+import {  Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import SettingsModal from "@/components/user/SettingsModal";
