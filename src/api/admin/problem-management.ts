@@ -5,9 +5,9 @@ import type {
   IGetProblem,
   IGetTestcase,
   ISuccessResponse,
-} from "@/types/response.types";
-import { API_ROUTES } from "../apiRoutes";
-import { coderspaceBackend } from "../instance";
+} from '@/types/response.types';
+import { API_ROUTES } from '../apiRoutes';
+import { coderspaceBackend } from '../instance';
 
 export async function createProblem<T>(data: T): Promise<ICommonResponse> {
   try {
@@ -77,9 +77,7 @@ export async function addSingleTestcase<T>(data: T): Promise<ICommonResponse> {
   }
 }
 
-export async function getAllTestcase(
-  id: string
-): Promise<ISuccessResponse<IGetTestcase[]>> {
+export async function getAllTestcase(id: string): Promise<ISuccessResponse<IGetTestcase[]>> {
   try {
     const res = await coderspaceBackend.get(API_ROUTES.GET_TESTCASES(id));
 
@@ -89,10 +87,7 @@ export async function getAllTestcase(
   }
 }
 
-
-export async function deleteTestcase(
-  id: string
-): Promise<ICommonResponse> {
+export async function deleteTestcase(id: string): Promise<ICommonResponse> {
   try {
     const res = await coderspaceBackend.delete(API_ROUTES.TESTCASE_DELETED(id));
 
@@ -102,9 +97,7 @@ export async function deleteTestcase(
   }
 }
 
-export async function getProblem(
-  id: string
-): Promise<ISuccessResponse<IGetProblem>> {
+export async function getProblem(id: string): Promise<ISuccessResponse<IGetProblem>> {
   try {
     const res = await coderspaceBackend.get(API_ROUTES.GET_PROBLEM(id));
     return res.data;
@@ -112,7 +105,6 @@ export async function getProblem(
     throw error;
   }
 }
-
 
 export async function updateProblem<T>(data: T): Promise<ICommonResponse> {
   try {
@@ -123,7 +115,6 @@ export async function updateProblem<T>(data: T): Promise<ICommonResponse> {
     throw error;
   }
 }
-
 
 export async function changeVisibility<T>(data: T): Promise<ICommonResponse> {
   try {

@@ -1,17 +1,16 @@
-import type { IInputProps } from "@/types/props.types";
+import type { IInputProps } from '@/types/props.types';
 
-
-const InputFiled:React.FC<IInputProps> = ({
+const InputFiled: React.FC<IInputProps> = ({
   label,
   name,
   placeholder,
   value,
-  type = "text",
+  type = 'text',
   className,
   error,
   handleChange,
-  min
-})=> {
+  min,
+}) => {
   return (
     <div className="flex flex-col">
       {label && (
@@ -26,21 +25,15 @@ const InputFiled:React.FC<IInputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
-        min={min || ""}
+        min={min || ''}
         className={`border-1 py-2 px-3 rounded-md text-sm ${
-          error
-            ? "outline-red-600 border-red-300"
-            : "outline-gray-200"
+          error ? 'outline-red-600 border-red-300' : 'outline-gray-200'
         } ${className}`}
       />
 
-      {error && (
-        <span className="text-xs pt-1 pl-1 text-red-400">
-          {error}
-        </span>
-      )}
+      {error && <span className="text-xs pt-1 pl-1 text-red-400">{error}</span>}
     </div>
   );
-}
+};
 
 export default InputFiled;

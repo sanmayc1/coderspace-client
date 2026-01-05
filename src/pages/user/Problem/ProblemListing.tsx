@@ -1,27 +1,27 @@
-import { getAllSkills } from "@/api/common/common.api";
-import { getProblemsUser } from "@/api/user/user.problem";
-import { useAppSelector } from "@/app/hooks/redux-custom-hook";
-import SelectTag from "@/components/common/Select";
-import Table from "@/components/common/Table";
-import { Button } from "@/components/ui/Button";
-import type { IUserGetProblem } from "@/types/response.types";
-import type { ISkill } from "@/types/types";
-import { debounce } from "@/utils/debouncing";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
+import { getAllSkills } from '@/api/common/common.api';
+import { getProblemsUser } from '@/api/user/user.problem';
+import { useAppSelector } from '@/app/hooks/redux-custom-hook';
+import SelectTag from '@/components/common/Select';
+import Table from '@/components/common/Table';
+import { Button } from '@/components/ui/Button';
+import type { IUserGetProblem } from '@/types/response.types';
+import type { ISkill } from '@/types/types';
+import { debounce } from '@/utils/debouncing';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
 
-import { LockKeyhole, Search } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { LockKeyhole, Search } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ProblemListing: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [problems, setProblems] = useState<IUserGetProblem[]>([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [skills, setSkills] = useState<ISkill[]>([]);
-  const [selectedSkills, setSelectedSkills] = useState("");
-  const [selectedDifficulty, setSelectedDifficulty] = useState("");
+  const [selectedSkills, setSelectedSkills] = useState('');
+  const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
@@ -49,10 +49,9 @@ const ProblemListing: React.FC = () => {
       } catch (error) {
         console.log(error);
         setLoading(false);
-        toast.error("Something went wrong", toastifyOptionsCenter);
+        toast.error('Something went wrong', toastifyOptionsCenter);
       }
-    },
-    500);
+    }, 500);
 
     return () => {
       debouncedFetchRef.current?.cancel();
@@ -67,33 +66,28 @@ const ProblemListing: React.FC = () => {
       } catch (error) {
         console.log(error);
 
-        toast.error("Something went wrong", toastifyOptionsCenter);
+        toast.error('Something went wrong', toastifyOptionsCenter);
       }
     }
     fetchSkills();
   }, []);
 
   useEffect(() => {
-    const s = searchParams.get("search") || "";
-    const d = searchParams.get("difficulty") || "";
-    const sk = searchParams.get("skill") || "";
+    const s = searchParams.get('search') || '';
+    const d = searchParams.get('difficulty') || '';
+    const sk = searchParams.get('skill') || '';
 
     if (
-      (s !== "" && search === "") ||
-      (d !== "" && selectedDifficulty === "") ||
-      (sk !== "" && selectedSkills === "")
+      (s !== '' && search === '') ||
+      (d !== '' && selectedDifficulty === '') ||
+      (sk !== '' && selectedSkills === '')
     ) {
       setSearch(s);
       setSelectedDifficulty(d);
       setSelectedSkills(sk);
       return;
     }
-    debouncedFetchRef.current?.(
-      search,
-      String(currentPage),
-      selectedDifficulty,
-      selectedSkills
-    );
+    debouncedFetchRef.current?.(search, String(currentPage), selectedDifficulty, selectedSkills);
   }, [search, currentPage, selectedDifficulty, selectedSkills]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,9 +123,9 @@ const ProblemListing: React.FC = () => {
   const handleClearFilters = () => {
     setSearchParams({});
     setTimeout(() => {
-      setSearch("");
-      setSelectedDifficulty("");
-      setSelectedSkills("");
+      setSearch('');
+      setSelectedDifficulty('');
+      setSelectedSkills('');
     }, 100);
   };
 
@@ -165,9 +159,9 @@ const ProblemListing: React.FC = () => {
       <div className="w-[50%] flex justify-center items-end gap-7">
         <SelectTag
           options={[
-            { label: "Easy", value: "easy" },
-            { label: "Medium", value: "medium" },
-            { label: "Hard", value: "hard" },
+            { label: 'Easy', value: 'easy' },
+            { label: 'Medium', value: 'medium' },
+            { label: 'Hard', value: 'hard' },
           ]}
           handleChange={handleDifficultyChange}
           label="Difficulty"
@@ -197,38 +191,34 @@ const ProblemListing: React.FC = () => {
         columnClick={navigateToProblemDetailsPage}
         loading={loading}
         columns={[
-          { label: "#", key: "number" },
+          { label: '#', key: 'number' },
           {
-            label: "Title",
-            key: "title",
+            label: 'Title',
+            key: 'title',
             render(value: string, item) {
               return (
-                <p
-                  onClick={() => navigate(`/problem/${item.id}`)}
-                  className="w-48"
-                >
+                <p onClick={() => navigate(`/problem/${item.id}`)} className="w-48">
                   {value.charAt(0).toUpperCase() + value.slice(1)}
                 </p>
               );
             },
           },
           {
-            label: "difficulty",
-            key: "difficulty",
+            label: 'difficulty',
+            key: 'difficulty',
             render(value: string) {
               return <p>{value.charAt(0).toUpperCase() + value.slice(1)}</p>;
             },
           },
           {
-            label: "Skills",
-            key: "skills",
+            label: 'Skills',
+            key: 'skills',
             render(value: ISkill[]) {
               return (
                 <div className="flex gap-2">
                   {value.map((s) => (
                     <p className="p-1 border-2 rounded-md px-3" key={s.id}>
-                      {s.title.charAt(0).toUpperCase() +
-                        s.title.slice(1).toLowerCase()}
+                      {s.title.charAt(0).toUpperCase() + s.title.slice(1).toLowerCase()}
                     </p>
                   ))}
                 </div>
@@ -236,10 +226,10 @@ const ProblemListing: React.FC = () => {
             },
           },
           {
-            label: "",
-            key: "premium",
+            label: '',
+            key: 'premium',
             render(value: boolean) {
-              return <p>{value ? <LockKeyhole size={20} /> : ""}</p>;
+              return <p>{value ? <LockKeyhole size={20} /> : ''}</p>;
             },
           },
         ]}

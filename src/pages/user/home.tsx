@@ -1,6 +1,6 @@
-import Section from "@/components/common/Section";
-import HeroSection from "@/components/user/HeroSection";
-import { sectionData } from "@/utils/constants";
+import Section from '@/components/common/Section';
+import HeroSection from '@/components/user/HeroSection';
+import { sectionData } from '@/utils/constants';
 
 const Home: React.FC = () => {
   return (

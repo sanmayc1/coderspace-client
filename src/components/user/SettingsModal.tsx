@@ -1,34 +1,32 @@
-import InputFiled from "../common/Input";
-import { Button } from "../ui/Button";
-import Modal from "../common/Modal";
-import { Switch } from "../ui/Switch";
-import { useState } from "react";
-import { ResetPasswordSchema } from "@/utils/validation/user-validation";
-import LoadingSpin from "../common/LoadingSpin";
-import { updateUserPassword } from "@/api/user/user.profile";
-import { AxiosError } from "axios";
-import { toast } from "react-toastify";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
+import InputFiled from '../common/Input';
+import { Button } from '../ui/Button';
+import Modal from '../common/Modal';
+import { Switch } from '../ui/Switch';
+import { useState } from 'react';
+import { ResetPasswordSchema } from '@/utils/validation/user-validation';
+import LoadingSpin from '../common/LoadingSpin';
+import { updateUserPassword } from '@/api/user/user.profile';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
 
 const SettingsModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   auth: string;
 }> = ({ isOpen, onClose, auth }) => {
-  const [activeTab, setActiveTab] = useState<"password" | "notification">(
-    "password"
-  );
+  const [activeTab, setActiveTab] = useState<'password' | 'notification'>('password');
   const [error, setErrors] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   });
   const [loading, setLoading] = useState(false);
   const [notificationEnabled, setNotificationEnabled] = useState(true);
   const [passwordData, setPasswordData] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   });
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,10 +49,10 @@ const SettingsModal: React.FC<{
       });
 
       if (flag === false) {
-        setErrors((prev) => ({ ...prev, [name]: "" }));
+        setErrors((prev) => ({ ...prev, [name]: '' }));
       }
     } else {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
 
     setPasswordData((prev) => ({ ...prev, [name]: value }));
@@ -73,9 +71,9 @@ const SettingsModal: React.FC<{
       return;
     } else {
       setErrors({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
       });
     }
 
@@ -84,33 +82,27 @@ const SettingsModal: React.FC<{
         newPassword: passwordData.newPassword,
         currentPassword: passwordData.currentPassword,
       });
-      toast.success("Password updated successfully", toastifyOptionsCenter);
+      toast.success('Password updated successfully', toastifyOptionsCenter);
       setLoading(false);
       setPasswordData({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
       });
     } catch (error) {
       setLoading(false);
       if (error instanceof AxiosError) {
-        if (error.response?.data.message === "Validation error occurred") {
+        if (error.response?.data.message === 'Validation error occurred') {
           error.response?.data.errors.map((error: any) => {
             setErrors((prev) => ({
               ...prev,
-              [error.path]:
-                error.path === "currentPassword"
-                  ? "Invalid Password"
-                  : error.message,
+              [error.path]: error.path === 'currentPassword' ? 'Invalid Password' : error.message,
             }));
           });
         }
         console.log(error.response?.data.errors);
 
-        toast.error(
-          error.response?.data.errors[0].error,
-          toastifyOptionsCenter
-        );
+        toast.error(error.response?.data.errors[0].error, toastifyOptionsCenter);
       }
     }
   };
@@ -118,14 +110,14 @@ const SettingsModal: React.FC<{
   const onCloseModal = () => {
     setLoading(false);
     setErrors({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
     });
     setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
     });
     onClose();
   };
@@ -137,21 +129,19 @@ const SettingsModal: React.FC<{
         <div className="w-1/3 border-r border-gray-200 pr-4 flex flex-col gap-2">
           <h2 className="text-2xl font-bold mb-6 pl-2">Settings</h2>
           <button
-            onClick={() => setActiveTab("password")}
+            onClick={() => setActiveTab('password')}
             className={`text-left px-4 py-3 rounded-lg font-medium transition-colors ${
-              activeTab === "password"
-                ? "bg-gray-100 text-black"
-                : "text-gray-600 hover:bg-gray-50"
+              activeTab === 'password' ? 'bg-gray-100 text-black' : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
             Change Password
           </button>
           <button
-            onClick={() => setActiveTab("notification")}
+            onClick={() => setActiveTab('notification')}
             className={`text-left px-4 py-3 rounded-lg font-medium transition-colors ${
-              activeTab === "notification"
-                ? "bg-gray-100 text-black"
-                : "text-gray-600 hover:bg-gray-50"
+              activeTab === 'notification'
+                ? 'bg-gray-100 text-black'
+                : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
             Notifications
@@ -160,14 +150,10 @@ const SettingsModal: React.FC<{
 
         {/* Right Side - Content */}
         <div className="w-2/3 pl-8 pt-2">
-          {activeTab === "password" ? (
-            <div
-              className={`flex flex-col gap-6 ${
-                auth === "local" ? "max-w-sm" : ""
-              }`}
-            >
+          {activeTab === 'password' ? (
+            <div className={`flex flex-col gap-6 ${auth === 'local' ? 'max-w-sm' : ''}`}>
               <h3 className="text-xl font-bold mb-2">Change Password</h3>
-              {auth === "local" ? (
+              {auth === 'local' ? (
                 <div className="flex flex-col gap-4 ">
                   <InputFiled
                     label="Current Password"
@@ -202,22 +188,20 @@ const SettingsModal: React.FC<{
                       onClick={handleSubmit}
                       disabled={
                         loading ||
-                        passwordData.confirmPassword !==
-                          passwordData.newPassword ||
+                        passwordData.confirmPassword !== passwordData.newPassword ||
                         !passwordData.currentPassword ||
                         !passwordData.newPassword ||
                         !passwordData.confirmPassword
                       }
                     >
-                      {loading ? <LoadingSpin /> : "Update Password"}
+                      {loading ? <LoadingSpin /> : 'Update Password'}
                     </Button>
                   </div>
                 </div>
-              ) : auth === "github" ? (
+              ) : auth === 'github' ? (
                 <div className="flex flex-col gap-2">
                   <p className="text-gray-500">
-                    You are signed in with GitHub. You can't change your
-                    password here.
+                    You are signed in with GitHub. You can't change your password here.
                   </p>
                   <div className="flex justify-center items-center h-50">
                     <img src="/github.png" alt="github" className="h-12" />
@@ -226,8 +210,7 @@ const SettingsModal: React.FC<{
               ) : (
                 <div className="flex flex-col gap-2">
                   <p className="text-gray-500">
-                    You are signed in with Google. You can't change your
-                    password here.
+                    You are signed in with Google. You can't change your password here.
                   </p>
                   <div className="flex justify-center items-center h-50">
                     <img src="/google.png" alt="google" className="h-12" />
@@ -240,17 +223,12 @@ const SettingsModal: React.FC<{
               <h3 className="text-xl font-bold mb-2">Notifications</h3>
               <div className="flex items-center justify-between py-4 border-b border-gray-100">
                 <div className="flex flex-col gap-1">
-                  <span className="font-medium text-gray-900">
-                    Push Notifications
-                  </span>
+                  <span className="font-medium text-gray-900">Push Notifications</span>
                   <span className="text-sm text-gray-500">
                     Receive notifications about your contests and problems
                   </span>
                 </div>
-                <Switch
-                  checked={notificationEnabled}
-                  onCheckedChange={setNotificationEnabled}
-                />
+                <Switch checked={notificationEnabled} onCheckedChange={setNotificationEnabled} />
               </div>
             </div>
           )}

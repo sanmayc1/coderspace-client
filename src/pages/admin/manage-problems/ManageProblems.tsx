@@ -1,47 +1,43 @@
-import { getAllProblemAdminListing } from "@/api/admin/problem-management";
-import ProblemCard from "@/components/admin/ProblemCard";
-import InputFiled from "@/components/common/Input";
-import CustomPagination from "@/components/common/Pagination";
-import SelectTag from "@/components/common/Select";
-import { Button } from "@/components/ui/Button";
-import type { IProblemListing } from "@/types/types";
-import { SORT_SELECT_2 } from "@/utils/constants-admin";
-import { debounce } from "@/utils/debouncing";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { PlusCircleIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { getAllProblemAdminListing } from '@/api/admin/problem-management';
+import ProblemCard from '@/components/admin/ProblemCard';
+import InputFiled from '@/components/common/Input';
+import CustomPagination from '@/components/common/Pagination';
+import SelectTag from '@/components/common/Select';
+import { Button } from '@/components/ui/Button';
+import type { IProblemListing } from '@/types/types';
+import { SORT_SELECT_2 } from '@/utils/constants-admin';
+import { debounce } from '@/utils/debouncing';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { PlusCircleIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ProblemManagement: React.FC = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [problems, setProblems] = useState<IProblemListing[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedSort, setSort] = useState<string>("OLDEST");
+  const [selectedSort, setSort] = useState<string>('OLDEST');
   const [searchParams, setSearchParams] = useSearchParams();
   const [refetch, setRefetch] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const searchQuery = searchParams.get("search");
-    if (searchQuery && search === "") {
+    const searchQuery = searchParams.get('search');
+    if (searchQuery && search === '') {
       setSearch(searchQuery);
       return;
     }
 
     const debouncedFetchAllProblems = debounce(async function () {
       try {
-        const res = await getAllProblemAdminListing(
-          search,
-          selectedSort,
-          String(currentPage)
-        );
+        const res = await getAllProblemAdminListing(search, selectedSort, String(currentPage));
         setProblems(res.data.problems);
         setTotalPages(res.data.totalPages);
       } catch (error) {
-        toast.error("Something went wrong", toastifyOptionsCenter);
+        toast.error('Something went wrong', toastifyOptionsCenter);
       }
     }, 500);
 
@@ -85,19 +81,17 @@ const ProblemManagement: React.FC = () => {
 
             <Button
               className="text-xs flex justify-center items-center "
-              size={"sm"}
-              onClick={() => navigate("/admin/manage-problems/add")}
+              size={'sm'}
+              onClick={() => navigate('/admin/manage-problems/add')}
             >
               <span className="pt-1">Add Problem</span>
-              <PlusCircleIcon />{" "}
+              <PlusCircleIcon />{' '}
             </Button>
           </div>
         </div>
         <div className=" grid xl:grid-cols-4  lg:grid-cols-3  gap-4 sm:grid-cols-1 md:grid-cols-2 grid-cols-1  rounded-md ">
           {problems.length !== 0 ? (
-            problems.map((p) => (
-              <ProblemCard key={p.id} problem={p} refetch={setRefetch} />
-            ))
+            problems.map((p) => <ProblemCard key={p.id} problem={p} refetch={setRefetch} />)
           ) : (
             <div className="col-span-4 p-8">
               <p className="text-center">No Problems Found</p>

@@ -1,37 +1,50 @@
-import React, { useState } from "react";
-import { Search } from "lucide-react";
-import CustomPagination from "@/components/common/Pagination";
-import SelectTag from "@/components/common/Select";
-import { Button } from "@/components/ui/Button";
+import React, { useEffect, useState } from 'react';
+import { Search } from 'lucide-react';
+import CustomPagination from '@/components/common/Pagination';
+import SelectTag from '@/components/common/Select';
+import { Button } from '@/components/ui/Button';
+import { useNavigate } from 'react-router-dom';
+import { getAllCoders } from '@/api/user/user.coders';
+import type { IGetAllCodersResponse } from '@/types/response.types';
+import { toast } from 'react-toastify';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import LoadingSpin from '@/components/common/LoadingSpin';
 
-interface ICoder {
-  id: string;
-  name: string;
-  username: string;
-  image: string;
-  badge: "gold" | "silver" | "platinum";
-  isFollowing: boolean;
-}
 
-const mockCoders: ICoder[] = Array.from({ length: 9 }).map((_, i) => ({
-  id: i.toString(),
-  name: "Bill Gates",
-  username: "@bill_gate",
-  image: "/defaultProfile.jpg", // Assuming this exists, or use placeholder
-  badge: "gold",
-  isFollowing: i % 3 !== 0, // Mix of Following and Follow
-}));
+
+
 
 const CodersListing: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(5);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("");
-  const [badgeFilter, setBadgeFilter] = useState("");
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState('');
+  const [badgeFilter, setBadgeFilter] = useState('');
+  const navigate = useNavigate();
+  const [coders,setCoders] = useState<IGetAllCodersResponse[]>([])
+  const [loading ,setLoading] = useState(true)
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
+
+
+  useEffect(()=>{
+ 
+   async function fetchCoders(){
+    try {
+      const response = await getAllCoders()
+      setCoders(response)
+      setLoading(false)
+    } catch (error) {
+      toast.error("Something went wrong",toastifyOptionsCenter)
+      setLoading(false)
+    }
+    
+  }
+      fetchCoders()
+  },[search,sort,badgeFilter])
+
 
   return (
     <div className="container mx-auto px-4 py-40 max-w-7xl font-['anybody-regular'] ">
@@ -59,8 +72,8 @@ const CodersListing: React.FC = () => {
               value={sort}
               handleChange={(val) => setSort(val)}
               options={[
-                { label: "Name", value: "name" },
-                { label: "Rank", value: "rank" },
+                { label: 'Name', value: 'name' },
+                { label: 'Rank', value: 'rank' },
               ]}
             />
           </div>
@@ -72,10 +85,10 @@ const CodersListing: React.FC = () => {
               value={badgeFilter}
               handleChange={(val) => setBadgeFilter(val)}
               options={[
-                { label: "All Badge", value: " " },
-                { label: "Gold", value: "gold" },
-                { label: "Silver", value: "silver" },
-                { label: "Platinum", value: "platinum" },
+                { label: 'All Badge', value: ' ' },
+                { label: 'Gold', value: 'gold' },
+                { label: 'Silver', value: 'silver' },
+                { label: 'Platinum', value: 'platinum' },
               ]}
             />
           </div>
@@ -84,28 +97,33 @@ const CodersListing: React.FC = () => {
 
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 ">
-        {mockCoders.map((coder) => (
+        
+
+        {loading ? (
+          <div className="flex justify-center items-center h-[50vh] w-full col-span-3">
+            <LoadingSpin size={30}/>
+          </div>
+        ) : coders.map((coder) => (
           <div
-            key={coder.id}
+            key={coder.userId}
             className="border border-gray-300 rounded-xl p-4 flex items-center justify-between hover:shadow-md transition-shadow bg-white"
+            onClick={() => navigate(`/coders/${coder.userId}`)}
           >
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-red-100 flex-shrink-0">
                 {/* Placeholder Avatar if image fails */}
                 <img
-                  src={coder.image}
+                  src={coder.profileUrl || "/defaultProfile.jpg"}
                   alt={coder.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
-                      "https://ui-avatars.com/api/?name=Bill+Gates&background=ff0000&color=fff";
+                      'https://ui-avatars.com/api/?name=Bill+Gates&background=ff0000&color=fff';
                   }}
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-lg leading-tight">
-                  {coder.name}
-                </span>
+                <span className="font-bold text-lg leading-tight">{coder.name}</span>
                 <span className="text-sm text-gray-500">{coder.username}</span>
               </div>
             </div>
@@ -117,21 +135,19 @@ const CodersListing: React.FC = () => {
                   alt={coder.badge}
                   className="w-6 h-7 object-contain"
                 />
-                <span className="text-[10px] font-bold mt-0.5 capitalize">
-                  {coder.badge}
-                </span>
+                <span className="text-[10px] font-bold mt-0.5 capitalize">{coder.badge}</span>
               </div>
 
               <Button
-                variant={coder.isFollowing ? "outline" : "default"}
+                variant={coder.isFollowing ? 'outline' : 'default'}
                 size="sm"
                 className={`min-w-[90px] h-9 rounded-md text-sm font-medium transition-colors ${
                   coder.isFollowing
-                    ? "border-gray-300 hover:bg-gray-50 text-gray-700"
-                    : "bg-black text-white hover:bg-gray-800"
+                    ? 'border-gray-300 hover:bg-gray-50 text-gray-700'
+                    : 'bg-black text-white hover:bg-gray-800'
                 }`}
               >
-                {coder.isFollowing ? "Following" : "Follow"}
+                {coder.isFollowing ? 'Following' : 'Follow'}
               </Button>
             </div>
           </div>

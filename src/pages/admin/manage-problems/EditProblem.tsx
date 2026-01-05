@@ -1,45 +1,42 @@
-import { getProblem, updateProblem } from "@/api/admin/problem-management";
-import {
-  getAllDomains,
- 
-} from "@/api/admin/skill-and-domain-management";
-import { getAllSkills } from "@/api/common/common.api";
-import SkillsAndDomainCapsule from "@/components/admin/SkillsAndDomainCapsule";
-import InputFiled from "@/components/common/Input";
-import SelectTag from "@/components/common/Select";
-import TextArea from "@/components/common/Textarea";
-import { Button } from "@/components/ui/Button";
-import { Switch } from "@/components/ui/Switch";
-import type { IDomain, IExample, IProblemState, ISkill } from "@/types/types";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { createProblemSchema } from "@/utils/validation/admin-validation";
-import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { v4 as uuid } from "uuid";
+import { getProblem, updateProblem } from '@/api/admin/problem-management';
+import { getAllDomains } from '@/api/admin/skill-and-domain-management';
+import { getAllSkills } from '@/api/common/common.api';
+import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
+import InputFiled from '@/components/common/Input';
+import SelectTag from '@/components/common/Select';
+import TextArea from '@/components/common/Textarea';
+import { Button } from '@/components/ui/Button';
+import { Switch } from '@/components/ui/Switch';
+import type { IDomain, IExample, IProblemState, ISkill } from '@/types/types';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { createProblemSchema } from '@/utils/validation/admin-validation';
+import { Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { v4 as uuid } from 'uuid';
 
 const EditProblem: React.FC = () => {
   const [data, setData] = useState<IProblemState>({
-    constrain: "",
-    description: "",
-    difficulty: "",
-    domain: "",
+    constrain: '',
+    description: '',
+    difficulty: '',
+    domain: '',
     premium: false,
-    skill: "",
-    title: "",
-    example: { id: "", explanation: "", input: "", output: "" },
+    skill: '',
+    title: '',
+    example: { id: '', explanation: '', input: '', output: '' },
   });
 
   const [error, setError] = useState({
-    constrain: "",
-    description: "",
-    difficulty: "",
-    domain: "",
-    premium: "",
-    skill: "",
-    title: "",
-    example: { id: "", explanation: "", input: "", output: "" },
+    constrain: '',
+    description: '',
+    difficulty: '',
+    domain: '',
+    premium: '',
+    skill: '',
+    title: '',
+    example: { id: '', explanation: '', input: '', output: '' },
   });
 
   const [skills, setSkills] = useState<ISkill[]>([]);
@@ -56,14 +53,14 @@ const EditProblem: React.FC = () => {
         const res = await getAllDomains();
         setDomains(res.data.domains);
       } catch (error) {
-        toast.error("Something Went Wrong", toastifyOptionsCenter);
+        toast.error('Something Went Wrong', toastifyOptionsCenter);
       }
     }
     async function fetchProblemDetails() {
       try {
         const res = (await getProblem(id as string)).data;
         setSelectedSkills(res.skills);
-        setExamples(res.examples)
+        setExamples(res.examples);
         setData((prev) => ({
           ...prev,
           ...{
@@ -76,7 +73,7 @@ const EditProblem: React.FC = () => {
           },
         }));
       } catch (error) {
-        toast.error("Something Went Wrong", toastifyOptionsCenter);
+        toast.error('Something Went Wrong', toastifyOptionsCenter);
       }
     }
     async function fetchAllSkills() {
@@ -85,7 +82,7 @@ const EditProblem: React.FC = () => {
 
         setSkills(res.data.skills);
       } catch (error) {
-        toast.error("Something Went Wrong", toastifyOptionsCenter);
+        toast.error('Something Went Wrong', toastifyOptionsCenter);
       }
     }
     if (id) {
@@ -95,18 +92,13 @@ const EditProblem: React.FC = () => {
     fetchAllSkills();
   }, []);
 
-  const handleChangeInputField = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChangeInputField = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
 
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChangeOtherTag = (
-    v: string | undefined | boolean,
-    name: string
-  ) => {
+  const handleChangeOtherTag = (v: string | undefined | boolean, name: string) => {
     setData((prev) => ({ ...prev, [name]: v }));
   };
 
@@ -122,7 +114,7 @@ const EditProblem: React.FC = () => {
     if (skill) {
       setSelectedSkills((prev) => [...prev, skill]);
     }
-    setData((prev) => ({ ...prev, ["skill"]: "" }));
+    setData((prev) => ({ ...prev, ['skill']: '' }));
   };
 
   const removeSkill = (id: string) => {
@@ -140,17 +132,17 @@ const EditProblem: React.FC = () => {
 
   const addExample = () => {
     const exampleError: IExample = {
-      id: "",
-      input: "",
-      explanation: "",
-      output: "",
+      id: '',
+      input: '',
+      explanation: '',
+      output: '',
     };
 
-    const fields = ["input", "explanation", "output"];
+    const fields = ['input', 'explanation', 'output'];
 
     fields.forEach((f) => {
       if (!data.example[f as keyof IExample].trim()) {
-        exampleError[f as keyof IExample] = "Required";
+        exampleError[f as keyof IExample] = 'Required';
       }
     });
 
@@ -162,7 +154,7 @@ const EditProblem: React.FC = () => {
     setExamples((prev) => [...prev, { ...data.example, id: uuid() }]);
     setData((prev) => ({
       ...prev,
-      example: { id: "", input: "", explanation: "", output: "" },
+      example: { id: '', input: '', explanation: '', output: '' },
     }));
   };
 
@@ -176,28 +168,27 @@ const EditProblem: React.FC = () => {
 
     if (!result.success) {
       const validationError = {
-        constrain: "",
-        description: "",
-        difficulty: "",
-        domain: "",
-        premium: "",
-        skills: "",
-        title: "",
-        examples: "",
+        constrain: '',
+        description: '',
+        difficulty: '',
+        domain: '',
+        premium: '',
+        skills: '',
+        title: '',
+        examples: '',
       };
 
       result.error.issues.forEach((er) => {
-        validationError[er.path[0] as keyof typeof validationError] =
-          er.message;
+        validationError[er.path[0] as keyof typeof validationError] = er.message;
       });
 
       setError({
         ...validationError,
         example: {
           id: validationError.examples,
-          input: "",
-          output: "",
-          explanation: "",
+          input: '',
+          output: '',
+          explanation: '',
         },
         skill: validationError.skills,
       });
@@ -205,19 +196,19 @@ const EditProblem: React.FC = () => {
     }
 
     setError({
-      constrain: "",
-      description: "",
-      difficulty: "",
-      domain: "",
-      premium: "",
-      skill: "",
-      title: "",
-      example: { id: "", explanation: "", input: "", output: "" },
+      constrain: '',
+      description: '',
+      difficulty: '',
+      domain: '',
+      premium: '',
+      skill: '',
+      title: '',
+      example: { id: '', explanation: '', input: '', output: '' },
     });
 
     try {
       const problemBody = {
-        problemId:id,
+        problemId: id,
         title: data.title,
         constrain: data.constrain,
         description: data.description,
@@ -227,13 +218,13 @@ const EditProblem: React.FC = () => {
         skills: selectedSkills.map((s) => s.id),
         examples: examples,
       };
-     await updateProblem(problemBody)
-      toast.success("Problem Edited", toastifyOptionsCenter);
+      await updateProblem(problemBody);
+      toast.success('Problem Edited', toastifyOptionsCenter);
       navigate(`/admin/manage-problems`);
     } catch (error) {
       console.log(error);
 
-      toast.error("Something went wrong", toastifyOptionsCenter);
+      toast.error('Something went wrong', toastifyOptionsCenter);
     }
   };
 
@@ -242,10 +233,7 @@ const EditProblem: React.FC = () => {
       <div className="flex flex-col gap-4 ">
         <div className=" bg-white shadow-sm rounded-md grid grid-flow-col grid-cols-3  justify-center items-center">
           <div className="flex px-5 justify-start">
-            <Button
-              variant={"ghost"}
-              onClick={() => navigate("/admin/manage-problems/")}
-            >
+            <Button variant={'ghost'} onClick={() => navigate('/admin/manage-problems/')}>
               Back
             </Button>
           </div>
@@ -271,9 +259,9 @@ const EditProblem: React.FC = () => {
             />
             <SelectTag
               options={[
-                { label: "Easy", value: "easy" },
-                { label: "Medium", value: "medium" },
-                { label: "Hard", value: "hard" },
+                { label: 'Easy', value: 'easy' },
+                { label: 'Medium', value: 'medium' },
+                { label: 'Hard', value: 'hard' },
               ]}
               placeholder="Select Difficulty"
               label="Difficulty"
@@ -281,7 +269,7 @@ const EditProblem: React.FC = () => {
               name="difficulty"
               value={data.difficulty}
               error={error.difficulty}
-              handleChange={(v) => handleChangeOtherTag(v, "difficulty")}
+              handleChange={(v) => handleChangeOtherTag(v, 'difficulty')}
             ></SelectTag>
             <div className="flex flex-col gap-4">
               <div className="flex items-end  gap-4">
@@ -295,20 +283,15 @@ const EditProblem: React.FC = () => {
                   head="Skills"
                   name="skill"
                   value={data.skill}
-                  handleChange={(v) => handleChangeOtherTag(v, "skill")}
+                  handleChange={(v) => handleChangeOtherTag(v, 'skill')}
                 ></SelectTag>
-                <Button
-                  size={"sm"}
-                  type="button"
-                  className="pt-1 mb-1"
-                  onClick={addSkills}
-                >
+                <Button size={'sm'} type="button" className="pt-1 mb-1" onClick={addSkills}>
                   Add Skill
                 </Button>
               </div>
               <div
                 className={`border ${
-                  error.skill && "border-red-400"
+                  error.skill && 'border-red-400'
                 } px-3 py-2 border-gray-200 flex flex-wrap rounded-md w-full gap-3 min-h-28`}
               >
                 {selectedSkills.map((v) => {
@@ -323,16 +306,12 @@ const EditProblem: React.FC = () => {
                 })}
               </div>
             </div>
-            {error.skill && (
-              <span className="text-xs pt-1 pl-1 text-red-400">
-                {error.skill}
-              </span>
-            )}
+            {error.skill && <span className="text-xs pt-1 pl-1 text-red-400">{error.skill}</span>}
             <div className="flex gap-10 py-3">
               <p className="text-gray-700 pl-1 text-sm">Premium</p>
               <Switch
                 checked={data.premium}
-                onCheckedChange={(v) => handleChangeOtherTag(v, "premium")}
+                onCheckedChange={(v) => handleChangeOtherTag(v, 'premium')}
               />
             </div>
             <SelectTag
@@ -346,7 +325,7 @@ const EditProblem: React.FC = () => {
               name="Domain"
               value={data.domain}
               error={error.domain}
-              handleChange={(v) => handleChangeOtherTag(v, "domain")}
+              handleChange={(v) => handleChangeOtherTag(v, 'domain')}
             ></SelectTag>
             <InputFiled
               label="Constrain"
@@ -385,18 +364,13 @@ const EditProblem: React.FC = () => {
                   handleChange={handleChangeExample}
                 />
               </div>
-              <Button
-                size={"sm"}
-                type="button"
-                className="pt-1 mb-1"
-                onClick={addExample}
-              >
+              <Button size={'sm'} type="button" className="pt-1 mb-1" onClick={addExample}>
                 Add
               </Button>
             </div>
             <div
               className={`bg-white border ${
-                error.example.id && "border-red-400"
+                error.example.id && 'border-red-400'
               } rounded-md p-4 min-h-32 shadow-sm max-w-full`}
             >
               <div className="grid grid-cols-4 gap-4">
@@ -414,24 +388,18 @@ const EditProblem: React.FC = () => {
                       />
                     </div>
                     <p className="text-xs text-gray-500">Input : {ex.input}</p>
-                    <p className="text-xs text-gray-500">
-                      Output : {ex.output}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      Explanation : {ex.explanation}
-                    </p>
+                    <p className="text-xs text-gray-500">Output : {ex.output}</p>
+                    <p className="text-xs text-gray-500">Explanation : {ex.explanation}</p>
                   </section>
                 ))}
               </div>
             </div>
             {error.example.id && (
-              <span className="text-xs pt-1 pl-1 text-red-400">
-                {error.example.id}
-              </span>
+              <span className="text-xs pt-1 pl-1 text-red-400">{error.example.id}</span>
             )}
 
             <div className="flex justify-end">
-              <Button type="button" size={"lg"} onClick={handleSubmit}>
+              <Button type="button" size={'lg'} onClick={handleSubmit}>
                 Save
               </Button>
             </div>

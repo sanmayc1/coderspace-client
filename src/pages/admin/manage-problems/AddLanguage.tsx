@@ -1,27 +1,24 @@
-import {
-  getLanguageDetails,
-  updateLanguage,
-} from "@/api/admin/problem-management";
-import InputFiled from "@/components/common/Input";
-import { Button } from "@/components/ui/Button";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import Editor from "@monaco-editor/react";
-import "monaco-editor/esm/vs/basic-languages/java/java.contribution";
-import "monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution";
-import "monaco-editor/esm/vs/basic-languages/python/python.contribution";
-import "monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution";
-import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import LoadingSpin from "@/components/common/LoadingSpin";
+import { getLanguageDetails, updateLanguage } from '@/api/admin/problem-management';
+import InputFiled from '@/components/common/Input';
+import { Button } from '@/components/ui/Button';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import Editor from '@monaco-editor/react';
+import 'monaco-editor/esm/vs/basic-languages/java/java.contribution';
+import 'monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution';
+import 'monaco-editor/esm/vs/basic-languages/python/python.contribution';
+import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
+import { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import LoadingSpin from '@/components/common/LoadingSpin';
 
 const AddLanguage: React.FC = () => {
   const navigate = useNavigate();
-  const [templateCode, setTemplateCode] = useState("");
-  const [language, setLanguage] = useState("");
-  const [solution, setSolution] = useState("");
-  const [fnName, setFnName] = useState("");
+  const [templateCode, setTemplateCode] = useState('');
+  const [language, setLanguage] = useState('');
+  const [solution, setSolution] = useState('');
+  const [fnName, setFnName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
 
@@ -29,7 +26,7 @@ const AddLanguage: React.FC = () => {
     async function fetchLanguage() {
       try {
         setIsLoading(true);
-        const res = await getLanguageDetails(id || "");
+        const res = await getLanguageDetails(id || '');
         setLanguage(res.data.language);
         setTemplateCode(res.data.tmpCode);
         setSolution(res.data.solution);
@@ -37,10 +34,7 @@ const AddLanguage: React.FC = () => {
         setIsLoading(false);
       } catch (error) {
         if (error instanceof AxiosError) {
-          toast.error(
-            error.response?.data.errors[0].error,
-            toastifyOptionsCenter
-          );
+          toast.error(error.response?.data.errors[0].error, toastifyOptionsCenter);
         }
         setIsLoading(false);
       }
@@ -51,29 +45,24 @@ const AddLanguage: React.FC = () => {
   }, []);
 
   const handleTemplateCodeChange = (v: string | undefined) => {
-    setSolution(v || "");
-    setTemplateCode(v || "");
+    setSolution(v || '');
+    setTemplateCode(v || '');
   };
 
   const saveData = async () => {
     if (!solution.trim() || !templateCode.trim() || !fnName.trim()) {
-      toast.error("All filed are required", toastifyOptionsCenter);
+      toast.error('All filed are required', toastifyOptionsCenter);
       return;
     }
 
     try {
       await updateLanguage({ languageId: id, templateCode, solution, fnName });
-      toast.success("Language Updated",toastifyOptionsCenter)
-      navigate("/admin/manage-problems");
+      toast.success('Language Updated', toastifyOptionsCenter);
+      navigate('/admin/manage-problems');
     } catch (error) {
       if (error instanceof AxiosError) {
-        toast.error(
-          error.response?.data.errors[0].message,
-          toastifyOptionsCenter
-        );
+        toast.error(error.response?.data.errors[0].message, toastifyOptionsCenter);
       }
-
-      
     }
   };
 
@@ -81,16 +70,13 @@ const AddLanguage: React.FC = () => {
     <div className="flex flex-col gap-4 ">
       <div className=" bg-white shadow-sm rounded-md grid grid-flow-col grid-cols-3  justify-center items-center">
         <div className="flex px-5 justify-start">
-          <Button
-            variant={"ghost"}
-            onClick={() => navigate("/admin/manage-problems/")}
-          >
+          <Button variant={'ghost'} onClick={() => navigate('/admin/manage-problems/')}>
             Back
           </Button>
         </div>
         <h1 className="text-xl text-center p-3">Add Language</h1>
         <div className="flex px-5 justify-end">
-          <Button size={"sm"} className="text-xs pt-1 " onClick={saveData}>
+          <Button size={'sm'} className="text-xs pt-1 " onClick={saveData}>
             Save
           </Button>
         </div>
@@ -109,7 +95,7 @@ const AddLanguage: React.FC = () => {
               <div className="p-2">
                 <Editor
                   height={300}
-                  theme={"vs-dark"}
+                  theme={'vs-dark'}
                   language={language}
                   value={templateCode}
                   onChange={(v) => handleTemplateCodeChange(v)}
@@ -130,10 +116,10 @@ const AddLanguage: React.FC = () => {
               <div className="p-2">
                 <Editor
                   height={400}
-                  theme={"vs-dark"}
+                  theme={'vs-dark'}
                   language={language}
                   value={solution}
-                  onChange={(v) => setSolution(v || "")}
+                  onChange={(v) => setSolution(v || '')}
                 />
               </div>
             </div>

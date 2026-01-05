@@ -1,5 +1,5 @@
-import type { z, ZodObject } from "zod";
-import type { IProblemListing } from "./types";
+import type { z, ZodObject } from 'zod';
+import type { IProblemListing } from './types';
 
 export interface ISectionProps {
   reverse?: boolean;
@@ -21,9 +21,7 @@ export interface CustomFormProps<T extends ZodObject<any>> {
   zodSchema: T;
   onSubmit: (
     values: z.infer<T>,
-    setErrors: React.Dispatch<
-      React.SetStateAction<Partial<Record<keyof z.core.output<T>, string>>>
-    >
+    setErrors: React.Dispatch<React.SetStateAction<Partial<Record<keyof z.core.output<T>, string>>>>
   ) => void;
   gap?: string;
   btnName: string | React.ReactNode;
@@ -49,11 +47,11 @@ export interface ISelectTagProps {
   placeholder: string;
   label: string;
   options: ISelectTagOptions[];
-  name:string
-  handleChange:(value:string)=>void
-  value:string
-  head?:string
-  error?:string
+  name: string;
+  handleChange: (value: string) => void;
+  value: string;
+  head?: string;
+  error?: string;
 }
 
 export interface ILoadingSkeletonWraper {
@@ -65,40 +63,39 @@ export interface ILoadingSkeletonWraper {
 export interface IPaginationProps {
   totalPages: number;
   currentPage: number;
-  className?:string
+  className?: string;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface IInputProps {
-  label?:string,
-  name:string,
-  placeholder:string,
-  value:string | number
-  type?:string
-  className?:string
-  handleChange:(e:React.ChangeEvent<HTMLInputElement>)=>void,
-  error?:string,
-  min?:string
-} 
+  label?: string;
+  name: string;
+  placeholder: string;
+  value: string | number;
+  type?: string;
+  className?: string;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+  min?: string;
+}
 
 export interface ITextAreaProps {
-  label?:string,
-  name:string,
-  placeholder:string,
-  value:string | number
-  className?:string
-  handleChange:(e:React.ChangeEvent<HTMLTextAreaElement>)=>void,
-  error?:string
+  label?: string;
+  name: string;
+  placeholder: string;
+  value: string | number;
+  className?: string;
+  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  error?: string;
 }
 
 export interface ISkillProps {
-  title:string
-  id:string
-  deleteFn:(id:string)=>void
+  title: string;
+  id: string;
+  deleteFn: (id: string) => void;
 }
 
-
-export interface IProblemCardProps{
-  problem:IProblemListing
-  refetch:React.Dispatch<React.SetStateAction<boolean>>
+export interface IProblemCardProps {
+  problem: IProblemListing;
+  refetch: React.Dispatch<React.SetStateAction<boolean>>;
 }

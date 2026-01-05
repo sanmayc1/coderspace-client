@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/Button";
-import CustomPagination from "@/components/common/Pagination";
-import { useState } from "react";
-import { Clock, Users, Calendar } from "lucide-react";
+import { Button } from '@/components/ui/Button';
+import CustomPagination from '@/components/common/Pagination';
+import { useState } from 'react';
+import { Clock, Users, Calendar } from 'lucide-react';
 
 interface IContest {
   id: string;
@@ -13,14 +13,14 @@ interface IContest {
 
 const mockContests: IContest[] = Array.from({ length: 6 }).map((_, i) => ({
   id: i.toString(),
-  title: "DSA Challenge",
-  startTime: "Feb 15, 2024 14:00 UTC",
-  duration: "30 minutes",
+  title: 'DSA Challenge',
+  startTime: 'Feb 15, 2024 14:00 UTC',
+  duration: '30 minutes',
   participants: 1000,
 }));
 
 const ContestsListing: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("Upcoming");
+  const [activeTab, setActiveTab] = useState('Upcoming');
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 5;
 
@@ -35,14 +35,15 @@ const ContestsListing: React.FC = () => {
             Grow by Winning.
           </h1>
           <p className="text-gray-300 text-lg md:text-xl  mb-10">
-            Participate in carefully curated coding challenges that
-            progressively improve your problem-solving abilities, strengthen
-            logical thinking, and build real confidence through hands-on
-            practice. Showcase your skills, track your growth, and stand out as
-            a capable developer in interviews, competitions, and real-world
-            projects.
+            Participate in carefully curated coding challenges that progressively improve your
+            problem-solving abilities, strengthen logical thinking, and build real confidence
+            through hands-on practice. Showcase your skills, track your growth, and stand out as a
+            capable developer in interviews, competitions, and real-world projects.
           </p>
-          <Button className="bg-white text-black hover:bg-gray-200 text-lg px-8 py-6 rounded-md font-bold" onClick={() => window.scrollTo({ top: 750, behavior: "smooth" })}>
+          <Button
+            className="bg-white text-black hover:bg-gray-200 text-lg px-8 py-6 rounded-md font-bold"
+            onClick={() => window.scrollTo({ top: 750, behavior: 'smooth' })}
+          >
             Explore
           </Button>
         </div>
@@ -54,21 +55,19 @@ const ContestsListing: React.FC = () => {
 
         {/* Tabs */}
         <div className="flex gap-8 mb-12 border-b border-gray-200">
-          {["Upcoming", "LeaderBoard", "Registered", "Contest Result"].map(
-            (tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`pb-4 text-lg font-medium transition-colors relative ${
-                  activeTab === tab
-                    ? "text-black border-b-2 border-black -mb-[2px]"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                {tab}
-              </button>
-            )
-          )}
+          {['Upcoming', 'LeaderBoard', 'Registered', 'Contest Result'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`pb-4 text-lg font-medium transition-colors relative ${
+                activeTab === tab
+                  ? 'text-black border-b-2 border-black -mb-[2px]'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
 
         {/* Grid */}
@@ -92,9 +91,7 @@ const ContestsListing: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
                     <Users size={16} />
-                    <span className="text-xs">
-                      {contest.participants} participants
-                    </span>
+                    <span className="text-xs">{contest.participants} participants</span>
                   </div>
                 </div>
               </div>

@@ -1,18 +1,16 @@
-import { getComapny, updateCompany } from "@/api/company/company";
-import LoadingSpin from "@/components/common/LoadingSpin";
-import { Button } from "@/components/ui/Button";
-import type { IGetCompanyResponse } from "@/types/response.types";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { Building2, Edit, FileText, Mail } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { getComapny, updateCompany } from '@/api/company/company';
+import LoadingSpin from '@/components/common/LoadingSpin';
+import { Button } from '@/components/ui/Button';
+import type { IGetCompanyResponse } from '@/types/response.types';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { Building2, Edit, FileText, Mail } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const CompanyProfile = () => {
-  const [companyData, setCompanyData] = useState<IGetCompanyResponse | null>(
-    null
-  );
+  const [companyData, setCompanyData] = useState<IGetCompanyResponse | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleEdit = () => {
@@ -30,19 +28,19 @@ const CompanyProfile = () => {
     }
 
     if (!/^[a-zA-z]+$/.test(value)) {
-      toast.error("Only letters are allowed", toastifyOptionsCenter);
+      toast.error('Only letters are allowed', toastifyOptionsCenter);
       setValue(companyData?.companyName as string);
       return;
     }
 
     try {
       await updateCompany({ companyName: value });
-      toast.success("Name updated", toastifyOptionsCenter);
+      toast.success('Name updated', toastifyOptionsCenter);
     } catch (error) {
-      toast.error("Some thing went wrong", toastifyOptionsCenter);
+      toast.error('Some thing went wrong', toastifyOptionsCenter);
     }
 
-    console.log("Updated:", value);
+    console.log('Updated:', value);
   };
 
   useEffect(() => {
@@ -75,7 +73,7 @@ const CompanyProfile = () => {
               <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-4 md:space-x-6 ">
                 <div className="relative">
                   <img
-                    src={companyData?.profileUrl || "/building.png"}
+                    src={companyData?.profileUrl || '/building.png'}
                     alt={companyData?.companyName}
                     className="w-24 h-24 rounded-xl sm:rounded-2xl border-4 border-white shadow-xl object-cover"
                   />
@@ -86,9 +84,7 @@ const CompanyProfile = () => {
                   <h1 className="text-2xl sm:text-3xl  font-bold text-slate-900 break-words">
                     {companyData?.companyName}
                   </h1>
-                  <p className="text-sm  text-slate-600 mt-1">
-                    Corporate Profile
-                  </p>
+                  <p className="text-sm  text-slate-600 mt-1">Corporate Profile</p>
                 </div>
               </div>
             </div>
@@ -96,9 +92,7 @@ const CompanyProfile = () => {
 
           {/* Details Card */}
           <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8">
-            <h2 className="text-xl font-bold text-slate-900 mb-4 sm:mb-6">
-              Company Details
-            </h2>
+            <h2 className="text-xl font-bold text-slate-900 mb-4 sm:mb-6">Company Details</h2>
 
             <div className="space-y-3 sm:space-y-4 md:space-y-6">
               {/* Email */}
@@ -107,9 +101,7 @@ const CompanyProfile = () => {
                   <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs  font-medium text-slate-500 mb-1">
-                    Email Address
-                  </div>
+                  <div className="text-xs  font-medium text-slate-500 mb-1">Email Address</div>
                   <a
                     href={`mailto:${companyData?.email}`}
                     className="text-sm  text-slate-900 font-medium hover:text-blue-600 transition-colors break-all"
@@ -125,9 +117,7 @@ const CompanyProfile = () => {
                   <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs font-medium text-slate-500 mb-1">
-                    GST Number
-                  </div>
+                  <div className="text-xs font-medium text-slate-500 mb-1">GST Number</div>
                   <div className="text-sm  text-slate-900 font-medium font-mono break-all">
                     {companyData?.gstin}
                   </div>
@@ -140,9 +130,7 @@ const CompanyProfile = () => {
                   <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs  font-medium text-slate-500 mb-1">
-                    Registered Name
-                  </div>
+                  <div className="text-xs  font-medium text-slate-500 mb-1">Registered Name</div>
                   <div className="flex items-center justify-between">
                     <input
                       ref={inputRef}
@@ -150,13 +138,13 @@ const CompanyProfile = () => {
                       value={value}
                       onChange={(e) => setValue(e.target.value)}
                       className={`text-sm text-slate-900 font-medium break-words py-2 rounded-lg
-          ${isEditing ? "border px-2" : "border-none bg-transparent"}
+          ${isEditing ? 'border px-2' : 'border-none bg-transparent'}
         `}
                     />
 
                     {isEditing ? (
                       <Button
-                        variant={"ghost"}
+                        variant={'ghost'}
                         onClick={handleUpdate}
                         className="text-blue-600 text-sm font-medium"
                         disabled={companyData?.companyName === value}

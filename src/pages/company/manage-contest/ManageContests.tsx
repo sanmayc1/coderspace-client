@@ -1,25 +1,24 @@
-import { getAllCreatedContestsOfCompany } from "@/api/company/company";
-import InputFiled from "@/components/common/Input";
-import Table, { type TableColumn } from "@/components/common/Table";
-import { Button } from "@/components/ui/Button";
-import type { IListContestState } from "@/types/types";
-import { debounce } from "@/utils/debouncing";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { PlusCircleIcon } from "lucide-react";
+import { getAllCreatedContestsOfCompany } from '@/api/company/company';
+import InputFiled from '@/components/common/Input';
+import Table, { type TableColumn } from '@/components/common/Table';
+import { Button } from '@/components/ui/Button';
+import type { IListContestState } from '@/types/types';
+import { debounce } from '@/utils/debouncing';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { PlusCircleIcon } from 'lucide-react';
 
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ManageContests: React.FC = () => {
   const [contests, setContests] = useState<IListContestState[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState<string>("");
-  const [search, setSearch] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState<string>('');
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const debouncedFetchAllContests = debounce(async () => {
@@ -30,7 +29,7 @@ const ManageContests: React.FC = () => {
         setTotalPages(res.data.totalPages || 1);
       } catch (error) {
         console.log(error);
-        toast.error("Something went wrong", toastifyOptionsCenter);
+        toast.error('Something went wrong', toastifyOptionsCenter);
       }
       setLoading(false);
     }, 500);
@@ -39,37 +38,34 @@ const ManageContests: React.FC = () => {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-
   };
 
   // Table columns for contests
-  const columns:TableColumn<IListContestState>[] = [
+  const columns: TableColumn<IListContestState>[] = [
     {
-      key: "title",
-      label: "Title",
+      key: 'title',
+      label: 'Title',
     },
     {
-      key: "description",
-      label: "Description",
+      key: 'description',
+      label: 'Description',
       render: (val: string) => (
-        <span title={val}>
-          {val.length > 40 ? val.slice(0, 40) + "..." : val}
-        </span>
+        <span title={val}>{val.length > 40 ? val.slice(0, 40) + '...' : val}</span>
       ),
     },
     {
-      key: "dateAndTime",
-      label: "Date & Time",
+      key: 'dateAndTime',
+      label: 'Date & Time',
       render: (val: string) =>
-        new Date(val).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }),
+        new Date(val).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }),
     },
     {
-      key: "duration",
-      label: "Duration (min)",
+      key: 'duration',
+      label: 'Duration (min)',
     },
     {
-      key: "view",
-      label: "Visibility",
+      key: 'view',
+      label: 'Visibility',
       render: (val: string) => val.charAt(0).toUpperCase() + val.slice(1),
     },
   ];
@@ -88,27 +84,25 @@ const ManageContests: React.FC = () => {
         <div className="flex justify-end w-full gap-4">
           <Button
             className="text-xs flex justify-center items-center"
-            size={"sm"}
-            onClick={() => navigate("/company/manage-contest/add")}
+            size={'sm'}
+            onClick={() => navigate('/company/manage-contest/add')}
           >
             <span className="pt-1">Add Contest</span>
-            <PlusCircleIcon />{" "}
+            <PlusCircleIcon />{' '}
           </Button>
         </div>
       </div>
 
-
-        <Table
-          columns={columns}
-          data={contests}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-          setItemsPerPage={setItemsPerPage}
-          itemsPerPage={itemsPerPage}
-          loading={isLoading}
-        />
-  
+      <Table
+        columns={columns}
+        data={contests}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalPages={totalPages}
+        setItemsPerPage={setItemsPerPage}
+        itemsPerPage={itemsPerPage}
+        loading={isLoading}
+      />
     </div>
   );
 };

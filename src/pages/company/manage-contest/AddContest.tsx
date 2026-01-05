@@ -1,53 +1,57 @@
-import {
-  getAllDomains,
- 
-} from "@/api/admin/skill-and-domain-management";
-import { getAllSkills } from "@/api/common/common.api";
-import { createContest } from "@/api/company/company";
-import { getProblemsUser } from "@/api/user/user.problem";
-import SkillsAndDomainCapsule from "@/components/admin/SkillsAndDomainCapsule";
-import InputFiled from "@/components/common/Input";
-import SelectTag from "@/components/common/Select";
-import TextArea from "@/components/common/Textarea";
-import { Button } from "@/components/ui/Button";
-import type { IContestError, IContestProblem, IContestState, IDomain, IReward, ISkill } from "@/types/types";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { createContestSchema } from "@/utils/validation/company-validation";
-import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { v4 as uuid } from "uuid";
+import { getAllDomains } from '@/api/admin/skill-and-domain-management';
+import { getAllSkills } from '@/api/common/common.api';
+import { createContest } from '@/api/company/company';
+import { getProblemsUser } from '@/api/user/user.problem';
+import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
+import InputFiled from '@/components/common/Input';
+import SelectTag from '@/components/common/Select';
+import TextArea from '@/components/common/Textarea';
+import { Button } from '@/components/ui/Button';
+import type {
+  IContestError,
+  IContestProblem,
+  IContestState,
+  IDomain,
+  IReward,
+  ISkill,
+} from '@/types/types';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { createContestSchema } from '@/utils/validation/company-validation';
+import { Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { v4 as uuid } from 'uuid';
 
 const AddContest: React.FC = () => {
-    const [data, setData] = useState<IContestState>({
-      title: "",
-      description: "",
-      dateAndTime: "",
-      duration: "",
-      visibility: "",
-      domain: "",
-      skill: "",
-      problem: "",
-      constrain: "",
-      difficulty: "",
-      rewardRank: "",
-      rewardDescription: "",
-    });
-  
-    const [error, setError] = useState<IContestError>({
-      title: "",
-      description: "",
-      dateAndTime: "",
-      duration: "",
-      visibility: "",
-      domain: "",
-      skill: "",
-      problem: "",
-      rewardRank: "",
-      rewardDescription: "",
-      rewards: "",
-    });
+  const [data, setData] = useState<IContestState>({
+    title: '',
+    description: '',
+    dateAndTime: '',
+    duration: '',
+    visibility: '',
+    domain: '',
+    skill: '',
+    problem: '',
+    constrain: '',
+    difficulty: '',
+    rewardRank: '',
+    rewardDescription: '',
+  });
+
+  const [error, setError] = useState<IContestError>({
+    title: '',
+    description: '',
+    dateAndTime: '',
+    duration: '',
+    visibility: '',
+    domain: '',
+    skill: '',
+    problem: '',
+    rewardRank: '',
+    rewardDescription: '',
+    rewards: '',
+  });
 
   const [skills, setSkills] = useState<ISkill[]>([]);
   const [domains, setDomains] = useState<IDomain[]>([]);
@@ -64,7 +68,7 @@ const AddContest: React.FC = () => {
         const res = await getAllDomains();
         setDomains(res.data.domains);
       } catch (error) {
-        toast.error("Something Went Wrong", toastifyOptionsCenter);
+        toast.error('Something Went Wrong', toastifyOptionsCenter);
       }
     }
     async function fetchAllSkills() {
@@ -72,12 +76,12 @@ const AddContest: React.FC = () => {
         const res = await getAllSkills();
         setSkills(res.data.skills);
       } catch (error) {
-        toast.error("Something Went Wrong", toastifyOptionsCenter);
+        toast.error('Something Went Wrong', toastifyOptionsCenter);
       }
     }
-    
-  async  function fetchAllProblems() {
-      const res = await getProblemsUser("","1")
+
+    async function fetchAllProblems() {
+      const res = await getProblemsUser('', '1');
       setAvailableProblems(res.data.problems);
     }
     fetchAllDomains();
@@ -99,28 +103,26 @@ const AddContest: React.FC = () => {
       rewards,
     };
     const res = createContestSchema.safeParse(body);
-    if (res.success) return "";
+    if (res.success) return '';
 
     for (let er of res.error.issues) {
       const path = er.path[0];
       // Don't show array validation error *unless array is not empty* -- instead, show our own message below.
-      if (fieldName === "skill" && path === "skills") return "";
-      if (fieldName === "problem" && path === "problems") return "";
+      if (fieldName === 'skill' && path === 'skills') return '';
+      if (fieldName === 'problem' && path === 'problems') return '';
       if (fieldName === path) return er.message;
-      if (fieldName === "rewards" && path === "rewards") return er.message;
-      if (fieldName === "rewardRank" && path === "rewardRank") return er.message;
-      if (fieldName === "rewardDescription" && path === "rewardDescription") return er.message;
+      if (fieldName === 'rewards' && path === 'rewards') return er.message;
+      if (fieldName === 'rewardRank' && path === 'rewardRank') return er.message;
+      if (fieldName === 'rewardDescription' && path === 'rewardDescription') return er.message;
     }
-    return "";
+    return '';
   }
 
   // --- Handlers ---
-  const handleChangeInputField = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChangeInputField = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     let v = value;
-    if (type === "number") v = value.replace(/^0+/, "");
+    if (type === 'number') v = value.replace(/^0+/, '');
 
     setData((prev) => {
       const newData = { ...prev, [name]: v };
@@ -132,18 +134,10 @@ const AddContest: React.FC = () => {
     });
   };
 
-  const handleChangeOtherTag = (
-    v: string | undefined | boolean,
-    name: string
-  ) => {
+  const handleChangeOtherTag = (v: string | undefined | boolean, name: string) => {
     setData((prev) => {
       let newData = { ...prev };
-      if (
-        name === "visibility" ||
-        name === "domain" ||
-        name === "skill" ||
-        name === "problem"
-      ) {
+      if (name === 'visibility' || name === 'domain' || name === 'skill' || name === 'problem') {
         newData[name as keyof IContestState] = v as string;
       } else {
         newData[name as keyof IContestState] = v as any;
@@ -169,7 +163,7 @@ const AddContest: React.FC = () => {
       const newSkills = [...selectedSkills, skill];
       setSelectedSkills(newSkills);
     }
-    setData((prev) => ({ ...prev, skill: "" }));
+    setData((prev) => ({ ...prev, skill: '' }));
   };
 
   const removeSkill = (id: string) => {
@@ -188,7 +182,7 @@ const AddContest: React.FC = () => {
     if (problem) {
       setSelectedProblems((prev) => [...prev, problem]);
     }
-    setData((prev) => ({ ...prev, problem: "" }));
+    setData((prev) => ({ ...prev, problem: '' }));
   };
 
   const removeProblem = (id: string) => {
@@ -209,11 +203,11 @@ const AddContest: React.FC = () => {
   };
 
   const addReward = () => {
-    let rewardRankError = validateField(data.rewardRank, "rewardRank");
-    let rewardDescriptionError = validateField(data.rewardDescription, "rewardDescription");
+    let rewardRankError = validateField(data.rewardRank, 'rewardRank');
+    let rewardDescriptionError = validateField(data.rewardDescription, 'rewardDescription');
     // fallback for empty
-    if (!data.rewardRank.trim()) rewardRankError = "Rank is required";
-    if (!data.rewardDescription.trim()) rewardDescriptionError = "Description is required";
+    if (!data.rewardRank.trim()) rewardRankError = 'Rank is required';
+    if (!data.rewardDescription.trim()) rewardDescriptionError = 'Description is required';
 
     if (rewardRankError || rewardDescriptionError) {
       setError((prev) => ({
@@ -225,8 +219,8 @@ const AddContest: React.FC = () => {
     }
     setError((prev) => ({
       ...prev,
-      rewardRank: "",
-      rewardDescription: "",
+      rewardRank: '',
+      rewardDescription: '',
     }));
 
     setRewards((prev) => {
@@ -239,7 +233,7 @@ const AddContest: React.FC = () => {
         },
       ];
       // Validate rewards (array) live after add
-      const rError = validateField("", "rewards");
+      const rError = validateField('', 'rewards');
       setError((errPrev) => ({
         ...errPrev,
         rewards: rError,
@@ -248,8 +242,8 @@ const AddContest: React.FC = () => {
     });
     setData((prev) => ({
       ...prev,
-      rewardRank: "",
-      rewardDescription: "",
+      rewardRank: '',
+      rewardDescription: '',
     }));
   };
 
@@ -257,7 +251,7 @@ const AddContest: React.FC = () => {
     const newRewards = rewards.filter((r) => r.id !== id);
     setRewards(newRewards);
     // Validate rewards (array) live after remove
-    const rError = validateField("", "rewards");
+    const rError = validateField('', 'rewards');
     setError((prev) => ({
       ...prev,
       rewards: rError,
@@ -266,29 +260,29 @@ const AddContest: React.FC = () => {
 
   // Helper for proper "need at least one" warning for skills/problems
   const getSkillWarning = () =>
-    selectedSkills.length === 0 ? "At least one skill is required" : "";
+    selectedSkills.length === 0 ? 'At least one skill is required' : '';
   const getProblemWarning = () =>
-    selectedProblems.length === 0 ? "At least one problem is required" : "";
+    selectedProblems.length === 0 ? 'At least one problem is required' : '';
 
   const handleSubmit = async () => {
     setShowSkillsProblemsError(true); // <--- show the errors now
     let submitErrors: IContestError = {
-      title: "",
-      description: "",
-      dateAndTime: "",
-      duration: "",
-      visibility: "",
-      domain: "",
-      skill: "",
-      problem: "",
-      rewardRank: "",
-      rewardDescription: "",
-      rewards: "",
+      title: '',
+      description: '',
+      dateAndTime: '',
+      duration: '',
+      visibility: '',
+      domain: '',
+      skill: '',
+      problem: '',
+      rewardRank: '',
+      rewardDescription: '',
+      rewards: '',
     };
 
     // Manual skills/problems check for empty, instead of validator
-    if (selectedSkills.length === 0) submitErrors.skill = "At least one skill is required";
-    if (selectedProblems.length === 0) submitErrors.problem = "At least one problem is required";
+    if (selectedSkills.length === 0) submitErrors.skill = 'At least one skill is required';
+    if (selectedProblems.length === 0) submitErrors.problem = 'At least one problem is required';
 
     const body = {
       ...data,
@@ -303,16 +297,16 @@ const AddContest: React.FC = () => {
       result.error.issues.forEach((er) => {
         const key = er.path[0] as keyof IContestError;
         if (key in submitErrors) {
-          if (er.path[0] === "skills") {
+          if (er.path[0] === 'skills') {
             // ignore if already have empty error (overridden)
             if (!submitErrors.skill) submitErrors.skill = er.message;
-          } else if (er.path[0] === "problems") {
+          } else if (er.path[0] === 'problems') {
             if (!submitErrors.problem) submitErrors.problem = er.message;
-          } else if (er.path[0] === "rewards") {
+          } else if (er.path[0] === 'rewards') {
             submitErrors.rewards = er.message;
-          } else if (er.path[0] === "rewardRank") {
+          } else if (er.path[0] === 'rewardRank') {
             submitErrors.rewardRank = er.message;
-          } else if (er.path[0] === "rewardDescription") {
+          } else if (er.path[0] === 'rewardDescription') {
             submitErrors.rewardDescription = er.message;
           } else {
             (submitErrors[key] as string) = er.message;
@@ -343,12 +337,12 @@ const AddContest: React.FC = () => {
         })),
       };
       // API submit
-      await createContest(contestBody)
-      toast.success("Contest Created!", toastifyOptionsCenter);
+      await createContest(contestBody);
+      toast.success('Contest Created!', toastifyOptionsCenter);
       navigate(`/company/manage-contest?search=${contestBody.title}`);
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong", toastifyOptionsCenter);
+      toast.error('Something went wrong', toastifyOptionsCenter);
     }
   };
 
@@ -363,10 +357,7 @@ const AddContest: React.FC = () => {
       <div className="flex flex-col gap-4 ">
         <div className=" bg-white shadow-sm rounded-md grid grid-flow-col grid-cols-3  justify-center items-center">
           <div className="flex px-5 justify-start">
-            <Button
-              variant={"ghost"}
-              onClick={() => navigate("/company/manage-contest")}
-            >
+            <Button variant={'ghost'} onClick={() => navigate('/company/manage-contest')}>
               Back
             </Button>
           </div>
@@ -410,7 +401,6 @@ const AddContest: React.FC = () => {
               handleChange={handleChangeInputField}
             />
 
-           
             <div className="flex flex-col gap-4">
               <div className="flex items-end gap-4">
                 <SelectTag
@@ -423,20 +413,15 @@ const AddContest: React.FC = () => {
                   head="Problem"
                   name="problem"
                   value={data.problem}
-                  handleChange={(v) => handleChangeOtherTag(v, "problem")}
+                  handleChange={(v) => handleChangeOtherTag(v, 'problem')}
                 />
-                <Button
-                  size={"sm"}
-                  type="button"
-                  className="pt-1 mb-1"
-                  onClick={addProblem}
-                >
+                <Button size={'sm'} type="button" className="pt-1 mb-1" onClick={addProblem}>
                   Add Problem
                 </Button>
               </div>
               <div
                 className={`border ${
-                  showSkillsProblemsError && error.problem && "border-red-400"
+                  showSkillsProblemsError && error.problem && 'border-red-400'
                 } px-3 py-2 border-gray-200 flex flex-wrap rounded-md w-full gap-3 min-h-28`}
               >
                 {selectedProblems.map((v) => {
@@ -452,11 +437,10 @@ const AddContest: React.FC = () => {
               </div>
             </div>
 
-       
             {showSkillsProblemsError && getProblemWarning() && (
               <span className="text-xs pt-1 pl-1 text-red-400">{getProblemWarning()}</span>
             )}
-           
+
             {showSkillsProblemsError && error.problem && !getProblemWarning() && (
               <span className="text-xs pt-1 pl-1 text-red-400">{error.problem}</span>
             )}
@@ -473,20 +457,15 @@ const AddContest: React.FC = () => {
                   head="Skills"
                   name="skill"
                   value={data.skill}
-                  handleChange={(v) => handleChangeOtherTag(v, "skill")}
+                  handleChange={(v) => handleChangeOtherTag(v, 'skill')}
                 ></SelectTag>
-                <Button
-                  size={"sm"}
-                  type="button"
-                  className="pt-1 mb-1"
-                  onClick={addSkills}
-                >
+                <Button size={'sm'} type="button" className="pt-1 mb-1" onClick={addSkills}>
                   Add Skill
                 </Button>
               </div>
               <div
                 className={`border ${
-                  showSkillsProblemsError && error.skill && "border-red-400"
+                  showSkillsProblemsError && error.skill && 'border-red-400'
                 } px-3 py-2 border-gray-200 flex flex-wrap rounded-md w-full gap-3 min-h-28`}
               >
                 {selectedSkills.map((v) => {
@@ -501,11 +480,11 @@ const AddContest: React.FC = () => {
                 })}
               </div>
             </div>
-           
+
             {showSkillsProblemsError && getSkillWarning() && (
               <span className="text-xs pt-1 pl-1 text-red-400">{getSkillWarning()}</span>
             )}
-          
+
             {showSkillsProblemsError && error.skill && !getSkillWarning() && (
               <span className="text-xs pt-1 pl-1 text-red-400">{error.skill}</span>
             )}
@@ -521,12 +500,12 @@ const AddContest: React.FC = () => {
               name="domain"
               value={data.domain}
               error={error.domain}
-              handleChange={(v) => handleChangeOtherTag(v, "domain")}
+              handleChange={(v) => handleChangeOtherTag(v, 'domain')}
             ></SelectTag>
             <SelectTag
               options={[
-                { label: "Public", value: "public" },
-                { label: "Private", value: "private" },
+                { label: 'Public', value: 'public' },
+                { label: 'Private', value: 'private' },
               ]}
               placeholder="Select Visibility"
               label="Visibility"
@@ -534,7 +513,7 @@ const AddContest: React.FC = () => {
               name="visibility"
               value={data.visibility}
               error={error.visibility}
-              handleChange={(v) => handleChangeOtherTag(v, "visibility")}
+              handleChange={(v) => handleChangeOtherTag(v, 'visibility')}
             ></SelectTag>
 
             <p className="text-gray-900 pl-1 text-sm">Rewards</p>
@@ -558,18 +537,13 @@ const AddContest: React.FC = () => {
                   handleChange={handleRewardInputChange}
                 />
               </div>
-              <Button
-                size={"sm"}
-                type="button"
-                className="pt-1 mb-1"
-                onClick={addReward}
-              >
+              <Button size={'sm'} type="button" className="pt-1 mb-1" onClick={addReward}>
                 Add
               </Button>
             </div>
             <div
               className={`bg-white border ${
-                error.rewards && "border-red-400"
+                error.rewards && 'border-red-400'
               } rounded-md p-4 min-h-32 shadow-sm max-w-full`}
             >
               <div className="grid grid-cols-4 gap-4">
@@ -587,21 +561,17 @@ const AddContest: React.FC = () => {
                       />
                     </div>
                     <p className="text-xs text-gray-500">Rank : {re.rank}</p>
-                    <p className="text-xs text-gray-500">
-                      Description : {re.description}
-                    </p>
+                    <p className="text-xs text-gray-500">Description : {re.description}</p>
                   </section>
                 ))}
               </div>
             </div>
             {error.rewards && (
-              <span className="text-xs pt-1 pl-1 text-red-400">
-                {error.rewards}
-              </span>
+              <span className="text-xs pt-1 pl-1 text-red-400">{error.rewards}</span>
             )}
 
             <div className="flex justify-end">
-              <Button type="button" size={"lg"} onClick={handleSubmit}>
+              <Button type="button" size={'lg'} onClick={handleSubmit}>
                 Save
               </Button>
             </div>

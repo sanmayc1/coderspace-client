@@ -1,8 +1,7 @@
-import type { IPaginationProps } from "@/types/props.types";
-import PaginationComponent from "./Pagination";
-import SelectTag from "./Select";
-import { useNavigate } from "react-router-dom";
-import { Skeleton } from "../ui/Skeleton";
+import type { IPaginationProps } from '@/types/props.types';
+import PaginationComponent from './Pagination';
+import SelectTag from './Select';
+import { Skeleton } from '../ui/Skeleton';
 
 export interface TableColumn<T> {
   key: keyof T;
@@ -26,7 +25,7 @@ interface TableProps<T> extends Partial<IPaginationProps> {
 const Table = <T extends Record<string, any>>({
   data,
   columns,
-  className = "",
+  className = '',
   currentPage,
   setCurrentPage,
   totalPages,
@@ -46,7 +45,7 @@ const Table = <T extends Record<string, any>>({
                   <th
                     key={index}
                     className={`px-2 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider break-words ${
-                      column.className || ""
+                      column.className || ''
                     }`}
                   >
                     {column.label}
@@ -98,10 +97,10 @@ const Table = <T extends Record<string, any>>({
               <div className="w-[15%]">
                 <SelectTag
                   options={[
-                    { label: "4", value: "4" },
-                    { label: "5", value: "5" },
-                    { label: "6", value: "6" },
-                    { label: "7", value: "7" },
+                    { label: '4', value: '4' },
+                    { label: '5', value: '5' },
+                    { label: '6', value: '6' },
+                    { label: '7', value: '7' },
                   ]}
                   name="itemPerPage"
                   label="Items Per Page"
@@ -123,9 +122,7 @@ const Table = <T extends Record<string, any>>({
         ) : loading ? (
           <p className="text-gray-500 text-center py-9 w-full">Loading...</p>
         ) : (
-          <p className="text-gray-500 text-center py-9 w-full">
-            No matching data found
-          </p>
+          <p className="text-gray-500 text-center py-9 w-full">No matching data found</p>
         )}
       </div>
     </>

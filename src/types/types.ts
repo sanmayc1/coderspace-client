@@ -1,4 +1,4 @@
-import type { IUserGetProblem } from "./response.types";
+import type { IUserGetProblem } from './response.types';
 
 export interface IUserRegister {
   name: string;
@@ -83,12 +83,12 @@ export interface IProblemListing {
   id: string;
   view: TView;
 }
-export type TSort = "NEWEST" | "OLDEST" | "NAME_ASC" | "NAME_DESC";
+export type TSort = 'NEWEST' | 'OLDEST' | 'NAME_ASC' | 'NAME_DESC';
 
-export type Role = "admin" | "user" | "company" | "guest";
+export type Role = 'admin' | 'user' | 'company' | 'guest';
 
-export type TLanguages = "javascript" | "java" | "python" | "cpp";
-export type TView = "public" | "private";
+export type TLanguages = 'javascript' | 'java' | 'python' | 'cpp';
+export type TView = 'public' | 'private';
 
 export interface IReward {
   id: string;

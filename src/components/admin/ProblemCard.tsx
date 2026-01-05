@@ -1,44 +1,43 @@
-import { Edit, Eye, EyeOff, MoveRight } from "lucide-react";
-import { Button } from "../ui/Button";
-import { useNavigate } from "react-router-dom";
-import type { IProblemCardProps } from "@/types/props.types";
-import SelectTag from "../common/Select";
-import { LANGUAGES } from "@/utils/constants";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { addLanguage, changeVisibility } from "@/api/admin/problem-management";
-import { AxiosError } from "axios";
+import { Edit, Eye, EyeOff, MoveRight } from 'lucide-react';
+import { Button } from '../ui/Button';
+import { useNavigate } from 'react-router-dom';
+import type { IProblemCardProps } from '@/types/props.types';
+import SelectTag from '../common/Select';
+import { LANGUAGES } from '@/utils/constants';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { addLanguage, changeVisibility } from '@/api/admin/problem-management';
+import { AxiosError } from 'axios';
 
 const ProblemCard: React.FC<IProblemCardProps> = ({ problem, refetch }) => {
-  const [language, setLanguage] = useState("");
+  const [language, setLanguage] = useState('');
   const navigate = useNavigate();
   const addNewLanguage = async () => {
     if (!language.trim()) {
-      toast.error("Select a language", toastifyOptionsCenter);
+      toast.error('Select a language', toastifyOptionsCenter);
       return;
     }
 
     try {
       await addLanguage({ problemId: problem.id, language });
-      toast.success("Language added successfully", toastifyOptionsCenter);
+      toast.success('Language added successfully', toastifyOptionsCenter);
       refetch((prev) => !prev);
-      setLanguage("");
+      setLanguage('');
     } catch (error) {
-      toast.error("Something went wrong", toastifyOptionsCenter);
+      toast.error('Something went wrong', toastifyOptionsCenter);
     }
   };
 
   const handleChangeVisibility = async () => {
     try {
       await changeVisibility({ id: problem.id });
-      toast.success("Visibility Changed", toastifyOptionsCenter);
+      toast.success('Visibility Changed', toastifyOptionsCenter);
       refetch((prev) => !prev);
     } catch (error) {
-      if(error instanceof AxiosError){
+      if (error instanceof AxiosError) {
         toast.error(error.response?.data.errors[0].error, toastifyOptionsCenter);
       }
-     
     }
   };
 
@@ -51,12 +50,12 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem, refetch }) => {
         <p className="text-lg">
           <span>{problem.number}. </span>
           {problem.title
-            .split(" ")
+            .split(' ')
             .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-            .join(" ")}
+            .join(' ')}
         </p>
         <div className="flex gap-3 items-center">
-          {problem.view === "public" ? (
+          {problem.view === 'public' ? (
             <Eye
               onClick={handleChangeVisibility}
               className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
@@ -64,7 +63,7 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem, refetch }) => {
             />
           ) : (
             <EyeOff
-              onClick={handleChangeVisibility} 
+              onClick={handleChangeVisibility}
               className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
               size={20}
             />
@@ -72,34 +71,29 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem, refetch }) => {
           <Edit
             size={20}
             className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
-            onClick={() =>
-              navigate(`/admin/manage-problems/${problem.id}/edit`)
-            }
+            onClick={() => navigate(`/admin/manage-problems/${problem.id}/edit`)}
           />
         </div>
       </div>
       <div
         className={`flex items-center gap-3 ${
-          LANGUAGES.filter(
-            (l) => !problem.languages.some((pl) => pl.language == l.value)
-          ).length === 0
-            ? "opacity-50 pointer-events-none"
-            : ""
+          LANGUAGES.filter((l) => !problem.languages.some((pl) => pl.language == l.value))
+            .length === 0
+            ? 'opacity-50 pointer-events-none'
+            : ''
         }`}
       >
         <SelectTag
           handleChange={(v) => setLanguage(v)}
           name="language"
           value={language}
-          options={LANGUAGES.filter(
-            (l) => !problem.languages.some((pl) => pl.language == l.value)
-          )}
+          options={LANGUAGES.filter((l) => !problem.languages.some((pl) => pl.language == l.value))}
           placeholder="Select Language"
           label="Language"
         />
         <Button
           className="text-xs flex justify-center items-center pt-1"
-          size={"sm"}
+          size={'sm'}
           onClick={addNewLanguage}
         >
           Add
@@ -110,9 +104,7 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem, refetch }) => {
           problem.languages.map((l) => (
             <div
               key={l.id}
-              onClick={() =>
-                navigate(`/admin/manage-problems/language/${l.id}`)
-              }
+              onClick={() => navigate(`/admin/manage-problems/language/${l.id}`)}
               className="bg-white hover:scale-105 transition-all duration-300  text-sm shadow-md py-2 px-3  rounded-md flex justify-between items-center border-1 cursor-pointer"
             >
               {l.language.charAt(0).toUpperCase() + l.language.slice(1)}
@@ -126,9 +118,7 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem, refetch }) => {
         )}
       </div>
       <Button
-        onClick={() =>
-          navigate(`/admin/manage-problems/testcase/${problem.id}`)
-        }
+        onClick={() => navigate(`/admin/manage-problems/testcase/${problem.id}`)}
         className="hover:scale-105 transition-all duration-300  text-sm shadow-md py-2 px-3  rounded-md flex justify-center items-center border-1 cursor-pointer"
       >
         Testcase

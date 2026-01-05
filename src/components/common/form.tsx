@@ -1,7 +1,7 @@
-import type { CustomFormProps } from "@/types/props.types";
-import { useState } from "react";
-import type { z, ZodObject } from "zod";
-import { Button } from "../ui/Button";
+import type { CustomFormProps } from '@/types/props.types';
+import { useState } from 'react';
+import type { z, ZodObject } from 'zod';
+import { Button } from '../ui/Button';
 
 function CustomForm<T extends ZodObject<any>>({
   fields,
@@ -15,15 +15,12 @@ function CustomForm<T extends ZodObject<any>>({
   type FormValues = z.infer<T>;
 
   const initialValues = fields.reduce((acc, field) => {
-    acc[field.name as keyof FormValues] = "" as any;
+    acc[field.name as keyof FormValues] = '' as any;
     return acc;
   }, {} as Partial<FormValues>);
 
-  const [formValues, setFormValues] =
-    useState<Partial<FormValues>>(initialValues);
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof FormValues, string>>
-  >({});
+  const [formValues, setFormValues] = useState<Partial<FormValues>>(initialValues);
+  const [errors, setErrors] = useState<Partial<Record<keyof FormValues, string>>>({});
 
   if (error) {
     setErrors(error as Partial<Record<keyof FormValues, string>>);
@@ -49,7 +46,7 @@ function CustomForm<T extends ZodObject<any>>({
         }));
       } else {
         setErrors((prev) => {
-          const { [name]:_, ...rest } = prev;
+          const { [name]: _, ...rest } = prev;
           return rest as Partial<Record<keyof FormValues, string>>;
         });
       }
@@ -84,9 +81,7 @@ function CustomForm<T extends ZodObject<any>>({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`font-[anybody-regular] flex flex-col ${
-        gap ? `gap-${gap}` : "gap-3"
-      } rounded-xl`}
+      className={`font-[anybody-regular] flex flex-col ${gap ? `gap-${gap}` : 'gap-3'} rounded-xl`}
     >
       {fields.map((field) => (
         <div key={field.name} className="flex flex-col">
@@ -99,14 +94,14 @@ function CustomForm<T extends ZodObject<any>>({
           <input
             id={field.name}
             name={field.name}
-            type={field.type || "text"}
+            type={field.type || 'text'}
             placeholder={field.placeholder}
-            value={(formValues[field.name as keyof FormValues] as string) || ""}
+            value={(formValues[field.name as keyof FormValues] as string) || ''}
             onChange={handleChange}
             className={`border-1 p-2 rounded-md text-sm ${
               errors[field.name as keyof FormValues]
-                ? "outline-red-600 border-red-300"
-                : "outline-gray-200"  
+                ? 'outline-red-600 border-red-300'
+                : 'outline-gray-200'
             }`}
           />
 

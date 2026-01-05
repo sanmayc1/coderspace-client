@@ -1,11 +1,6 @@
-import type {
-  ICommonResponse,
-  IGetAllDomains,
- 
-  ISuccessResponse,
-} from "@/types/response.types";
-import { coderspaceBackend } from "../instance";
-import { API_ROUTES } from "../apiRoutes";
+import type { ICommonResponse, IGetAllDomains, ISuccessResponse } from '@/types/response.types';
+import { coderspaceBackend } from '../instance';
+import { API_ROUTES } from '../apiRoutes';
 
 export async function createDomain<T>(data: T): Promise<ICommonResponse> {
   try {
@@ -17,9 +12,7 @@ export async function createDomain<T>(data: T): Promise<ICommonResponse> {
   }
 }
 
-export async function getAllDomains(): Promise<
-  ISuccessResponse<IGetAllDomains>
-> {
+export async function getAllDomains(): Promise<ISuccessResponse<IGetAllDomains>> {
   try {
     const res = await coderspaceBackend.get(API_ROUTES.GET_ALL_DOMAINS);
 
@@ -48,7 +41,6 @@ export async function createSkill<T>(data: T): Promise<ICommonResponse> {
     throw error;
   }
 }
-
 
 export async function deleteSkill(id: string): Promise<ICommonResponse> {
   try {

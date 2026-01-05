@@ -1,4 +1,4 @@
-import type { ITextAreaProps } from "@/types/props.types";
+import type { ITextAreaProps } from '@/types/props.types';
 
 const TextArea: React.FC<ITextAreaProps> = ({
   label,
@@ -24,7 +24,7 @@ const TextArea: React.FC<ITextAreaProps> = ({
         value={value}
         onChange={handleChange}
         className={`border-1 py-2 px-3 rounded-md text-sm ${
-          error ? "outline-red-600 border-red-300" : "outline-gray-200"
+          error ? 'outline-red-600 border-red-300' : 'outline-gray-200'
         } ${className}`}
       />
 

@@ -1,6 +1,6 @@
-import type { IGetAllSkills, ISuccessResponse } from "@/types/response.types";
-import { coderspaceBackend } from "../instance";
-import { API_ROUTES } from "../apiRoutes";
+import type { IGetAllSkills, ISuccessResponse } from '@/types/response.types';
+import { coderspaceBackend } from '../instance';
+import { API_ROUTES } from '../apiRoutes';
 
 export async function getAllSkills(): Promise<ISuccessResponse<IGetAllSkills>> {
   try {

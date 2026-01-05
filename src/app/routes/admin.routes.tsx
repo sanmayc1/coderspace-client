@@ -1,72 +1,71 @@
-import AdminLayout from "@/components/layout/AdminLayout";
-import UserManagement from "@/pages/admin/manage-users/ManageUser";
-import type { IAppRoutes } from "@/types/types";
-import Table from "@/components/common/Table";
-import ProblemManagement from "@/pages/admin/manage-problems/ManageProblems";
-import AddProblem from "@/pages/admin/manage-problems/AddProblem";
-import AddLanguage from "@/pages/admin/manage-problems/AddLanguage";
-import AddTestcase from "@/pages/admin/manage-problems/AddTestcase";
-import ManageSkillsAndDomains from "@/pages/admin/manage-skills-and-domains/ManageSkillsAndDomains";
-import EditProblem from "@/pages/admin/manage-problems/EditProblem";
+import AdminLayout from '@/components/layout/AdminLayout';
+import UserManagement from '@/pages/admin/manage-users/ManageUser';
+import type { IAppRoutes } from '@/types/types';
+import Table from '@/components/common/Table';
+import ProblemManagement from '@/pages/admin/manage-problems/ManageProblems';
+import AddProblem from '@/pages/admin/manage-problems/AddProblem';
+import AddLanguage from '@/pages/admin/manage-problems/AddLanguage';
+import AddTestcase from '@/pages/admin/manage-problems/AddTestcase';
+import ManageSkillsAndDomains from '@/pages/admin/manage-skills-and-domains/ManageSkillsAndDomains';
+import EditProblem from '@/pages/admin/manage-problems/EditProblem';
 
 export const adminRoutes: IAppRoutes[] = [
   {
-    path: "/admin",
+    path: '/admin',
     element: <AdminLayout />,
-    allowedRoles: ["admin"],
+    allowedRoles: ['admin'],
     children: [
       {
         index: true,
         element: <h1>dash</h1>,
-        allowedRoles: ["admin"],
+        allowedRoles: ['admin'],
       },
       {
-        path: "manage-user",
+        path: 'manage-user',
         element: <UserManagement />,
-        allowedRoles: ["admin"],
+        allowedRoles: ['admin'],
       },
       {
-        path: "manage-business",
+        path: 'manage-business',
         element: (
           <Table
-            columns={[{ key: "hell", label: "sdf" }]}
-            data={[{ hell: "dfsdf" }]}
+            columns={[{ key: 'hell', label: 'sdf' }]}
+            data={[{ hell: 'dfsdf' }]}
             className=""
           />
         ),
-        allowedRoles: ["admin"],
+        allowedRoles: ['admin'],
       },
       {
-        path: "manage-problems",
+        path: 'manage-problems',
         element: <ProblemManagement />,
-        allowedRoles: ["admin"],
+        allowedRoles: ['admin'],
       },
       {
-        path: "manage-problems/add",
+        path: 'manage-problems/add',
         element: <AddProblem />,
-        allowedRoles: ["admin"],
+        allowedRoles: ['admin'],
       },
       {
-        path: "/admin/manage-problems/language/:id",
+        path: '/admin/manage-problems/language/:id',
         element: <AddLanguage />,
-        allowedRoles: ["admin"],
+        allowedRoles: ['admin'],
       },
       {
-        path: "/admin/manage-problems/testcase/:id",
+        path: '/admin/manage-problems/testcase/:id',
         element: <AddTestcase />,
-        allowedRoles: ["admin"],
+        allowedRoles: ['admin'],
       },
       {
-        path:"/admin/manage-problems/:id/edit",
-        element:<EditProblem/>,
-        allowedRoles:["admin"]
-
+        path: '/admin/manage-problems/:id/edit',
+        element: <EditProblem />,
+        allowedRoles: ['admin'],
       },
       {
-        path:"manage-skills-and-domains",
-        element:<ManageSkillsAndDomains/>,
-        allowedRoles:["admin"]
-      }
+        path: 'manage-skills-and-domains',
+        element: <ManageSkillsAndDomains />,
+        allowedRoles: ['admin'],
+      },
     ],
   },
 ];

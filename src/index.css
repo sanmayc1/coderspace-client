@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -110,36 +110,33 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-*{
-   user-select: none;
-   font-family: "anybody-regular";  
+* {
+  user-select: none;
+  font-family: 'anybody-regular';
 }
 
 @font-face {
-  font-family:"anybody-regular";
-  src: url("./assets/fonts/Anybody-Regular.otf") format("opentype");
+  font-family: 'anybody-regular';
+  src: url('./assets/fonts/Anybody-Regular.otf') format('opentype');
 }
 @font-face {
-  font-family: "anybody-thin";
-  src: url("./assets/fonts/Anybody-Thin.otf") format("opentype");
-
-}
-
-@font-face {
-  font-family: "anybody-light";
-  src: url("./assets/fonts/Anybody-Light.otf") format("opentype");
-
+  font-family: 'anybody-thin';
+  src: url('./assets/fonts/Anybody-Thin.otf') format('opentype');
 }
 
 @font-face {
-  font-family: "anybody-bold";
-  src: url("./assets/fonts/Anybody-Bold.otf") format("opentype");
-
+  font-family: 'anybody-light';
+  src: url('./assets/fonts/Anybody-Light.otf') format('opentype');
 }
 
 @font-face {
-  font-family: "anybody-semibold";
-  src: url("./assets/fonts/Anybody-SemiBold.otf") format("opentype");
+  font-family: 'anybody-bold';
+  src: url('./assets/fonts/Anybody-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'anybody-semibold';
+  src: url('./assets/fonts/Anybody-SemiBold.otf') format('opentype');
 }
 
 @layer base {
@@ -150,4 +147,3 @@
     @apply bg-background text-foreground;
   }
 }
-

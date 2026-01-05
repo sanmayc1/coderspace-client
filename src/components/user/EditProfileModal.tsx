@@ -1,16 +1,16 @@
-import { ImageUp } from "lucide-react";
-import Modal from "../common/Modal";
-import InputFiled from "../common/Input";
-import TextArea from "../common/Textarea";
-import { Button } from "../ui/Button";
-import LoadingSpin from "../common/LoadingSpin";
-import { useState } from "react";
-import type { IGetUserUsecaseOutputDto } from "@/pages/user/Profile";
-import { UserProfileEditSchema } from "@/utils/validation/user-validation";
-import { toast } from "react-toastify";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { updateUserProfile } from "@/api/user/user.profile";
-import { AxiosError } from "axios";
+import { ImageUp } from 'lucide-react';
+import Modal from '../common/Modal';
+import InputFiled from '../common/Input';
+import TextArea from '../common/Textarea';
+import { Button } from '../ui/Button';
+import LoadingSpin from '../common/LoadingSpin';
+import { useState } from 'react';
+import type { IGetUserUsecaseOutputDto } from '@/pages/user/Profile';
+import { UserProfileEditSchema } from '@/utils/validation/user-validation';
+import { toast } from 'react-toastify';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { updateUserProfile } from '@/api/user/user.profile';
+import { AxiosError } from 'axios';
 
 const EditProfileModal: React.FC<{
   isOpen: boolean;
@@ -22,9 +22,9 @@ const EditProfileModal: React.FC<{
   const [newImgae, setNewImage] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({
-    name: "",
-    username: "",
-    about: "",
+    name: '',
+    username: '',
+    about: '',
   });
   const [editData, setEditData] = useState({
     name: data.name,
@@ -32,11 +32,9 @@ const EditProfileModal: React.FC<{
     about: data.about,
   });
 
-  const handleEditChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
- 
+
     const result = UserProfileEditSchema.safeParse({
       [name]: value,
     });
@@ -52,7 +50,7 @@ const EditProfileModal: React.FC<{
       });
 
       if (flag === false) {
-        setErrors((prev) => ({ ...prev, [name]: "" }));
+        setErrors((prev) => ({ ...prev, [name]: '' }));
       }
     }
 
@@ -83,17 +81,17 @@ const EditProfileModal: React.FC<{
 
     try {
       const formData = new FormData();
-      formData.append("name", result.data.name);
-      formData.append("username", result.data.username);
+      formData.append('name', result.data.name);
+      formData.append('username', result.data.username);
       if (result.data.about) {
-        formData.append("about", result.data.about);
+        formData.append('about', result.data.about);
       }
       if (newImgae) {
-        formData.append("profileImage", newImgae);
+        formData.append('profileImage', newImgae);
       }
 
       await updateUserProfile(formData);
-      toast.success("Profile updated successfully", toastifyOptionsCenter);
+      toast.success('Profile updated successfully', toastifyOptionsCenter);
       setTimeout(() => {
         setRefetch((prev) => !prev);
       }, 1000);
@@ -102,17 +100,16 @@ const EditProfileModal: React.FC<{
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      if(error instanceof AxiosError){
-        console.log(error)
-         if(error.status === 409){
-          setErrors((prev) => ({ ...prev, username: "Username already exists" }));
-           setIsLoading(false);
-          return
-         }
-         
+      if (error instanceof AxiosError) {
+        console.log(error);
+        if (error.status === 409) {
+          setErrors((prev) => ({ ...prev, username: 'Username already exists' }));
+          setIsLoading(false);
+          return;
+        }
       }
-      
-      toast.error("Failed to update profile", toastifyOptionsCenter);
+
+      toast.error('Failed to update profile', toastifyOptionsCenter);
       setIsLoading(false);
     }
   };
@@ -124,9 +121,9 @@ const EditProfileModal: React.FC<{
       about: data.about,
     });
     setErrors({
-      name: "",
-      username: "",
-      about: "",
+      name: '',
+      username: '',
+      about: '',
     });
     setNewImage(null);
     onClose();
@@ -176,7 +173,7 @@ const EditProfileModal: React.FC<{
           label="About"
           name="about"
           placeholder="Tell us about yourself"
-          value={editData.about || ""}
+          value={editData.about || ''}
           handleChange={handleEditChange}
           error={errors.about}
         />
@@ -194,7 +191,7 @@ const EditProfileModal: React.FC<{
             }
             onClick={handleEditSubmit}
           >
-            {isLoading ? <LoadingSpin /> : "Save Changes"}
+            {isLoading ? <LoadingSpin /> : 'Save Changes'}
           </Button>
         </div>
       </div>
