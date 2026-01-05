@@ -1,21 +1,21 @@
-import { RouterProvider } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { useEffect } from "react";
-import { fetchRoleData } from "./api/asyncThunk/thunk-api"; 
-import { useAppDispatch, useAppSelector } from "./app/hooks/redux-custom-hook";
-import LoadingSpin from "./components/common/LoadingSpin";
-import { routers } from "./app/routes/index.routes";
-import UserExperienceModal from "./components/user/UserExperienceModal";
-import { socket } from "./socket";
+import { RouterProvider } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { useEffect } from 'react';
+import { fetchRoleData } from './api/asyncThunk/thunk-api';
+import { useAppDispatch, useAppSelector } from './app/hooks/redux-custom-hook';
+import LoadingSpin from './components/common/LoadingSpin';
+import { routers } from './app/routes/index.routes';
+import UserExperienceModal from './components/user/UserExperienceModal';
+import { socket } from './socket';
 
 function App() {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector((s) => s.authReducer.loading);
   useEffect(() => {
-     dispatch(fetchRoleData());
-    socket.on("connect",()=>{
-      console.log("Connected to socket server",socket.id)
-    })
+    dispatch(fetchRoleData());
+    socket.on('connect', () => {
+      console.log('Connected to socket server', socket.id);
+    });
   }, [dispatch]);
 
   if (isLoading) {

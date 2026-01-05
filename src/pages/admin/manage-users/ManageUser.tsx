@@ -1,58 +1,55 @@
-import { getAllUsers, updateUserStatus } from "@/api/admin/user-management";
-import EditUser from "@/components/admin/EditUser";
-import InputFiled from "@/components/common/Input";
-import LoadingSkeletonWraper from "@/components/common/LoadingWraper";
-import Modal from "@/components/common/Modal";
-import SelectTag from "@/components/common/Select";
-import Table from "@/components/common/Table";
-import UserManagementTableSkeleton from "@/components/skeleton/TableSkeleton";
-import { Button } from "@/components/ui/Button";
-import { Switch } from "@/components/ui/Switch";
-import type { IErrorResponse } from "@/types/response.types";
-import type { IUsersData } from "@/types/types";
-import { SORT_SELECT_1 } from "@/utils/constants-admin";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import type { AxiosError } from "axios";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { getAllUsers, updateUserStatus } from '@/api/admin/user-management';
+import EditUser from '@/components/admin/EditUser';
+import InputFiled from '@/components/common/Input';
+import Modal from '@/components/common/Modal';
+import SelectTag from '@/components/common/Select';
+import Table from '@/components/common/Table';
+import { Button } from '@/components/ui/Button';
+import { Switch } from '@/components/ui/Switch';
+import type { IErrorResponse } from '@/types/response.types';
+import type { IUsersData } from '@/types/types';
+import { SORT_SELECT_1 } from '@/utils/constants-admin';
+import { debounce } from '@/utils/debouncing';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import type { AxiosError } from 'axios';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<IUsersData[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedSort, setSort] = useState<string>("");
-  const [itemsPerPage, setItemsPerPage] = useState<string>("");
-  const [search, setSearch] = useState("");
+  const [selectedSort, setSort] = useState<string>('');
+  const [itemsPerPage, setItemsPerPage] = useState<string>('');
+  const [search, setSearch] = useState('');
   const [selectedUser, setUser] = useState<IUsersData | null>(null);
   const [refetch, setRefetch] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchAllUsers = async () => {
+    const debouncedFetchAllUsers = debounce(async () => {
       try {
         setLoading(true);
         const res = await getAllUsers({
           sort: selectedSort,
-          limit: itemsPerPage || "5",
+          limit: itemsPerPage || '5',
           page: currentPage,
           search: search,
         });
 
         setUsers(res.data?.data?.users || []);
         setTotalPages(res.data?.data?.totalPages);
-        setCurrentPage(
-          Math.min(res.data?.data?.page, res.data?.data?.totalPages)
-        );
+        setCurrentPage(Math.min(res.data?.data?.page, res.data?.data?.totalPages));
       } catch (error) {
         const axiosError = error as AxiosError<IErrorResponse>;
         toast.error(axiosError.response?.data.message, toastifyOptionsCenter);
       } finally {
         setLoading(false);
       }
-    };
+    }, 500);
 
-    fetchAllUsers();
+    debouncedFetchAllUsers();
   }, [selectedSort, currentPage, itemsPerPage, search, refetch]);
 
   const handleSortChange = (value: string) => {
@@ -73,7 +70,7 @@ const UserManagement: React.FC = () => {
     setIsOpen(false);
   };
 
-  const renderUserCell = (_value = "/defaultProfile.jpg", item: IUsersData) => {
+  const renderUserCell = (_value = '/defaultProfile.jpg', item: IUsersData) => {
     return (
       <div className="flex pr-8 md:pr-0 justify-start items-center gap-2">
         <img className="h-8 rounded-full " src={_value} />
@@ -96,28 +93,23 @@ const UserManagement: React.FC = () => {
 
   const handleBlockToggle = async (accountId: string, blocked: boolean) => {
     const prevUsers = [...users];
-    setUsers((prev) =>
-      prev.map((u) => (u.accountId === accountId ? { ...u, blocked } : u))
-    );
+    setUsers((prev) => prev.map((u) => (u.accountId === accountId ? { ...u, blocked } : u)));
 
     try {
       await updateUserStatus(accountId);
       toast.success(
-        `User ${blocked ? "blocked" : "unblocked"} successfully`,
+        `User ${blocked ? 'blocked' : 'unblocked'} successfully`,
         toastifyOptionsCenter
       );
     } catch (error) {
       setUsers(prevUsers);
-      toast.error("Failed to update user status", toastifyOptionsCenter);
-      console.log(error)
+      toast.error('Failed to update user status', toastifyOptionsCenter);
+      console.log(error);
     }
   };
 
   const renderUserBlockSwitch = (value: boolean, item: IUsersData) => (
-    <Switch
-      checked={value}
-      onCheckedChange={(c) => handleBlockToggle(item.accountId, c)}
-    />
+    <Switch checked={value} onCheckedChange={(c) => handleBlockToggle(item.accountId, c)} />
   );
 
   const renderUserEdit = (_value: string, item: IUsersData) => (
@@ -128,7 +120,7 @@ const UserManagement: React.FC = () => {
 
   return (
     <>
-      <div className="w-full  flex flex-col gap-4 ">
+      <div className="w-full flex flex-col gap-4 ">
         <div className="shadow-md sm:w-full w-[100%] p-3 bg-gray-50 rounded-md h-fit flex flex-col gap-4">
           <h1 className="text-2xl font-semibold px-2">Manage Users</h1>
           <InputFiled
@@ -150,54 +142,50 @@ const UserManagement: React.FC = () => {
           </div>
         </div>
 
-        <LoadingSkeletonWraper
-          isLoading={isLoading}
-          Skeleton={UserManagementTableSkeleton}
-        >
-          <Table
-            columns={[
-              {
-                key: "profileUrl",
-                label: "Username",
-                render: renderUserCell,
-              },
-              {
-                key: "email",
-                label: "Email",
-              },
-              {
-                key: "level",
-                label: "Level",
-              },
-              {
-                key: "badge",
-                label: "Badge",
-                render: (val) => val.charAt(0).toUpperCase() + val.slice(1),
-              },
-              {
-                key: "blocked",
-                label: "Status",
-                render: renderUserStatus,
-              },
-              {
-                key: "blocked",
-                label: "Block",
-                render: renderUserBlockSwitch,
-              },
-              {
-                key: "userId",
-                label: "Actions",
-                render: renderUserEdit,
-              },
-            ]}
-            data={users}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-            setItemsPerPage={setItemsPerPage}
-            itemsPerPage={itemsPerPage}
-          />
-        </LoadingSkeletonWraper>
+        <Table
+          columns={[
+            {
+              key: 'profileUrl',
+              label: 'Username',
+              render: renderUserCell,
+            },
+            {
+              key: 'email',
+              label: 'Email',
+            },
+            {
+              key: 'level',
+              label: 'Level',
+            },
+            {
+              key: 'badge',
+              label: 'Badge',
+              render: (val) => val.charAt(0).toUpperCase() + val.slice(1),
+            },
+            {
+              key: 'blocked',
+              label: 'Status',
+              render: renderUserStatus,
+            },
+            {
+              key: 'blocked',
+              label: 'Block',
+              render: renderUserBlockSwitch,
+            },
+            {
+              key: 'userId',
+              label: 'Actions',
+              render: renderUserEdit,
+            },
+          ]}
+          loading={isLoading}
+          data={users}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          setItemsPerPage={setItemsPerPage}
+          itemsPerPage={itemsPerPage}
+        />
       </div>
       {selectedUser && (
         <Modal isOpen={isOpen}>

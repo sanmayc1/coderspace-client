@@ -1,8 +1,9 @@
-import type { IPaginationProps } from "@/types/props.types";
-import PaginationComponent from "./Pagination";
-import SelectTag from "./Select";
+import type { IPaginationProps } from '@/types/props.types';
+import PaginationComponent from './Pagination';
+import SelectTag from './Select';
+import { Skeleton } from '../ui/Skeleton';
 
-interface TableColumn<T> {
+export interface TableColumn<T> {
   key: keyof T;
   label: string;
   render?: (value: any, item: T) => React.ReactNode;
@@ -16,18 +17,22 @@ interface TableProps<T> extends Partial<IPaginationProps> {
   className?: string;
   setItemsPerPage?: React.Dispatch<React.SetStateAction<string>>;
   itemsPerPage?: string;
+  columnClick?: (item: T) => void;
+  loading: boolean;
 }
 
 // Simple reusable table component
 const Table = <T extends Record<string, any>>({
   data,
   columns,
-  className = "",
+  className = '',
   currentPage,
   setCurrentPage,
   totalPages,
   setItemsPerPage,
   itemsPerPage,
+  columnClick,
+  loading,
 }: TableProps<T>) => {
   return (
     <>
@@ -40,7 +45,7 @@ const Table = <T extends Record<string, any>>({
                   <th
                     key={index}
                     className={`px-2 sm:px-4 md:px-6 py-2 sm:py-3 text-left text-[10px] sm:text-xs md:text-sm font-medium text-gray-500 uppercase tracking-wider break-words ${
-                      column.className || ""
+                      column.className || ''
                     }`}
                   >
                     {column.label}
@@ -49,20 +54,39 @@ const Table = <T extends Record<string, any>>({
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 ">
-              {data.map((item, rowIndex) => (
-                <tr key={rowIndex} className="hover:bg-gray-50">
-                  {columns.map((column, colIndex) => (
-                    <td
-                      key={colIndex}
-                      className="px-2 sm:px-4 md:px-6 py-2 sm:py-3 text-gray-900 text-[11px] sm:text-xs md:text-sm break-words"
+              {loading
+                ? Array(5)
+                    .fill(0)
+                    .map((_, index) => (
+                      <tr key={index}>
+                        {columns.map((_, index) => (
+                          <td
+                            key={index}
+                            className="px-2 sm:px-4 md:px-6 py-2 sm:py-3 text-gray-900 text-[11px] sm:text-xs md:text-sm break-words"
+                          >
+                            <Skeleton className="w-[30%] h-5 bg-gray-300 rounded-2xl" />
+                          </td>
+                        ))}
+                      </tr>
+                    ))
+                : data.map((item, rowIndex) => (
+                    <tr
+                      key={rowIndex}
+                      onClick={() => columnClick && columnClick(item)}
+                      className="hover:bg-gray-50 cursor-pointer"
                     >
-                      {column.render
-                        ? column.render(item[column.key], item)
-                        : String(item[column.key])}
-                    </td>
+                      {columns.map((column, colIndex) => (
+                        <td
+                          key={colIndex}
+                          className="px-2 sm:px-4 md:px-6 py-2 sm:py-3 text-gray-900 text-[11px] sm:text-xs md:text-sm break-words"
+                        >
+                          {column.render
+                            ? column.render(item[column.key], item)
+                            : String(item[column.key])}
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
             </tbody>
           </table>
         </div>
@@ -73,10 +97,10 @@ const Table = <T extends Record<string, any>>({
               <div className="w-[15%]">
                 <SelectTag
                   options={[
-                    { label: "4", value: "4" },
-                    { label: "5", value: "5" },
-                    { label: "6", value: "6" },
-                    { label: "7", value: "7" },
+                    { label: '4', value: '4' },
+                    { label: '5', value: '5' },
+                    { label: '6', value: '6' },
+                    { label: '7', value: '7' },
                   ]}
                   name="itemPerPage"
                   label="Items Per Page"
@@ -95,10 +119,10 @@ const Table = <T extends Record<string, any>>({
               />
             )}
           </div>
+        ) : loading ? (
+          <p className="text-gray-500 text-center py-9 w-full">Loading...</p>
         ) : (
-          <p className="text-gray-500 text-center py-9 w-full">
-            No matching data found
-          </p>
+          <p className="text-gray-500 text-center py-9 w-full">No matching data found</p>
         )}
       </div>
     </>

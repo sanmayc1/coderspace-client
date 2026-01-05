@@ -1,25 +1,25 @@
-import { resetPassword } from "@/api/auth/auth.api";
-import { useAppSelector } from "@/app/hooks/redux-custom-hook";
-import AuthFormWraper from "@/components/common/AuthFormWraper";
-import CustomForm from "@/components/common/Form";
-import LoadingSpin from "@/components/common/LoadingSpin";
-import type { IErrorResponse } from "@/types/response.types";
-import { ResetPasswordFields } from "@/utils/constants";
-import { uuidRegex } from "@/utils/regex";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { ResetPasswordSchema } from "@/utils/validation/user-validation";
-import type { AxiosError } from "axios";
-import { useCallback, useState } from "react";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import type z from "zod";
+import { resetPassword } from '@/api/auth/auth.api';
+import { useAppSelector } from '@/app/hooks/redux-custom-hook';
+import AuthFormWraper from '@/components/common/AuthFormWraper';
+import CustomForm from '@/components/common/Form';
+import LoadingSpin from '@/components/common/LoadingSpin';
+import type { IErrorResponse } from '@/types/response.types';
+import { ResetPasswordFields } from '@/utils/constants';
+import { uuidRegex } from '@/utils/regex';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { ResetPasswordSchema } from '@/utils/validation/user-validation';
+import type { AxiosError } from 'axios';
+import { useCallback, useState } from 'react';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import type z from 'zod';
 
 const RestPassword: React.FC = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const auth = useAppSelector((s) => s.authReducer.auth);
-  const token = searchParams.get("token");
+  const token = searchParams.get('token');
 
   type IRestPasswordData = z.infer<typeof ResetPasswordSchema>;
   const onSubmit = useCallback(
@@ -33,11 +33,8 @@ const RestPassword: React.FC = () => {
 
         const res = await resetPassword(body);
         if (res.status === 200) {
-          toast.success(
-            "Your password has been reset successfully",
-            toastifyOptionsCenter
-          );
-          navigate("/");
+          toast.success('Your password has been reset successfully', toastifyOptionsCenter);
+          navigate('/');
         }
       } catch (error) {
         setLoading(false);
@@ -54,7 +51,7 @@ const RestPassword: React.FC = () => {
   );
 
   if (!token || !uuidRegex.test(token) || auth) {
-    return <Navigate to={"/"} replace />;
+    return <Navigate to={'/'} replace />;
   }
   return (
     <AuthFormWraper>
@@ -66,7 +63,7 @@ const RestPassword: React.FC = () => {
           fields={ResetPasswordFields}
           zodSchema={ResetPasswordSchema}
           onSubmit={onSubmit}
-          btnName={isLoading ? <LoadingSpin /> : "Change"}
+          btnName={isLoading ? <LoadingSpin /> : 'Change'}
           btnDisable={isLoading}
         />
       </div>

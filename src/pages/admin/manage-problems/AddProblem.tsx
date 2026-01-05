@@ -1,63 +1,82 @@
-import { createProblem } from "@/api/admin/problem-management";
-import Skill from "@/components/admin/Skill";
-import InputFiled from "@/components/common/Input";
-import SelectTag from "@/components/common/Select";
-import TextArea from "@/components/common/Textarea";
-import { Button } from "@/components/ui/Button";
-import { Switch } from "@/components/ui/Switch";
-import type { IExample, IProblemState, ISkill } from "@/types/types";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import { createProblemSchema } from "@/utils/validation/admin-validation";
-import { Trash2 } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { v4 as uuid } from "uuid";
+import { createProblem } from '@/api/admin/problem-management';
+import { getAllDomains } from '@/api/admin/skill-and-domain-management';
+import { getAllSkills } from '@/api/common/common.api';
+import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
+import InputFiled from '@/components/common/Input';
+import SelectTag from '@/components/common/Select';
+import TextArea from '@/components/common/Textarea';
+import { Button } from '@/components/ui/Button';
+import { Switch } from '@/components/ui/Switch';
+import type { IDomain, IExample, IProblemState, ISkill } from '@/types/types';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { createProblemSchema } from '@/utils/validation/admin-validation';
+import { Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { v4 as uuid } from 'uuid';
 
 const AddProblem: React.FC = () => {
   const [data, setData] = useState<IProblemState>({
-    constrain: "",
-    description: "",
-    difficulty: "",
-    domain: "",
+    constrain: '',
+    description: '',
+    difficulty: '',
+    domain: '',
     premium: false,
-    skill: "",
-    title: "",
-    example: { id: "", explanation: "", input: "", output: "" },
+    skill: '',
+    title: '',
+    example: { id: '', explanation: '', input: '', output: '' },
   });
 
   const [error, setError] = useState({
-    constrain: "",
-    description: "",
-    difficulty: "",
-    domain: "",
-    premium: "",
-    skill: "",
-    title: "",
-    example: { id: "", explanation: "", input: "", output: "" },
+    constrain: '',
+    description: '',
+    difficulty: '',
+    domain: '',
+    premium: '',
+    skill: '',
+    title: '',
+    example: { id: '', explanation: '', input: '', output: '' },
   });
 
-  const [skills, setSkills] = useState<ISkill[]>([
-    { id: "1", title: "Array" },
-    { id: "2", title: "Object" },
-    { id: "3", title: "HashTable" },
-  ]);
+  const [skills, setSkills] = useState<ISkill[]>([]);
+  const [domains, setDomains] = useState<IDomain[]>([]);
 
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
   const [examples, setExamples] = useState<IExample[]>([]);
   const navigate = useNavigate();
-  const handleChangeInputField = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+
+  useEffect(() => {
+    async function fetchAllDomains() {
+      try {
+        const res = await getAllDomains();
+        setDomains(res.data.domains);
+      } catch (error) {
+        toast.error('Something Went Wrong', toastifyOptionsCenter);
+      }
+    }
+    async function fetchAllSkills() {
+      try {
+        const res = await getAllSkills();
+
+        setSkills(res.data.skills);
+      } catch (error) {
+        toast.error('Something Went Wrong', toastifyOptionsCenter);
+      }
+    }
+    fetchAllDomains();
+    fetchAllSkills();
+  }, []);
+
+  const handleChangeInputField = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
 
+    setError((prev) => ({ ...prev, [name]: '' }));
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChangeOtherTag = (
-    v: string | undefined | boolean,
-    name: string
-  ) => {
+  const handleChangeOtherTag = (v: string | undefined | boolean, name: string) => {
+    setError((prev) => ({ ...prev, [name]: '' }));
     setData((prev) => ({ ...prev, [name]: v }));
   };
 
@@ -72,8 +91,9 @@ const AddProblem: React.FC = () => {
     const skill = skills.find((s) => s.id === data.skill);
     if (skill) {
       setSelectedSkills((prev) => [...prev, skill]);
+      setError((prev) => ({ ...prev, skill: '' }));
     }
-    setData((prev) => ({ ...prev, ["skill"]: "" }));
+    setData((prev) => ({ ...prev, ['skill']: '' }));
   };
 
   const removeSkill = (id: string) => {
@@ -87,33 +107,40 @@ const AddProblem: React.FC = () => {
       ...prev,
       example: { ...data.example, [name]: value },
     }));
+    setError((prev) => ({
+      ...prev,
+      example: { ...prev.example, [name]: '' },
+    }));
   };
 
   const addExample = () => {
     const exampleError: IExample = {
-      id: "",
-      input: "",
-      explanation: "",
-      output: "",
+      id: '',
+      input: '',
+      explanation: '',
+      output: '',
     };
 
-    const fields = ["input", "explanation", "output"];
+    const fields = ['input', 'explanation', 'output'];
 
     fields.forEach((f) => {
       if (!data.example[f as keyof IExample].trim()) {
-        exampleError[f as keyof IExample] = "Required";
+        exampleError[f as keyof IExample] = 'Required';
       }
     });
 
     if (exampleError.input || exampleError.explanation || exampleError.output) {
-      setError((prev) => ({ ...prev, example: exampleError }));
+      setError((prev) => ({
+        ...prev,
+        example: { ...exampleError, id: prev.example.id },
+      }));
       return;
     } else setError((prev) => ({ ...prev, example: exampleError }));
 
     setExamples((prev) => [...prev, { ...data.example, id: uuid() }]);
     setData((prev) => ({
       ...prev,
-      example: { id: "", input: "", explanation: "", output: "" },
+      example: { id: '', input: '', explanation: '', output: '' },
     }));
   };
 
@@ -121,34 +148,33 @@ const AddProblem: React.FC = () => {
     setExamples((prev) => prev.filter((ex) => ex.id !== id));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const body = { ...data, examples: examples, skills: selectedSkills };
     const result = createProblemSchema.safeParse(body);
 
     if (!result.success) {
       const validationError = {
-        constrain: "",
-        description: "",
-        difficulty: "",
-        domain: "",
-        premium: "",
-        skills: "",
-        title: "",
-        examples: "",
+        constrain: '',
+        description: '',
+        difficulty: '',
+        domain: '',
+        premium: '',
+        skills: '',
+        title: '',
+        examples: '',
       };
 
       result.error.issues.forEach((er) => {
-        validationError[er.path[0] as keyof typeof validationError] =
-          er.message;
+        validationError[er.path[0] as keyof typeof validationError] = er.message;
       });
 
       setError({
         ...validationError,
         example: {
           id: validationError.examples,
-          input: "",
-          output: "",
-          explanation: "",
+          input: '',
+          output: '',
+          explanation: '',
         },
         skill: validationError.skills,
       });
@@ -156,17 +182,36 @@ const AddProblem: React.FC = () => {
     }
 
     setError({
-      constrain: "",
-      description: "",
-      difficulty: "",
-      domain: "",
-      premium: "",
-      skill: "",
-      title: "",
-      example: { id: "", explanation: "", input: "", output: "" },
+      constrain: '',
+      description: '',
+      difficulty: '',
+      domain: '',
+      premium: '',
+      skill: '',
+      title: '',
+      example: { id: '', explanation: '', input: '', output: '' },
     });
 
-    console.log(result.data);
+    try {
+      const problemBody = {
+        title: data.title,
+        constrain: data.constrain,
+        description: data.description,
+        difficulty: data.difficulty,
+        domain: data.domain,
+        premium: data.premium,
+        skills: selectedSkills.map((s) => s.id),
+        examples: examples,
+      };
+
+      await createProblem(problemBody);
+      toast.success('Problem Added', toastifyOptionsCenter);
+      navigate(`/admin/manage-problems?search=${problemBody.title}`);
+    } catch (error) {
+      console.log(error);
+
+      toast.error('Something went wrong', toastifyOptionsCenter);
+    }
   };
 
   return (
@@ -174,10 +219,7 @@ const AddProblem: React.FC = () => {
       <div className="flex flex-col gap-4 ">
         <div className=" bg-white shadow-sm rounded-md grid grid-flow-col grid-cols-3  justify-center items-center">
           <div className="flex px-5 justify-start">
-            <Button
-              variant={"ghost"}
-              onClick={() => navigate("/admin/manage-problems/")}
-            >
+            <Button variant={'ghost'} onClick={() => navigate('/admin/manage-problems/')}>
               Back
             </Button>
           </div>
@@ -203,9 +245,9 @@ const AddProblem: React.FC = () => {
             />
             <SelectTag
               options={[
-                { label: "Easy", value: "easy" },
-                { label: "Medium", value: "medium" },
-                { label: "Hard", value: "hard" },
+                { label: 'Easy', value: 'easy' },
+                { label: 'Medium', value: 'medium' },
+                { label: 'Hard', value: 'hard' },
               ]}
               placeholder="Select Difficulty"
               label="Difficulty"
@@ -213,69 +255,63 @@ const AddProblem: React.FC = () => {
               name="difficulty"
               value={data.difficulty}
               error={error.difficulty}
-              handleChange={(v) => handleChangeOtherTag(v, "difficulty")}
+              handleChange={(v) => handleChangeOtherTag(v, 'difficulty')}
             ></SelectTag>
             <div className="flex flex-col gap-4">
               <div className="flex items-end  gap-4">
                 <SelectTag
-                  options={skills.map((s) => ({ label: s.title, value: s.id }))}
+                  options={skills.map((s) => ({
+                    label: s.title.charAt(0).toUpperCase() + s.title.slice(1),
+                    value: s.id,
+                  }))}
                   placeholder="Select Skill"
                   label="Skills"
                   head="Skills"
                   name="skill"
                   value={data.skill}
-                  handleChange={(v) => handleChangeOtherTag(v, "skill")}
+                  handleChange={(v) => handleChangeOtherTag(v, 'skill')}
                 ></SelectTag>
-                <Button
-                  size={"sm"}
-                  type="button"
-                  className="pt-1 mb-1"
-                  onClick={addSkills}
-                >
+                <Button size={'sm'} type="button" className="pt-1 mb-1" onClick={addSkills}>
                   Add Skill
                 </Button>
               </div>
               <div
                 className={`border ${
-                  error.skill && "border-red-400"
+                  error.skill && 'border-red-400'
                 } px-3 py-2 border-gray-200 flex flex-wrap rounded-md w-full gap-3 min-h-28`}
               >
                 {selectedSkills.map((v) => {
                   return (
-                    <Skill
+                    <SkillsAndDomainCapsule
                       key={v.id}
                       id={v.id}
                       title={v.title}
-                      removeSkill={removeSkill}
+                      deleteFn={removeSkill}
                     />
                   );
                 })}
               </div>
             </div>
-            {error.skill && (
-              <span className="text-xs pt-1 pl-1 text-red-400">
-                {error.skill}
-              </span>
-            )}
+            {error.skill && <span className="text-xs pt-1 pl-1 text-red-400">{error.skill}</span>}
             <div className="flex gap-10 py-3">
               <p className="text-gray-700 pl-1 text-sm">Premium</p>
               <Switch
                 checked={data.premium}
-                onCheckedChange={(v) => handleChangeOtherTag(v, "premium")}
+                onCheckedChange={(v) => handleChangeOtherTag(v, 'premium')}
               />
             </div>
             <SelectTag
-              options={[
-                { label: "Javascript", value: "javascript" },
-                { label: "DSA", value: "DSA" },
-              ]}
+              options={domains.map((d) => ({
+                label: d.title.charAt(0).toUpperCase() + d.title.slice(1),
+                value: d.id,
+              }))}
               placeholder="Select Domain"
               label="Domain"
               head="Domain"
               name="Domain"
               value={data.domain}
               error={error.domain}
-              handleChange={(v) => handleChangeOtherTag(v, "domain")}
+              handleChange={(v) => handleChangeOtherTag(v, 'domain')}
             ></SelectTag>
             <InputFiled
               label="Constrain"
@@ -314,18 +350,13 @@ const AddProblem: React.FC = () => {
                   handleChange={handleChangeExample}
                 />
               </div>
-              <Button
-                size={"sm"}
-                type="button"
-                className="pt-1 mb-1"
-                onClick={addExample}
-              >
+              <Button size={'sm'} type="button" className="pt-1 mb-1" onClick={addExample}>
                 Add
               </Button>
             </div>
             <div
               className={`bg-white border ${
-                error.example.id && "border-red-400"
+                error.example.id && 'border-red-400'
               } rounded-md p-4 min-h-32 shadow-sm max-w-full`}
             >
               <div className="grid grid-cols-4 gap-4">
@@ -343,24 +374,18 @@ const AddProblem: React.FC = () => {
                       />
                     </div>
                     <p className="text-xs text-gray-500">Input : {ex.input}</p>
-                    <p className="text-xs text-gray-500">
-                      Output : {ex.output}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      Explanation : {ex.explanation}
-                    </p>
+                    <p className="text-xs text-gray-500">Output : {ex.output}</p>
+                    <p className="text-xs text-gray-500">Explanation : {ex.explanation}</p>
                   </section>
                 ))}
               </div>
             </div>
             {error.example.id && (
-              <span className="text-xs pt-1 pl-1 text-red-400">
-                {error.example.id}
-              </span>
+              <span className="text-xs pt-1 pl-1 text-red-400">{error.example.id}</span>
             )}
 
             <div className="flex justify-end">
-              <Button type="button" size={"lg"} onClick={handleSubmit}>
+              <Button type="button" size={'lg'} onClick={handleSubmit}>
                 Save
               </Button>
             </div>

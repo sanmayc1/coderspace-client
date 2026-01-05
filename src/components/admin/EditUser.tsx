@@ -1,14 +1,14 @@
-import { useState } from "react";
-import InputFiled from "../common/Input";
-import SelectTag from "../common/Select";
-import { Badges } from "@/utils/constants";
-import { Button } from "../ui/Button";
-import type { IUsersData } from "@/types/types";
-import { updateUser } from "@/api/admin/user-management";
-import { toast } from "react-toastify";
-import type { AxiosError } from "axios";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import type { IErrorResponse } from "@/types/response.types";
+import { useState } from 'react';
+import InputFiled from '../common/Input';
+import SelectTag from '../common/Select';
+import { Badges } from '@/utils/constants';
+import { Button } from '../ui/Button';
+import type { IUsersData } from '@/types/types';
+import { updateUser } from '@/api/admin/user-management';
+import { toast } from 'react-toastify';
+import type { AxiosError } from 'axios';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import type { IErrorResponse } from '@/types/response.types';
 
 interface IEditUserProps {
   user: IUsersData;
@@ -19,19 +19,19 @@ interface IEditUserProps {
 const EditUser: React.FC<IEditUserProps> = ({ user, onClose, setRefetch }) => {
   const [level, setLevel] = useState<string>(String(user.level));
   const [badge, setBadge] = useState<string>(user.badge);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (Number.isNaN(Number(e.target.value))) {
-      setError("Number only allowed");
+      setError('Number only allowed');
       return;
     }
 
     if (Number(e.target.value) > 100) {
-      setError("Maximum Level 100");
+      setError('Maximum Level 100');
       return;
     }
-    setError("");
+    setError('');
     setLevel(e.target.value);
   };
 
@@ -42,11 +42,11 @@ const EditUser: React.FC<IEditUserProps> = ({ user, onClose, setRefetch }) => {
   const onSubmit = async () => {
     try {
       if (Number(level) > 100) {
-        setError("Maximum Level 100");
+        setError('Maximum Level 100');
         return;
       }
       if (Number(level) < 1) {
-        setError("Minimum Level 1");
+        setError('Minimum Level 1');
         return;
       }
 
@@ -61,10 +61,7 @@ const EditUser: React.FC<IEditUserProps> = ({ user, onClose, setRefetch }) => {
       setRefetch((prev) => !prev);
     } catch (error) {
       const axiosError = error as AxiosError<IErrorResponse>;
-      toast.error(
-        axiosError.response?.data.errors?.[0]?.error,
-        toastifyOptionsCenter
-      );
+      toast.error(axiosError.response?.data.errors?.[0]?.error, toastifyOptionsCenter);
     }
   };
 

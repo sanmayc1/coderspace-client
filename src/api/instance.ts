@@ -1,7 +1,7 @@
-import axios from "axios";
-import { logout } from "./auth/auth.api";
-import { store } from "@/app/store";
-import { clearAuth } from "@/app/redux-slice/authReducer";
+import axios from 'axios';
+import { logout } from './auth/auth.api';
+import { store } from '@/app/store';
+import { clearAuth } from '@/app/redux-slice/authReducer';
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 export const coderspaceBackend = axios.create({
@@ -26,7 +26,7 @@ coderspaceBackend.interceptors.response.use(
     const originalRequest = error.config;
     if (
       error.response.status === 401 &&
-      error.response.data.message === "Invalid or expired token" &&
+      error.response.data.message === 'Invalid or expired token' &&
       !originalRequest._retry
     ) {
       if (isRefreshing) {
@@ -41,7 +41,7 @@ coderspaceBackend.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await coderspaceBackend.post("/auth/refresh");
+        await coderspaceBackend.post('/auth/refresh');
         processQueue(null);
         return coderspaceBackend(originalRequest);
       } catch (error) {
@@ -52,12 +52,10 @@ coderspaceBackend.interceptors.response.use(
       }
     } else if (
       (error.response.status === 403 &&
-        error.response.data.message === "Your Account blocked by admin") ||
+        error.response.data.message === 'Your Account blocked by admin') ||
       (error.response.status === 403 &&
-        error.response.data.message ===
-          "Token has been revoked or blacklisted") ||
-      (error.response.status === 403 &&
-        error.response.data.message === "Session Expired")
+        error.response.data.message === 'Token has been revoked or blacklisted') ||
+      (error.response.status === 403 && error.response.data.message === 'Session Expired')
     ) {
       try {
         await logout();

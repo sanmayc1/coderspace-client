@@ -6,13 +6,15 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/Pagination";
-import type { IPaginationProps } from "@/types/props.types";
+} from '@/components/ui/Pagination';
+import type { IPaginationProps } from '@/types/props.types';
 
-
-const CustomPagination: React.FC<IPaginationProps> = ({totalPages,currentPage,setCurrentPage,className}) => {
-
-
+const CustomPagination: React.FC<IPaginationProps> = ({
+  totalPages,
+  currentPage,
+  setCurrentPage,
+  className,
+}) => {
   const goToPage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -20,18 +22,16 @@ const CustomPagination: React.FC<IPaginationProps> = ({totalPages,currentPage,se
   };
 
   return (
-    <Pagination  className={`p-2 w-full ${className} text-xs`} >
+    <Pagination className={`p-2 w-full ${className} text-xs`}>
       <PaginationContent>
         {/* Previous */}
-        <PaginationItem >
+        <PaginationItem>
           <PaginationPrevious
             onClick={(e) => {
               e.preventDefault();
               goToPage(currentPage - 1);
             }}
-            className={
-              currentPage === 1 ? "pointer-events-none opacity-50" : ""
-            }
+            className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
           />
         </PaginationItem>
 
@@ -78,9 +78,7 @@ const CustomPagination: React.FC<IPaginationProps> = ({totalPages,currentPage,se
               e.preventDefault();
               goToPage(currentPage + 1);
             }}
-            className={
-              currentPage === totalPages ? "pointer-events-none opacity-50" : ""
-            }
+            className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
           />
         </PaginationItem>
       </PaginationContent>

@@ -1,8 +1,8 @@
-import Footer from "@/components/user/Footer";
-import Header from "@/components/user/Header";
-import { CloudAlert } from "lucide-react";
+import Footer from '@/components/user/Footer';
+import Header from '@/components/user/Header';
+import { CloudAlert } from 'lucide-react';
 
-const PageNotFoundError:React.FC = () => {
+const PageNotFoundError: React.FC = () => {
   return (
     <>
       <Header hideNavigation />

@@ -1,20 +1,15 @@
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "@/components/ui/OtpInput";
-import type { OtpProps } from "@/types/props.types";
-import { useEffect, useState } from "react";
-import { Button } from "../ui/Button";
-import { sendOtp } from "@/api/auth/auth.api";
-import { toast } from "react-toastify";
-import type { AxiosError } from "axios";
-import { toastifyOptionsCenter } from "@/utils/toastify.options";
-import type { IErrorResponse } from "@/types/response.types";
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/OtpInput';
+import type { OtpProps } from '@/types/props.types';
+import { useEffect, useState } from 'react';
+import { Button } from '../ui/Button';
+import { sendOtp } from '@/api/auth/auth.api';
+import { toast } from 'react-toastify';
+import type { AxiosError } from 'axios';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import type { IErrorResponse } from '@/types/response.types';
 
 const OtpForm: React.FC<OtpProps> = ({ onSubmit }) => {
-  const [otp, setOtp] = useState<string>("");
+  const [otp, setOtp] = useState<string>('');
   const [timer, setTimer] = useState(60);
   const [resendDisable, setDisable] = useState(true);
 
@@ -40,14 +35,11 @@ const OtpForm: React.FC<OtpProps> = ({ onSubmit }) => {
       setTimer(120);
       const res = await sendOtp();
       if (res && res.status === 200) {
-        toast.success("Otp resend successfully", toastifyOptionsCenter);
+        toast.success('Otp resend successfully', toastifyOptionsCenter);
       }
     } catch (error) {
       const axiosError = error as AxiosError<IErrorResponse>;
-      toast.error(
-        axiosError.response?.data?.errors?.[0]?.error,
-        toastifyOptionsCenter
-      );
+      toast.error(axiosError.response?.data?.errors?.[0]?.error, toastifyOptionsCenter);
     }
   };
   return (
@@ -82,13 +74,13 @@ const OtpForm: React.FC<OtpProps> = ({ onSubmit }) => {
         <div className="flex flex-col justify-center">
           {resendDisable && (
             <p className="text-center text-sm font-semibold">
-              {Math.floor(timer / 60)} : {timer % 60 === 0 ? "00" : timer % 60}
+              {Math.floor(timer / 60)} : {timer % 60 === 0 ? '00' : timer % 60}
             </p>
           )}
           <Button
             disabled={resendDisable}
             className={`${
-              resendDisable ? "hover:cursor-not-allowed" : "cursor-pointer"
+              resendDisable ? 'hover:cursor-not-allowed' : 'cursor-pointer'
             } select-none `}
             variant="ghost"
             size="sm"

@@ -1,3 +1,12 @@
+import type {
+  IDomain,
+  IExample,
+  IListContestState,
+  IProblemListing,
+  ISkill,
+  TLanguages,
+} from './types';
+
 export interface ICommonResponse {
   success: boolean;
   message: string;
@@ -28,7 +37,7 @@ export interface IUsersDetails {
   username: string;
   email: string;
   level: number;
-  badge: "silver" | "gold" | "platinum";
+  badge: 'silver' | 'gold' | 'platinum';
   userId: string;
   accountId: string;
   blocked: boolean;
@@ -45,5 +54,97 @@ export interface IGetUserResponse {
   accountId: string;
   about?: string;
   premiumActive: boolean;
+  profileUrl: string;
   skills: any[];
+  auth: string;
+}
+
+export interface IGetAllDomains {
+  domains: IDomain[];
+}
+
+export interface IGetAllSkills {
+  skills: ISkill[];
+}
+
+export interface IGetAllProblemAdminListing {
+  totalPages: number;
+  currentPage: number;
+  problems: IProblemListing[];
+}
+
+export interface IGetLanguageDetails {
+  id: string;
+  language: TLanguages;
+  tmpCode: string;
+  solution: string;
+  fnName: string;
+}
+
+export interface IGetTestcase {
+  id: string;
+  input: string;
+  output: string;
+  example?: boolean;
+}
+
+export interface IGetProblem {
+  title: string;
+  description: string;
+  difficulty: string;
+  skills: ISkill[];
+  premium: boolean;
+  domain: string;
+  constrain: string;
+  examples: IExample[];
+}
+
+export interface IUserGetProblem {
+  id: string;
+  title: string;
+  number: number;
+  difficulty: string;
+  skills: ISkill[];
+  premium: boolean;
+}
+
+export interface IUserGetProblemsResponse {
+  problems: IUserGetProblem[];
+  totalPages: number;
+  currentPage: number;
+}
+
+export interface ITemplateCodes {
+  language: string;
+  id: string;
+  templateCode: string;
+}
+
+export interface IUserGetProblemDetailed {
+  title: string;
+  description: string;
+  number: number;
+  difficulty: string;
+  skills: ISkill[];
+  premium: boolean;
+  domain: string;
+  constrain: string;
+  examples: IExample[];
+  templateCodes: ITemplateCodes[];
+}
+
+export interface IGetAllContest {
+  contests: IListContestState[];
+  currentPage: number;
+  totalPages: number;
+}
+
+
+export interface IGetAllCodersResponse {
+    userId:string
+    name:string
+    username:string
+    badge:string
+    profileUrl:string
+    isFollowing:boolean
 }

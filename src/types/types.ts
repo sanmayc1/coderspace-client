@@ -1,3 +1,5 @@
+import type { IUserGetProblem } from './response.types';
+
 export interface IUserRegister {
   name: string;
   username: string;
@@ -47,31 +49,86 @@ export interface AuthLoginError {
   statusCode?: number;
 }
 
-
-export interface IProblemState{
-    title:string
-    description:string
-    difficulty:string
-    skill:string
-    premium:boolean
-    domain:string
-    constrain:string
-    example:IExample
+export interface IProblemState {
+  title: string;
+  description: string;
+  difficulty: string;
+  skill: string;
+  premium: boolean;
+  domain: string;
+  constrain: string;
+  example: IExample;
 }
 
-
-export interface IExample{
-  id:string
-  input:string
-  output:string
-  explanation:string
+export interface IExample {
+  id: string;
+  input: string;
+  output: string;
+  explanation: string;
 }
 
 export interface ISkill {
-  title:string
-  id:string
+  title: string;
+  id: string;
 }
 
-export type TSort = "NEWEST" | "OLDEST" | "NAME_ASC" | "NAME_DESC";
+export interface IDomain {
+  title: string;
+  id: string;
+}
+export interface IProblemListing {
+  title: string;
+  number: number;
+  languages: { language: TLanguages; id: string }[];
+  id: string;
+  view: TView;
+}
+export type TSort = 'NEWEST' | 'OLDEST' | 'NAME_ASC' | 'NAME_DESC';
 
-export type Role = "admin" | "user" | "company" | "guest";
+export type Role = 'admin' | 'user' | 'company' | 'guest';
+
+export type TLanguages = 'javascript' | 'java' | 'python' | 'cpp';
+export type TView = 'public' | 'private';
+
+export interface IReward {
+  id: string;
+  rank: string;
+  description: string;
+}
+export interface IContestProblem extends IUserGetProblem {}
+export interface IContestState {
+  title: string;
+  description: string;
+  dateAndTime: string;
+  duration: string;
+  visibility: string;
+  domain: string;
+  skill: string;
+  problem: string;
+  constrain?: string;
+  difficulty?: string;
+  rewardRank: string;
+  rewardDescription: string;
+}
+export interface IContestError {
+  title: string;
+  description: string;
+  dateAndTime: string;
+  duration: string;
+  visibility: string;
+  domain: string;
+  skill: string;
+  problem: string;
+  rewardRank: string;
+  rewardDescription: string;
+  rewards: string;
+}
+
+export interface IListContestState {
+  dateAndTime: string;
+  description: string;
+  duration: number;
+  id: string;
+  title: string;
+  view: string;
+}

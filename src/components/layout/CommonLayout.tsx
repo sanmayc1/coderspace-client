@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import SideNavbar from "@/components/common/SideNavbar";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "@/app/hooks/redux-custom-hook";
-import { logout } from "@/api/auth/auth.api";
-import { clearAuth } from "@/app/redux-slice/authReducer";
-import LoadingSpin from "../common/LoadingSpin";
-import { Button } from "../ui/Button";
-import type { ISideBarItems } from "@/types/types";
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import SideNavbar from '@/components/common/SideNavbar';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@/app/hooks/redux-custom-hook';
+import { logout } from '@/api/auth/auth.api';
+import { clearAuth } from '@/app/redux-slice/authReducer';
+import LoadingSpin from '../common/LoadingSpin';
+import { Button } from '../ui/Button';
+import type { ISideBarItems } from '@/types/types';
 
 const CommonLayout: React.FC<{
   menuItems: ISideBarItems[];
@@ -17,8 +17,7 @@ const CommonLayout: React.FC<{
   const [isLoading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const profileUrl =
-    useAppSelector((s) => s.authReducer.profileUrl) || "/defaultProfile.jpg";
+  const profileUrl = useAppSelector((s) => s.authReducer.profileUrl) || '/defaultProfile.jpg';
 
   const accountLogout = async () => {
     try {
@@ -38,7 +37,7 @@ const CommonLayout: React.FC<{
     <div className="flex w-[100%]  bg-gray-100 ">
       <div
         className={`bg-white w-64 min-h-screen shadow-lg transition-transform duration-300 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 fixed md:static z-30`}
       >
         <div className="p-6">
@@ -53,9 +52,8 @@ const CommonLayout: React.FC<{
             </button>
           </div>
         </div>
-     
-          <SideNavbar menuItems={menuItems} />
-       
+
+        <SideNavbar menuItems={menuItems} />
       </div>
 
       <div className="flex flex-col w-full">
@@ -64,12 +62,8 @@ const CommonLayout: React.FC<{
             <Menu className="w-6 h-6" />
           </button>
           <div className="flex gap-3 px-4 justify-center items-center">
-            <Button size={"sm"} onClick={accountLogout}>
-              {isLoading ? (
-                <LoadingSpin />
-              ) : (
-                <span className="pt-1"> Logout</span>
-              )}
+            <Button size={'sm'} onClick={accountLogout}>
+              {isLoading ? <LoadingSpin /> : <span className="pt-1"> Logout</span>}
             </Button>
             <img
               src={profileUrl}

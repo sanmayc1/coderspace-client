@@ -1,45 +1,59 @@
-import InputFiled from "@/components/common/Input";
-import CustomPagination from "@/components/common/Pagination";
-import SelectTag from "@/components/common/Select";
-import { Button } from "@/components/ui/Button";
-import { SORT_SELECT_1 } from "@/utils/constants-admin";
-import {
-  Edit,
-  Eye,
-  EyeOff,
-  MoveRight,
-  PlusCircleIcon,
-  Trash2,
-} from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { getAllProblemAdminListing } from '@/api/admin/problem-management';
+import ProblemCard from '@/components/admin/ProblemCard';
+import InputFiled from '@/components/common/Input';
+import CustomPagination from '@/components/common/Pagination';
+import SelectTag from '@/components/common/Select';
+import { Button } from '@/components/ui/Button';
+import type { IProblemListing } from '@/types/types';
+import { SORT_SELECT_2 } from '@/utils/constants-admin';
+import { debounce } from '@/utils/debouncing';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
+import { PlusCircleIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ProblemManagement: React.FC = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
+  const [problems, setProblems] = useState<IProblemListing[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [selectedSort, setSort] = useState<string>("");
-  const [itemsPerPage, setItemsPerPage] = useState<string>("");
+  const [selectedSort, setSort] = useState<string>('OLDEST');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [refetch, setRefetch] = useState(false);
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const searchQuery = searchParams.get('search');
+    if (searchQuery && search === '') {
+      setSearch(searchQuery);
+      return;
+    }
+
+    const debouncedFetchAllProblems = debounce(async function () {
+      try {
+        const res = await getAllProblemAdminListing(search, selectedSort, String(currentPage));
+        setProblems(res.data.problems);
+        setTotalPages(res.data.totalPages);
+      } catch (error) {
+        toast.error('Something went wrong', toastifyOptionsCenter);
+      }
+    }, 500);
+
+    debouncedFetchAllProblems();
+  }, [search, selectedSort, currentPage, refetch]);
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    setSearchParams((prevParams) => ({
+      ...Object.fromEntries(prevParams.entries()),
+      search: e.target.value,
+    }));
   };
   const handleSortChange = (value: string) => {
     setSort(value);
   };
-  const renderUserEdit = (_: string, item: any) => (
-    <Button
-      size="sm"
-      className="text-xs pt-1"
-      onClick={() => {
-        alert("edit");
-      }}
-    >
-      Edit
-    </Button>
-  );
 
   return (
     <>
@@ -56,7 +70,7 @@ const ProblemManagement: React.FC = () => {
           <div className="flex justify-between w-full gap-4  ">
             <div className="flex flex-grow sm:flex-none   sm:w-60">
               <SelectTag
-                options={SORT_SELECT_1}
+                options={SORT_SELECT_2}
                 placeholder="Sort By"
                 label="Sort"
                 name="sort"
@@ -67,89 +81,22 @@ const ProblemManagement: React.FC = () => {
 
             <Button
               className="text-xs flex justify-center items-center "
-              size={"sm"}
-              onClick={() => navigate("/admin/manage-problems/add")}
+              size={'sm'}
+              onClick={() => navigate('/admin/manage-problems/add')}
             >
               <span className="pt-1">Add Problem</span>
-              <PlusCircleIcon />{" "}
+              <PlusCircleIcon />{' '}
             </Button>
           </div>
         </div>
         <div className=" grid xl:grid-cols-4  lg:grid-cols-3  gap-4 sm:grid-cols-1 md:grid-cols-2 grid-cols-1  rounded-md ">
-          {Array(4)
-            .fill(0)
-            .map((_, i) => (
-              <div className="p-5 bg-white group h-fit   rounded-2xl shadow-md flex  border-1   flex-col gap-3">
-                <div className="flex justify-between items-center">
-                  <p className="text-lg">
-                    <span>1. </span>Two Sum
-                  </p>
-                  <div className="flex gap-3 items-center">
-                    {i % 2 == 0 ? (
-                      <Eye
-                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
-                        size={20}
-                      />
-                    ) : (
-                      <EyeOff
-                        className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
-                        size={20}
-                      />
-                    )}
-                    <Edit
-                      size={20}
-                      className="opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
-                    />
-                    <Trash2
-                      size={20}
-                      className="text-red-600 opacity-0 group-hover:opacity-100 transition-all duration-300  cursor-pointer"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 ">
-                  <SelectTag
-                    handleChange={() => {}}
-                    name="lan"
-                    value=""
-                    options={[
-                      { label: "Javascript", value: "javascript" },
-                      { label: "Java", value: "java" },
-                    ]}
-                    placeholder="Select Language"
-                    label="Language"
-                  />
-                  <Button
-                    className="text-xs flex justify-center items-center pt-1"
-                    size={"sm"}
-                  >
-                    Add
-                  </Button>
-                </div>
-                <div className="px-4 py-2 bg-gray-50  border-1  h-  flex flex-col gap-2 rounded-md">
-                  {["Javascript", "Java", "Python", "C"].map((l) => (
-                    <div
-                      onClick={() =>
-                        navigate(`/admin/manage-problems/language/${l}`)
-                      }
-                      className="bg-white hover:scale-105 transition-all duration-300  text-sm shadow-md py-2 px-3  rounded-md flex justify-between items-center border-1 cursor-pointer"
-                    >
-                      {l}
-                      <span>
-                        <MoveRight size={15} className="text-gray-500" />
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <Button
-                  onClick={() =>
-                    navigate(`/admin/manage-problems/testcase/sdfsafd`)
-                  }
-                  className="hover:scale-105 transition-all duration-300  text-sm shadow-md py-2 px-3  rounded-md flex justify-center items-center border-1 cursor-pointer"
-                >
-                  Testcase
-                </Button>
-              </div>
-            ))}
+          {problems.length !== 0 ? (
+            problems.map((p) => <ProblemCard key={p.id} problem={p} refetch={setRefetch} />)
+          ) : (
+            <div className="col-span-4 p-8">
+              <p className="text-center">No Problems Found</p>
+            </div>
+          )}
         </div>
         <div className="flex justify-center w-full">
           <CustomPagination

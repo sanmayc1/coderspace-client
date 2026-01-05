@@ -1,8 +1,6 @@
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
-const AuthFormWraper: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const AuthFormWraper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="min-h-screen flex justify-center items-center">
       <motion.div
@@ -17,5 +15,4 @@ const AuthFormWraper: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-
-export default AuthFormWraper
+export default AuthFormWraper;
