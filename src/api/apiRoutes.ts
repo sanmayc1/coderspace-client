@@ -23,6 +23,7 @@ export const API_ROUTES = {
       page ? `page=${page}&` : ''
     }${difficulty ? `difficulty=${difficulty}&` : ''}${skill ? `skill=${skill}&` : ''}`,
   GET_PROBLEM_USER: (id: string) => `/user/problems/${id}`,
+  RUN_PROBLEM_USER: `/user/problems/run`,
 
   GET_COMPANY: '/company',
   UPDATE_COMPANY: '/company',
@@ -49,4 +50,7 @@ export const API_ROUTES = {
   UPDATE_PROBLEM: '/admin/problems',
   CHANGE_VISIBILITY: '/admin/problems/visibility',
   GET_ALL_CODERS: '/user/coders',
+  FOLLOW_CODER: '/user/coders/follow',
+  UNFOLLOW_CODER: (id: string) => `/user/coders/unfollow/${id}`,
+  GET_CODER: (id: string) => `/user/coders/${id}/coder`,
 };

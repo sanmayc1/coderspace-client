@@ -115,6 +115,11 @@
   font-family: 'anybody-regular';
 }
 
+.monaco-editor,
+.monaco-editor * {
+  font-family: monospace !important;
+}
+
 @font-face {
   font-family: 'anybody-regular';
   src: url('./assets/fonts/Anybody-Regular.otf') format('opentype');

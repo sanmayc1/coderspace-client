@@ -32,3 +32,21 @@ export async function getProblemUser(
     throw error;
   }
 }
+
+
+export async function runProblemUser(
+  id: string,
+  code: string,
+  language: string,
+): Promise<ISuccessResponse<IUserGetProblemDetailed>> {
+  try {
+    const res = await coderspaceBackend.post(API_ROUTES.RUN_PROBLEM_USER,{
+      problemId:id,
+      code,
+      language
+    });
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}

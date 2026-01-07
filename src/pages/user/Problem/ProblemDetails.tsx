@@ -5,19 +5,23 @@ import 'monaco-editor/esm/vs/basic-languages/java/java.contribution';
 import 'monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution';
 import 'monaco-editor/esm/vs/basic-languages/python/python.contribution';
 import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
-import { getProblemUser } from '@/api/user/user.problem';
+import { getProblemUser, runProblemUser } from '@/api/user/user.problem';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import type { IUserGetProblemDetailed } from '@/types/response.types';
 import SelectTag from '@/components/common/Select';
+import { Button } from '@/components/ui/Button';
+import { AxiosError } from 'axios';
 
 const ProblemDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'solution'>('description');
   const [code, setCode] = useState(``);
+  const [defaultCode, setDefaultCode] = useState(``);
   const [language, setLanguage] = useState('');
   const [problem, setProblem] = useState<IUserGetProblemDetailed>();
   const [output, setOutput] = useState('');
+  const [error, setError] = useState('');
   const [testPassed, setTestPassed] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [activeOutputTab, setActiveOutputTab] = useState<'test' | 'console'>('test');
@@ -29,6 +33,7 @@ const ProblemDetails: React.FC = () => {
       try {
         const res = await getProblemUser(id as string);
         setLanguage(res.data.templateCodes[0].language);
+        setDefaultCode(res.data.templateCodes[0].templateCode);
         setCode(res.data.templateCodes[0].templateCode);
         setProblem(res.data);
       } catch (error) {
@@ -44,25 +49,31 @@ const ProblemDetails: React.FC = () => {
     setCode(problem?.templateCodes.find((t) => t.language === language)?.templateCode as string);
   }, [language]);
 
-  const handleRunCode = () => {
-    setIsRunning(true);
-    setActiveOutputTab('test');
-    setTimeout(() => {
+  const handleRunCode = async () => {
+    try {
+      setError('');
+      setTestPassed(false);
+      setIsRunning(true);
       setOutput('Running Test Cases.....');
-      setTimeout(() => {
-        setTestPassed(true);
+      await runProblemUser(id as string, code, language);
+      setIsRunning(false);
+
+      setTestPassed(true);
+      setOutput('Finsihed Running Test Cases');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data);
+        setOutput('');
         setIsRunning(false);
-      }, 1000);
-    }, 500);
+        setError(error.response?.data.message);
+      }
+
+      // toast.error('Something went wrong', toastifyOptionsCenter);
+    }
   };
 
   const handleReset = () => {
-    setCode(`class Solution:
-    
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        
-        # Write your solution here
-        pass`);
+    setCode(defaultCode);
     setOutput('');
     setTestPassed(false);
   };
@@ -146,26 +157,49 @@ const ProblemDetails: React.FC = () => {
               <span className="font-mono text-sm">&lt;/&gt;</span>
               <span className="font-semibold">Code</span>
             </div>
-            <SelectTag
-              options={
-                problem?.templateCodes
-                  ? problem.templateCodes.map((t) => ({
-                      label: t.language.charAt(0).toUpperCase() + t.language.slice(1),
-                      value: t.language,
-                    }))
-                  : []
-              }
-              placeholder="Languages"
-              handleChange={(v) => {
-                setLanguage(v);
-              }}
-              label="Languages"
-              name="languages"
-              value={language}
-            />
+            <div className="flex items-center space-x-2">
+              <div className="flex flex-col sm:flex-row items-center justify-between border-t border-gray-200 gap-4 sm:gap-2">
+                <Button
+                  onClick={handleRunCode}
+                  disabled={isRunning}
+                  className="flex items-center space-x-1"
+                >
+                  <Play className="w-4 h-4" fill="white" />
+                  <span>Run Code</span>
+                </Button>
+                <div className="flex items-center space-x-2">
+                  <Button className="px-6 py-2 border ">Submit</Button>
+                  <Button
+                    onClick={handleReset}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    title="Reset"
+                    variant="outline"
+                  >
+                    <RotateCcw className="w-5 h-5" />
+                  </Button>
+                </div>
+              </div>
+              <SelectTag
+                options={
+                  problem?.templateCodes
+                    ? problem.templateCodes.map((t) => ({
+                        label: t.language.charAt(0).toUpperCase() + t.language.slice(1),
+                        value: t.language,
+                      }))
+                    : []
+                }
+                placeholder="Languages"
+                handleChange={(v) => {
+                  setLanguage(v);
+                }}
+                label="Languages"
+                name="languages"
+                value={language}
+              />
+            </div>
           </div>
 
-          <div className="h-[500px] lg:h-auto lg:flex-1 overflow-hidden">
+          <div className="h-[500px] lg:h-[45vh]  overflow-hidden ">
             <Editor
               className="p-2 "
               height="100%"
@@ -174,29 +208,6 @@ const ProblemDetails: React.FC = () => {
               value={code}
               onChange={(v) => setCode(v as string)}
             />
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between p-4 border-t border-gray-200 gap-4 sm:gap-0">
-            <button
-              onClick={handleRunCode}
-              disabled={isRunning}
-              className="flex items-center space-x-2 bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50"
-            >
-              <Play className="w-4 h-4" fill="white" />
-              <span>Run Code</span>
-            </button>
-            <div className="flex items-center space-x-2">
-              <button className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                Submit
-              </button>
-              <button
-                onClick={handleReset}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                title="Reset"
-              >
-                <RotateCcw className="w-5 h-5" />
-              </button>
-            </div>
           </div>
 
           <div className="border-t border-gray-200 bg-white">
@@ -211,7 +222,7 @@ const ProblemDetails: React.FC = () => {
               >
                 Test Cases
               </button>
-              <button
+              {/* <button
                 onClick={() => setActiveOutputTab('console')}
                 className={`px-4 py-2 text-sm font-medium ${
                   activeOutputTab === 'console'
@@ -220,7 +231,7 @@ const ProblemDetails: React.FC = () => {
                 }`}
               >
                 Console
-              </button>
+              </button> */}
             </div>
             <div className="p-4 min-h-[120px]">
               {output && (
@@ -238,6 +249,12 @@ const ProblemDetails: React.FC = () => {
                       </svg>
                     </div>
                   )}
+                </div>
+              )}
+
+              {error && (
+                <div className="space-y-2">
+                  <p className="text-sm text-red-600">{error}</p>
                 </div>
               )}
             </div>

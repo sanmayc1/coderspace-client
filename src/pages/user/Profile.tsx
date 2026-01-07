@@ -12,7 +12,7 @@ import SettingsModal from '@/components/user/SettingsModal';
 import EditProfileModal from '@/components/user/EditProfileModal';
 import { updateProfileUrl } from '@/app/redux-slice/authReducer';
 
-export interface IGetUserUsecaseOutputDto {
+export interface IUserState {
   id: string;
   name: string;
   username: string;
@@ -25,10 +25,12 @@ export interface IGetUserUsecaseOutputDto {
   skills: any[];
   profileUrl: string;
   auth: string;
+  followers: number;
+  following: number;
 }
 
 const UserProfile: React.FC = () => {
-  const [user, setUser] = useState<IGetUserUsecaseOutputDto>();
+  const [user, setUser] = useState<IUserState>();
   const [isLoading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('Overview');
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -42,7 +44,7 @@ const UserProfile: React.FC = () => {
       try {
         setLoading(true);
         const userProfile = await getUser();
-        setUser(userProfile.data?.data as IGetUserUsecaseOutputDto);
+        setUser(userProfile.data?.data as IUserState);
         setLoading(false);
         if (profileUrl !== userProfile.data.data.profileUrl) {
           dispatch(updateProfileUrl(userProfile.data.data.profileUrl));
@@ -120,11 +122,11 @@ const UserProfile: React.FC = () => {
               <p className="select-none font-semibold text-gray-700 opacity-75">Problems Solved</p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="text-xl font-bold select-none">500</p>
+              <p className="text-xl font-bold select-none">{user?.following}</p>
               <p className="select-none font-semibold text-gray-700 opacity-75">Following</p>
             </div>
             <div className="flex flex-col items-center">
-              <p className="text-xl font-bold select-none">1.5k</p>
+              <p className="text-xl font-bold select-none">{user?.followers}</p>
               <p className="select-none font-semibold text-gray-700 opacity-75">Followers</p>
             </div>
           </div>

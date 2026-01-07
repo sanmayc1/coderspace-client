@@ -57,6 +57,8 @@ export interface IGetUserResponse {
   profileUrl: string;
   skills: any[];
   auth: string;
+  followers: number;
+  following: number;
 }
 
 export interface IGetAllDomains {
@@ -139,12 +141,26 @@ export interface IGetAllContest {
   totalPages: number;
 }
 
-
 export interface IGetAllCodersResponse {
+  userId: string;
+  name: string;
+  username: string;
+  badge: string;
+  profileUrl: string;
+  isFollowing: boolean;
+}
+
+export interface IGetCoderResponse {
     userId:string
     name:string
     username:string
     badge:string
+    level:number
+    following:number
+    followers:number
+    about?:string
+    joinDate:string
+    problemSolved:number
     profileUrl:string
     isFollowing:boolean
 }
