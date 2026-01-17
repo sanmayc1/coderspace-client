@@ -24,7 +24,8 @@ export const API_ROUTES = {
     }${difficulty ? `difficulty=${difficulty}&` : ''}${skill ? `skill=${skill}&` : ''}`,
   GET_PROBLEM_USER: (id: string) => `/user/problems/${id}`,
   RUN_PROBLEM_USER: `/user/problems/run`,
-
+  SUBMIT_PROBLEM_USER: `/user/problems/submit`,
+  GET_PROBLEM_UPDATES: (problemId: string, language: string) => `/user/problems/${problemId}/updates?language=${language}`,
   GET_COMPANY: '/company',
   UPDATE_COMPANY: '/company',
   CREATE_CONTEST_BY_COMPANY: '/company/contests',

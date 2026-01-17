@@ -164,3 +164,10 @@ export interface IGetCoderResponse {
     profileUrl:string
     isFollowing:boolean
 }
+
+
+export interface IGetProblemUpdatesResponse {
+    status:string
+    solution:string
+    language:string
+}

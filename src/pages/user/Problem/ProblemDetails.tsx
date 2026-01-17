@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Play, RotateCcw } from 'lucide-react';
+import { CheckCircle, CircleDot, Play, RotateCcw } from 'lucide-react';
 import { Editor } from '@monaco-editor/react';
 import 'monaco-editor/esm/vs/basic-languages/java/java.contribution';
 import 'monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution';
 import 'monaco-editor/esm/vs/basic-languages/python/python.contribution';
 import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
-import { getProblemUser, runProblemUser } from '@/api/user/user.problem';
+import {
+  getProblemupdates,
+  getProblemUser,
+  runProblemUser,
+  submitProblemUser,
+} from '@/api/user/user.problem';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
-import type { IUserGetProblemDetailed } from '@/types/response.types';
+import type { IGetProblemUpdatesResponse, IUserGetProblemDetailed } from '@/types/response.types';
 import SelectTag from '@/components/common/Select';
 import { Button } from '@/components/ui/Button';
 import { AxiosError } from 'axios';
+import { useAppSelector } from '@/app/hooks/redux-custom-hook';
+import LoadingSpin from '@/components/common/LoadingSpin';
 
 const ProblemDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'solution'>('description');
@@ -24,19 +31,40 @@ const ProblemDetails: React.FC = () => {
   const [error, setError] = useState('');
   const [testPassed, setTestPassed] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
-  const [activeOutputTab, setActiveOutputTab] = useState<'test' | 'console'>('test');
-
+  const [activeOutputTab, setActiveOutputTab] = useState<'test'>('test');
+  const [activeTestCaseId, setActiveTestCaseId] = useState(0);
   const { id } = useParams();
+  const [currentStatus, setCurrentStatus] = useState<IGetProblemUpdatesResponse>({
+    solution: '',
+    status: '',
+    language: '',
+  });
+  const auth = useAppSelector((s) => s.authReducer.auth);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProblemDetails() {
       try {
         const res = await getProblemUser(id as string);
         setLanguage(res.data.templateCodes[0].language);
+        let updates: IGetProblemUpdatesResponse | null = null;
+        if (auth) {
+          updates = await getProblemupdates(id as string, res.data.templateCodes[0].language);
+
+          setCurrentStatus(updates);
+        }
+
+        if (updates?.status === 'solved' || updates?.status === 'attempted') {
+          setCode(updates?.solution);
+        } else {
+          setCode(res.data.templateCodes[0].templateCode);
+        }
         setDefaultCode(res.data.templateCodes[0].templateCode);
-        setCode(res.data.templateCodes[0].templateCode);
+
         setProblem(res.data);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         toast.error('Something went wrong', toastifyOptionsCenter);
       }
     }
@@ -72,11 +100,49 @@ const ProblemDetails: React.FC = () => {
     }
   };
 
+  const handleSubmitCode = async () => {
+    if (!auth) {
+      toast.error('Please login to submit code', toastifyOptionsCenter);
+      return;
+    }
+
+    try {
+      setError('');
+      setTestPassed(false);
+      setIsRunning(true);
+      setOutput('Running Test Cases.....');
+      await submitProblemUser(id as string, code, language);
+      setIsRunning(false);
+      setTestPassed(true);
+      setCurrentStatus({
+        solution: code,
+        status: 'solved',
+        language,
+      });
+      setOutput('Finsihed Running Test Cases');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data);
+        setOutput('');
+        setIsRunning(false);
+        setError(error.response?.data.message);
+      }
+    }
+  };
+
   const handleReset = () => {
     setCode(defaultCode);
     setOutput('');
     setTestPassed(false);
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoadingSpin size={30} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -103,12 +169,26 @@ const ProblemDetails: React.FC = () => {
             </div>
 
             <div>
-              <h2 className="text-xl md:text-2xl font-bold mb-6">
-                {problem?.number}.{' '}
-                {problem?.title
-                  .split(' ')
-                  .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-                  .join(' ')}
+              <h2 className="text-xl md:text-2xl font-bold mb-6 flex  justify-between items-center">
+                <span>
+                  {' '}
+                  {problem?.number}.{' '}
+                  {problem?.title
+                    .split(' ')
+                    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+                    .join(' ')}
+                </span>
+                {currentStatus.status && currentStatus.status === 'solved' ? (
+                  <span className="text-green-600 text-sm font-medium flex items-center gap-1">
+                    <CheckCircle className="w-4 h-4" /> Solved
+                  </span>
+                ) : currentStatus.status && currentStatus.status === 'attempted' ? (
+                  <span className="text-yellow-500 text-sm font-medium flex items-center gap-1">
+                    <CircleDot className="w-4 h-4" /> Attempted
+                  </span>
+                ) : (
+                  <span className="text-gray-600 text-sm font-medium flex items-center gap-1"></span>
+                )}
               </h2>
 
               <p className="text-gray-700 mb-4">{problem?.description}</p>
@@ -168,7 +248,14 @@ const ProblemDetails: React.FC = () => {
                   <span>Run Code</span>
                 </Button>
                 <div className="flex items-center space-x-2">
-                  <Button className="px-6 py-2 border ">Submit</Button>
+                  <Button
+                    className="px-6 py-2 border "
+                    onClick={handleSubmitCode}
+                    disabled={isRunning}
+                    title="Submit"
+                  >
+                    Submit
+                  </Button>
                   <Button
                     onClick={handleReset}
                     className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -222,39 +309,100 @@ const ProblemDetails: React.FC = () => {
               >
                 Test Cases
               </button>
-              {/* <button
-                onClick={() => setActiveOutputTab('console')}
-                className={`px-4 py-2 text-sm font-medium ${
-                  activeOutputTab === 'console'
-                    ? 'border-b-2 border-black text-black'
-                    : 'text-gray-600'
-                }`}
-              >
-                Console
-              </button> */}
             </div>
-            <div className="p-4 min-h-[120px]">
-              {output && (
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-600">{output}</p>
-                  {testPassed && (
-                    <div className="flex items-center space-x-2 text-green-600">
-                      <span className="text-sm font-medium">Test Case Passed</span>
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+            <div
+              className={`p-4 min-h-[120px] ${activeOutputTab === 'test' ? 'bg-[#262626] text-white' : ''}`}
+            >
+              {activeOutputTab === 'test' ? (
+                <div className="flex flex-col space-y-4">
+                  {/* Status Header */}
+                  {(output || error) && (
+                    <div className="flex items-center gap-4">
+                      <h3
+                        className={`text-lg font-bold ${
+                          testPassed ? 'text-green-500' : error ? 'text-red-500' : 'text-gray-400'
+                        }`}
+                      >
+                        {isRunning
+                          ? 'Running...'
+                          : testPassed
+                            ? 'Accepted'
+                            : error
+                              ? 'Wrong Answer' // Assuming error indicates failure if not 200 OK
+                              : 'Ready'}
+                      </h3>
+                      {!isRunning && (testPassed || error) && (
+                        <span className="text-xs text-gray-500">Runtime: 0 ms</span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Test Case Tabs */}
+                  {problem?.examples && (
+                    <div className="flex gap-2">
+                      {problem.examples.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setActiveTestCaseId(idx)}
+                          className={`px-4 py-1.5 rounded-lg text-sm transition-colors relative flex items-center gap-2 ${
+                            activeTestCaseId === idx
+                              ? 'bg-gray-700 text-white font-medium'
+                              : 'text-gray-400 hover:bg-gray-800 hover:text-gray-200'
+                          }`}
+                        >
+                          Case {idx + 1}
+                          {!isRunning && testPassed && (
+                            <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                          )}
+                          {!isRunning && error && activeTestCaseId === idx && (
+                            <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Test Case Details */}
+                  {problem?.examples && problem.examples[activeTestCaseId] && (
+                    <div className="space-y-4">
+                      <div className="space-y-1">
+                        <p className="text-xs text-gray-400 uppercase">Input</p>
+                        <div className="bg-gray-800 p-3 rounded-lg font-mono text-sm text-gray-300">
+                          {problem.examples[activeTestCaseId].input}
+                        </div>
+                      </div>
+
+                      <div className="space-y-1">
+                        <p className="text-xs text-gray-400 uppercase">Output</p>
+                        <div
+                          className={`bg-gray-800 p-3 rounded-lg font-mono text-sm ${
+                            testPassed ? 'text-white' : error ? 'text-red-400' : 'text-gray-400'
+                          }`}
+                        >
+                          {isRunning
+                            ? 'Running...'
+                            : testPassed
+                              ? problem.examples[activeTestCaseId].output // Simulating correct output
+                              : error
+                                ? error // Showing error if failed (since actual output missing)
+                                : 'Run code to see output'}
+                        </div>
+                      </div>
+
+                      <div className="space-y-1">
+                        <p className="text-xs text-gray-400 uppercase">Expected</p>
+                        <div className="bg-gray-800 p-3 rounded-lg font-mono text-sm text-gray-300">
+                          {problem.examples[activeTestCaseId].output}
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
-              )}
-
-              {error && (
-                <div className="space-y-2">
-                  <p className="text-sm text-red-600">{error}</p>
+              ) : (
+                // Console Tab Content (Fallback to original style if needed, or simple logs)
+                <div className="space-y-2 text-black">
+                  <p className="text-sm font-mono">{output}</p>
+                  {error && <p className="text-sm text-red-600 font-mono">{error}</p>}
                 </div>
               )}
             </div>

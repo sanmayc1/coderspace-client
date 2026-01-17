@@ -49,7 +49,10 @@ const ProblemCard: React.FC<IProblemCardProps> = ({ problem, refetch }) => {
       <div className="flex justify-between items-center">
         <p className="text-lg">
           <span>{problem.number}. </span>
-          {problem.title
+          {problem.title.length  > 20 ? problem.title
+            .split(' ')
+            .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+            .join(' ').slice(0,20) + '....': problem.title
             .split(' ')
             .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
             .join(' ')}

@@ -58,6 +58,7 @@ export interface IProblemState {
   domain: string;
   constrain: string;
   example: IExample;
+  validationType: string;
 }
 
 export interface IExample {

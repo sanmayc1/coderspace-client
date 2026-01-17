@@ -118,7 +118,7 @@ const UserProfile: React.FC = () => {
           {/* bottom */}
           <div className="h-1/2 flex justify-center gap-32 items-center">
             <div className="flex flex-col items-center">
-              <p className="text-xl font-bold select-none">900</p>
+              <p className="text-xl font-bold select-none">0</p>
               <p className="select-none font-semibold text-gray-700 opacity-75">Problems Solved</p>
             </div>
             <div className="flex flex-col items-center">
