@@ -14,4 +14,4 @@ export const SORT_SELECT_2 = [
   { label: 'Oldest First', value: 'OLDEST' as TSort },
 ];
 
-export const LANGUAGES: TLanguages[] = ['cpp', 'java', 'javascript', 'python'];
+export const LANGUAGES: TLanguages[] = ['typescript', 'java', 'javascript', 'python'];

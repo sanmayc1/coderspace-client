@@ -115,9 +115,9 @@
   font-family: 'anybody-regular';
 }
 
-.monaco-editor,
+
 .monaco-editor * {
-  font-family: monospace !important;
+  font-family: monospace;
 }
 
 @font-face {

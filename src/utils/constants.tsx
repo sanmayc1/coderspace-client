@@ -161,7 +161,7 @@ export const adminMenuItems: ISideBarItems[] = [
 ];
 
 export const LANGUAGES: { label: string; value: TLanguages }[] = [
-  { value: 'cpp', label: 'C++' },
+  { value: 'typescript', label: 'Typescript' },
   { value: 'java', label: 'Java' },
   { value: 'javascript', label: 'Javascript' },
   { value: 'python', label: 'Python' },
@@ -183,3 +183,11 @@ export const Badges = [
   { label: 'Gold', value: 'gold' },
   { label: 'Platinum', value: 'platinum' },
 ];
+
+
+export const languageToPath: Record<TLanguages, string> = {
+  typescript: "solution.ts",
+  javascript: "solution.js",
+  java: "Solution.java",
+  python: "solution.py",
+};

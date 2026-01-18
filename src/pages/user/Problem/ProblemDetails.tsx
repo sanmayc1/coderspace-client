@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CheckCircle, CircleDot, Play, RotateCcw } from 'lucide-react';
 import { Editor } from '@monaco-editor/react';
 import 'monaco-editor/esm/vs/basic-languages/java/java.contribution';
-import 'monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution';
+import 'monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution';
 import 'monaco-editor/esm/vs/basic-languages/python/python.contribution';
 import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
 import {
@@ -46,6 +46,7 @@ const ProblemDetails: React.FC = () => {
     async function fetchProblemDetails() {
       try {
         const res = await getProblemUser(id as string);
+        console.log(res.data);
         setLanguage(res.data.templateCodes[0].language);
         let updates: IGetProblemUpdatesResponse | null = null;
         if (auth) {
@@ -83,10 +84,17 @@ const ProblemDetails: React.FC = () => {
       setTestPassed(false);
       setIsRunning(true);
       setOutput('Running Test Cases.....');
-      await runProblemUser(id as string, code, language);
+      const res = await runProblemUser(id as string, code, language);
       setIsRunning(false);
-
-      setTestPassed(true);
+      console.log(res);
+      setTestPassed(res.success);
+      setProblem(
+        (prev) =>
+          prev && {
+            ...prev,
+            testcases: res.testcases,
+          }
+      );
       setOutput('Finsihed Running Test Cases');
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -143,7 +151,7 @@ const ProblemDetails: React.FC = () => {
       </div>
     );
   }
-
+  
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 flex flex-col lg:flex-row my-4 mx-2 md:my-20 md:mx-10 lg:my-28 lg:mx-14 border-2 rounded-lg p-2 h-auto lg:h-[calc(100vh-160px)]">
@@ -331,16 +339,14 @@ const ProblemDetails: React.FC = () => {
                               ? 'Wrong Answer' // Assuming error indicates failure if not 200 OK
                               : 'Ready'}
                       </h3>
-                      {!isRunning && (testPassed || error) && (
-                        <span className="text-xs text-gray-500">Runtime: 0 ms</span>
-                      )}
+
                     </div>
                   )}
 
                   {/* Test Case Tabs */}
-                  {problem?.examples && (
+                  {problem?.testcases && (
                     <div className="flex gap-2">
-                      {problem.examples.map((_, idx) => (
+                      {problem.testcases.map((t, idx) => (
                         <button
                           key={idx}
                           onClick={() => setActiveTestCaseId(idx)}
@@ -351,24 +357,27 @@ const ProblemDetails: React.FC = () => {
                           }`}
                         >
                           Case {idx + 1}
-                          {!isRunning && testPassed && (
+                          {!isRunning && t.hasOwnProperty('isCorrect') && t.isCorrect && (
                             <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                           )}
-                          {!isRunning && error && activeTestCaseId === idx && (
-                            <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                          )}
+                          {!isRunning &&
+                            t.hasOwnProperty('isCorrect') &&
+                            t.isCorrect === false &&
+                            (
+                              <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                            )}
                         </button>
                       ))}
                     </div>
                   )}
 
                   {/* Test Case Details */}
-                  {problem?.examples && problem.examples[activeTestCaseId] && (
+                  {problem?.testcases && problem.testcases[activeTestCaseId] && (
                     <div className="space-y-4">
                       <div className="space-y-1">
                         <p className="text-xs text-gray-400 uppercase">Input</p>
                         <div className="bg-gray-800 p-3 rounded-lg font-mono text-sm text-gray-300">
-                          {problem.examples[activeTestCaseId].input}
+                          {problem.testcases[activeTestCaseId].input}
                         </div>
                       </div>
 
@@ -382,7 +391,7 @@ const ProblemDetails: React.FC = () => {
                           {isRunning
                             ? 'Running...'
                             : testPassed
-                              ? problem.examples[activeTestCaseId].output // Simulating correct output
+                              ? problem.testcases[activeTestCaseId].output // Simulating correct output
                               : error
                                 ? error // Showing error if failed (since actual output missing)
                                 : 'Run code to see output'}
@@ -392,7 +401,7 @@ const ProblemDetails: React.FC = () => {
                       <div className="space-y-1">
                         <p className="text-xs text-gray-400 uppercase">Expected</p>
                         <div className="bg-gray-800 p-3 rounded-lg font-mono text-sm text-gray-300">
-                          {problem.examples[activeTestCaseId].output}
+                          {problem.testcases[activeTestCaseId].expected}
                         </div>
                       </div>
                     </div>

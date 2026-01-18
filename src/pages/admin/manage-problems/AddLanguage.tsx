@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/Button';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import Editor from '@monaco-editor/react';
 import 'monaco-editor/esm/vs/basic-languages/java/java.contribution';
-import 'monaco-editor/esm/vs/basic-languages/cpp/cpp.contribution';
 import 'monaco-editor/esm/vs/basic-languages/python/python.contribution';
 import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
+import 'monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -28,6 +28,7 @@ const AddLanguage: React.FC = () => {
         setIsLoading(true);
         const res = await getLanguageDetails(id || '');
         setLanguage(res.data.language);
+        console.log(res.data.language);
         setTemplateCode(res.data.tmpCode);
         setSolution(res.data.solution);
         setFnName(res.data.fnName);
@@ -66,6 +67,17 @@ const AddLanguage: React.FC = () => {
     }
   };
 
+  const handleEditorDidMount = (_: any, monaco: any) => {
+    monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: false,
+    });
+    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: false,
+    });
+  };
+
   return (
     <div className="flex flex-col gap-4 ">
       <div className=" bg-white shadow-sm rounded-md grid grid-flow-col grid-cols-3  justify-center items-center">
@@ -97,7 +109,9 @@ const AddLanguage: React.FC = () => {
                   height={300}
                   theme={'vs-dark'}
                   language={language}
+                  path={`template-code-${language}`}
                   value={templateCode}
+                  onMount={handleEditorDidMount}
                   onChange={(v) => handleTemplateCodeChange(v)}
                 />
               </div>
@@ -118,7 +132,9 @@ const AddLanguage: React.FC = () => {
                   height={400}
                   theme={'vs-dark'}
                   language={language}
+                  path={`solution-code-${language}`}
                   value={solution}
+                  onMount={handleEditorDidMount}
                   onChange={(v) => setSolution(v || '')}
                 />
               </div>

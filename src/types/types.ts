@@ -88,7 +88,7 @@ export type TSort = 'NEWEST' | 'OLDEST' | 'NAME_ASC' | 'NAME_DESC';
 
 export type Role = 'admin' | 'user' | 'company' | 'guest';
 
-export type TLanguages = 'javascript' | 'java' | 'python' | 'cpp';
+export type TLanguages = 'javascript' | 'java' | 'python' | 'typescript';
 export type TView = 'public' | 'private';
 
 export interface IReward {

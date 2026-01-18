@@ -133,6 +133,7 @@ export interface IUserGetProblemDetailed {
   constrain: string;
   examples: IExample[];
   templateCodes: ITemplateCodes[];
+  testcases:{input:string,output:string,expected:string,isCorrect?:boolean}[]
 }
 
 export interface IGetAllContest {
@@ -170,4 +171,15 @@ export interface IGetProblemUpdatesResponse {
     status:string
     solution:string
     language:string
+}
+
+
+export interface IRunProblemResponse{
+  testcases:{
+    input:string
+    output:string
+    expected:string
+    isCorrect:boolean
+  }[]   
+  success:boolean
 }
