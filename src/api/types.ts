@@ -5,4 +5,5 @@ export interface IFetchRoleData {
   profileUrl?: string;
   profileComplete?: boolean;
   role: Role;
+  isPremium?: boolean;
 }

@@ -3,6 +3,7 @@ import type {
   IExample,
   IListContestState,
   IProblemListing,
+  IReward,
   ISkill,
   TLanguages,
 } from './types';
@@ -182,4 +183,34 @@ export interface IRunProblemResponse{
     isCorrect:boolean
   }[]   
   success:boolean
+}
+
+
+export interface IGetAllPlansResponse{
+    id:string
+    name:string
+    price:number
+    description:string
+    features:string[]
+    duration:string
+}
+
+export interface ICreateOrderResponse{
+    orderId:string
+    amount:string
+    currency:string
+    name:string
+    email:string
+}
+
+export interface IGetContestResponse{
+  title: string;
+  description: string;
+  domain: string;
+  skills: string[];
+  problems: string[];
+  rewards: IReward[];
+  dateAndTime: string;
+  duration: number;
+  visibility: string;
 }

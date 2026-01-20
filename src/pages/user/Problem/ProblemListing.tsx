@@ -9,7 +9,7 @@ import type { ISkill } from '@/types/types';
 import { debounce } from '@/utils/debouncing';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 
-import { LockKeyhole, Search } from 'lucide-react';
+import { LockKeyhole, LockKeyholeOpenIcon, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -27,7 +27,7 @@ const ProblemListing: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const debouncedFetchRef = useRef<ReturnType<typeof debounce> | null>(null);
   const auth = useAppSelector((state) => state.authReducer.auth);
-
+  const isPremium = useAppSelector((state) => state.authReducer.isPremium);
   useEffect(() => {
     debouncedFetchRef.current = debounce(async function (
       search: string,
@@ -135,6 +135,10 @@ const ProblemListing: React.FC = () => {
         navigate(`/user/login`);
         return;
       }
+      if (!isPremium) {
+        navigate(`/user/upgrade`);
+        return;
+      }
     }
     navigate(`/problem/${item.id}`);
   };
@@ -229,7 +233,19 @@ const ProblemListing: React.FC = () => {
             label: '',
             key: 'premium',
             render(value: boolean) {
-              return <p>{value ? <LockKeyhole size={20} /> : ''}</p>;
+              return (
+                <p>
+                  {value ? (
+                    isPremium ? (
+                      <LockKeyholeOpenIcon color="orange" size={20} />
+                    ) : (
+                      <LockKeyhole color="orange" size={20} />
+                    )
+                  ) : (
+                    ''
+                  )}
+                </p>
+              );
             },
           },
         ]}

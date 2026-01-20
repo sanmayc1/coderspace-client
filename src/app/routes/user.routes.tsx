@@ -1,8 +1,8 @@
 import UserLayout from '@/components/layout/UserLayout';
 import CodersDetails from '@/pages/user/coders/CodersDetails';
 import CodersListing from '@/pages/user/coders/CodersListing';
-
 import UserProfile from '@/pages/user/Profile';
+import UpgradePlan from '@/pages/user/UpgradePlan';
 import type { IAppRoutes } from '@/types/types';
 
 export const userRoutes: IAppRoutes[] = [
@@ -14,6 +14,11 @@ export const userRoutes: IAppRoutes[] = [
       {
         index: true,
         element: <UserProfile />,
+        allowedRoles: ['user'],
+      },
+      {
+        path: 'upgrade',
+        element: <UpgradePlan />,
         allowedRoles: ['user'],
       },
     ],

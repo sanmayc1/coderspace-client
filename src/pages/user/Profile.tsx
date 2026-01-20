@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { getUser } from '@/api/user/user.profile';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/redux-custom-hook';
 import LoadingSpin from '@/components/common/LoadingSpin';
@@ -5,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import type { IErrorResponse } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import type { AxiosError } from 'axios';
-import { Settings } from 'lucide-react';
+import { Crown, Settings } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import SettingsModal from '@/components/user/SettingsModal';
@@ -37,7 +38,9 @@ const UserProfile: React.FC = () => {
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(false);
   const [refetch, setRefetch] = useState(false);
   const profileUrl = useAppSelector((s) => s.authReducer.profileUrl) || '/defaultProfile.jpg';
+  const isPremium = useAppSelector((s) => s.authReducer.isPremium);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -78,14 +81,23 @@ const UserProfile: React.FC = () => {
       <div className="h-52 flex gap-5">
         {/* left */}
         <div className="h-full flex items-center gap-5">
-          <img
-            src={user?.profileUrl || '/defaultProfile.jpg'}
-            alt="profile"
-            className="h-40  w-40 border  rounded-full object-cover object-center "
-          />
+          <div className="relative">
+            <img
+              src={user?.profileUrl || '/defaultProfile.jpg'}
+              alt="profile"
+              className={`h-40 w-40 border rounded-full object-cover object-center ${
+                isPremium ? 'border-amber-400 border-4' : ''
+              }`}
+            />
+            {isPremium && (
+              <div className="absolute -bottom-2 -right-2 bg-amber-400 p-2 rounded-full border-4 border-white">
+                <Crown className="w-5 h-5 text-white fill-white" />
+              </div>
+            )}
+          </div>
           <div className="flex flex-col gap-10">
             <p className="flex flex-col gap-1">
-              <span className="text-3xl font-bold select-none ">
+              <span className="text-3xl font-bold select-none flex items-center gap-2">
                 {(user?.name?.charAt(0).toUpperCase() as string) + user?.name?.slice(1)}
               </span>
               <span className="text-gray-600 font-semibold pl-2 select-none ">
@@ -100,13 +112,18 @@ const UserProfile: React.FC = () => {
         {/* right */}
         <div className="flex flex-grow flex-col h-full">
           {/* top */}
-          <div className=" h-1/2 flex items-center justify-between ">
-            <Button
-              variant="outline"
-              className="rounded-xl  w-32 border-amber-500 text-amber-500 cursor-pointer"
-            >
-              Upgrade
-            </Button>
+          <div
+            className={`h-1/2 flex items-center ${isPremium ? 'justify-end' : 'justify-between'}`}
+          >
+            {!isPremium && (
+              <Button
+                variant="outline"
+                className="rounded-xl  w-32 border-amber-500 text-amber-500 cursor-pointer"
+                onClick={() => navigate('/user/upgrade')}
+              >
+                Upgrade
+              </Button>
+            )}
             {/* settings ,logout ,xp */}
             <div className="px-14 flex items-center gap-4  ">
               <p className="px-2 py-1 flex gap-1 border-1 border-black rounded-full font-semibold cursor-pointer items-center justify-center">

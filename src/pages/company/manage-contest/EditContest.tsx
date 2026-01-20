@@ -1,6 +1,6 @@
 import { getAllDomains } from '@/api/admin/skill-and-domain-management';
 import { getAllSkills } from '@/api/common/common.api';
-import { createContest } from '@/api/company/company';
+import { getContestById, updateContest } from '@/api/company/company';
 import { getProblemsUser } from '@/api/user/user.problem';
 import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
 import InputFiled from '@/components/common/Input';
@@ -19,11 +19,12 @@ import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { createContestSchema } from '@/utils/validation/company-validation';
 import { Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { v4 as uuid } from 'uuid';
 
-const AddContest: React.FC = () => {
+const EditContest: React.FC = () => {
+  const { id: contestId } = useParams<{ id: string }>();
   const [data, setData] = useState<IContestState>({
     title: '',
     description: '',
@@ -59,37 +60,65 @@ const AddContest: React.FC = () => {
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
   const [selectedProblems, setSelectedProblems] = useState<IContestProblem[]>([]);
   const [rewards, setRewards] = useState<IReward[]>([]);
-  const [showSkillsProblemsError, setShowSkillsProblemsError] = useState(false); // <--- added
+  const [showSkillsProblemsError, setShowSkillsProblemsError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchAllDomains() {
+    async function fetchData() {
+      if (!contestId) return;
       try {
-        const res = await getAllDomains();
-        setDomains(res.data.domains);
+        const [domainsRes, skillsRes, problemsRes, contestRes] = await Promise.all([
+          getAllDomains(),
+          getAllSkills(),
+          getProblemsUser('', '1', '', ''),
+          getContestById(contestId),
+        ]);
+
+        const domainsData = domainsRes.data.domains;
+        const skillsData = skillsRes.data.skills;
+        const problemsData = problemsRes.data.problems;
+        const contest = contestRes.data;
+
+        setDomains(domainsData);
+        setSkills(skillsData);
+        setAvailableProblems(problemsData);
+
+        // Extract domain ID whether backend returns an object or a plain string
+        const domainId =
+          typeof contest.domain === 'object' && contest.domain !== null
+            ? (contest.domain as any)._id || (contest.domain as any).id
+            : contest.domain;
+        setData((prev) => ({
+          ...prev,
+          title: contest.title,
+          description: contest.description,
+          dateAndTime: contest.dateAndTime
+            ? new Date(contest.dateAndTime).toISOString().slice(0, 16)
+            : '',
+          duration: String(contest.duration),
+          visibility: contest.visibility,
+          domain: domainId || '',
+        }));
+        // Clear any previous domain validation error now that we have loaded data
+        setError((prev) => ({ ...prev, domain: '' }));
+
+        if (contest.skills && Array.isArray(contest.skills)) {
+          setSelectedSkills(skillsData.filter((s) => contest.skills.includes(s.id)));
+        }
+        if (contest.problems && Array.isArray(contest.problems)) {
+          setSelectedProblems(problemsData.filter((p) => contest.problems.includes(p.id)));
+        }
+        setRewards(contest.rewards || []);
       } catch (error) {
-        toast.error('Something Went Wrong', toastifyOptionsCenter);
-      }
-    }
-    async function fetchAllSkills() {
-      try {
-        const res = await getAllSkills();
-        setSkills(res.data.skills);
-      } catch (error) {
-        toast.error('Something Went Wrong', toastifyOptionsCenter);
+        console.error(error);
+        toast.error('Failed to fetch data', toastifyOptionsCenter);
+        navigate('/company/manage-contest');
       }
     }
 
-    async function fetchAllProblems() {
-      const res = await getProblemsUser('', '1', '', '');
-      setAvailableProblems(res.data.problems);
-    }
-    fetchAllDomains();
-    fetchAllSkills();
-    fetchAllProblems();
-  }, []);
+    fetchData();
+  }, [contestId]);
 
-  // Helper: validate a single field with current state and set error.
   function validateField(
     newValue: any,
     fieldName: string,
@@ -107,7 +136,6 @@ const AddContest: React.FC = () => {
 
     for (let er of res.error.issues) {
       const path = er.path[0];
-      // Don't show array validation error *unless array is not empty* -- instead, show our own message below.
       if (fieldName === 'skill' && path === 'skills') return '';
       if (fieldName === 'problem' && path === 'problems') return '';
       if (fieldName === path) return er.message;
@@ -205,7 +233,6 @@ const AddContest: React.FC = () => {
   const addReward = () => {
     let rewardRankError = validateField(data.rewardRank, 'rewardRank');
     let rewardDescriptionError = validateField(data.rewardDescription, 'rewardDescription');
-    // fallback for empty
     if (!data.rewardRank.trim()) rewardRankError = 'Rank is required';
     if (!data.rewardDescription.trim()) rewardDescriptionError = 'Description is required';
 
@@ -232,7 +259,6 @@ const AddContest: React.FC = () => {
           description: data.rewardDescription,
         },
       ];
-      // Validate rewards (array) live after add
       const rError = validateField('', 'rewards');
       setError((errPrev) => ({
         ...errPrev,
@@ -250,7 +276,6 @@ const AddContest: React.FC = () => {
   const removeReward = (id: string) => {
     const newRewards = rewards.filter((r) => r.id !== id);
     setRewards(newRewards);
-    // Validate rewards (array) live after remove
     const rError = validateField('', 'rewards');
     setError((prev) => ({
       ...prev,
@@ -258,14 +283,13 @@ const AddContest: React.FC = () => {
     }));
   };
 
-  // Helper for proper "need at least one" warning for skills/problems
   const getSkillWarning = () =>
     selectedSkills.length === 0 ? 'At least one skill is required' : '';
   const getProblemWarning = () =>
     selectedProblems.length === 0 ? 'At least one problem is required' : '';
 
   const handleSubmit = async () => {
-    setShowSkillsProblemsError(true); // <--- show the errors now
+    setShowSkillsProblemsError(true);
     let submitErrors: IContestError = {
       title: '',
       description: '',
@@ -280,7 +304,6 @@ const AddContest: React.FC = () => {
       rewards: '',
     };
 
-    // Manual skills/problems check for empty, instead of validator
     if (selectedSkills.length === 0) submitErrors.skill = 'At least one skill is required';
     if (selectedProblems.length === 0) submitErrors.problem = 'At least one problem is required';
 
@@ -298,7 +321,6 @@ const AddContest: React.FC = () => {
         const key = er.path[0] as keyof IContestError;
         if (key in submitErrors) {
           if (er.path[0] === 'skills') {
-            // ignore if already have empty error (overridden)
             if (!submitErrors.skill) submitErrors.skill = er.message;
           } else if (er.path[0] === 'problems') {
             if (!submitErrors.problem) submitErrors.problem = er.message;
@@ -317,9 +339,10 @@ const AddContest: React.FC = () => {
 
     setError(submitErrors);
 
-    // If any errors exist, don't submit
     const hasError = Object.values(submitErrors).some((v) => !!v);
     if (hasError) return;
+
+    if (!contestId) return;
 
     try {
       const contestBody = {
@@ -336,10 +359,10 @@ const AddContest: React.FC = () => {
           description: r.description,
         })),
       };
-      // API submit
-      await createContest(contestBody);
-      toast.success('Contest Created!', toastifyOptionsCenter);
-      navigate(`/company/manage-contest?search=${contestBody.title}`);
+
+      await updateContest(contestId, contestBody);
+      toast.success('Contest Updated Successfully!', toastifyOptionsCenter);
+      navigate(`/company/manage-contest`);
     } catch (error) {
       console.log(error);
       toast.error('Something went wrong', toastifyOptionsCenter);
@@ -361,7 +384,7 @@ const AddContest: React.FC = () => {
               Back
             </Button>
           </div>
-          <h1 className="text-xl text-center p-3">Add Contest</h1>
+          <h1 className="text-xl text-center p-3">Edit Contest</h1>
         </div>
         <div className="w-full p-6 bg-white shadow-md rounded-md flex flex-col gap-9">
           <form className="space-y-4" autoComplete="off">
@@ -572,7 +595,7 @@ const AddContest: React.FC = () => {
 
             <div className="flex justify-end">
               <Button type="button" size={'lg'} onClick={handleSubmit}>
-                Save
+                Update Changes
               </Button>
             </div>
           </form>
@@ -582,4 +605,4 @@ const AddContest: React.FC = () => {
   );
 };
 
-export default AddContest;
+export default EditContest;

@@ -25,12 +25,15 @@ export const API_ROUTES = {
   GET_PROBLEM_USER: (id: string) => `/user/problems/${id}`,
   RUN_PROBLEM_USER: `/user/problems/run`,
   SUBMIT_PROBLEM_USER: `/user/problems/submit`,
-  GET_PROBLEM_UPDATES: (problemId: string, language: string) => `/user/problems/${problemId}/updates?language=${language}`,
+  GET_PROBLEM_UPDATES: (problemId: string, language: string) =>
+    `/user/problems/${problemId}/updates?language=${language}`,
   GET_COMPANY: '/company',
   UPDATE_COMPANY: '/company',
   CREATE_CONTEST_BY_COMPANY: '/company/contests',
   GET_ALL_CONTEST_CREATED_BY_COMPANY: (search: string, page: string) =>
     `/company/contests?search=${search}&page=${page}`,
+  GET_CONTEST: (id: string) => `/company/contests/${id}`,
+  UPDATE_CONTEST: (id: string) => `/company/contests/${id}`,
 
   CREATE_DOMAIN: '/admin/domain',
   GET_ALL_DOMAINS: '/admin/domains',
@@ -54,4 +57,12 @@ export const API_ROUTES = {
   FOLLOW_CODER: '/user/coders/follow',
   UNFOLLOW_CODER: (id: string) => `/user/coders/unfollow/${id}`,
   GET_CODER: (id: string) => `/user/coders/${id}/coder`,
+  GET_ALL_PLANS: '/user/payments/plans',
+  CREATE_ORDER: '/user/payments/create/razorpay-order',
+  VERIFY_ORDER: '/user/payments/verify',
+  MARK_PAYMENT_FAILED: '/user/payments/mark-failed',
+  GET_ALL_PLANS_ADMIN: '/admin/payments/plans',
+  UPDATE_PLAN_ADMIN: '/admin/payments/plans/edit',
+  GET_ALL_PAYMENTS_ADMIN: (page: number, sort: string, search: string, limit: string) =>
+    `/admin/payments?page=${page}&sort=${sort}&search=${search}&limit=${limit}`,
 };

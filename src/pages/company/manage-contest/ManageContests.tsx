@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import type { IListContestState } from '@/types/types';
 import { debounce } from '@/utils/debouncing';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
-import { PlusCircleIcon } from 'lucide-react';
+import { Edit2, PlusCircleIcon, Trophy } from 'lucide-react';
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +45,14 @@ const ManageContests: React.FC = () => {
     {
       key: 'title',
       label: 'Title',
+      render: (val: string) => (
+        <span>
+          {val
+            .split(' ')
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')}
+        </span>
+      ),
     },
     {
       key: 'description',
@@ -67,6 +75,28 @@ const ManageContests: React.FC = () => {
       key: 'view',
       label: 'Visibility',
       render: (val: string) => val.charAt(0).toUpperCase() + val.slice(1),
+    },
+    {
+      key: 'id',
+      label: 'Action',
+      render: (_, item) => (
+        <div className="flex items-center gap-3">
+          <div
+            className="cursor-pointer text-blue-600 hover:text-blue-800 transition-colors"
+            title="Edit Contest"
+            onClick={() => navigate(`/company/manage-contest/edit/${item.id}`)}
+          >
+            <Edit2 size={18} />
+          </div>
+          <div
+            className="cursor-pointer text-amber-500 hover:text-amber-700 transition-colors"
+            title="Leaderboard"
+            onClick={() => navigate(`/company/manage-contest/leaderboard/${item.id}`)}
+          >
+            <Trophy size={18} />
+          </div>
+        </div>
+      ),
     },
   ];
 

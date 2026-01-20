@@ -142,21 +142,15 @@ export const adminMenuItems: ISideBarItems[] = [
     navigate: '/admin',
   },
   { icon: Users, label: 'Manage Users', navigate: '/admin/manage-user' },
-  // {
-  //   icon: BriefcaseBusiness,
-  //   label: "Manage Business",
-  //   navigate: "/admin/manage-business",
-  // },
   { icon: Code, label: 'Manage Problems', navigate: '/admin/manage-problems' },
-  // { icon: Trophy, label: "Manage Contests" },
   {
     icon: Globe,
     label: 'Manage Domains & Skills',
     navigate: '/admin/manage-skills-and-domains',
   },
   { icon: MessageSquare, label: 'Manage Interviews' },
-  { icon: CreditCard, label: 'Plans' },
-  { icon: CreditCard, label: 'Payment' },
+  { icon: CreditCard, label: 'Plans' , navigate: '/admin/manage-plans'},
+  { icon: CreditCard, label: 'Payment', navigate: '/admin/manage-payments' },
   { icon: Settings, label: 'Settings' },
 ];
 
@@ -174,7 +168,7 @@ export const companyMenuItems: ISideBarItems[] = [
     navigate: '/company',
   },
   { icon: Trophy, label: 'Manage Contests', navigate: '/company/manage-contest' },
-  { icon: CreditCard, label: 'Revenue' },
+  // { icon: CreditCard, label: 'Revenue' },
   { icon: Settings, label: 'Settings' },
 ];
 

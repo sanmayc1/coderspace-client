@@ -2,6 +2,7 @@ import type {
   ICommonResponse,
   IGetAllContest,
   IGetCompanyResponse,
+  IGetContestResponse,
   ISuccessResponse,
 } from '@/types/response.types';
 import { API_ROUTES } from '../apiRoutes';
@@ -41,6 +42,24 @@ export async function getAllCreatedContestsOfCompany(
     const res = await coderspaceBackend.get(
       API_ROUTES.GET_ALL_CONTEST_CREATED_BY_COMPANY(search, page)
     );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getContestById(id: string): Promise<ISuccessResponse<IGetContestResponse>> {
+  try {
+    const res = await coderspaceBackend.get(API_ROUTES.GET_CONTEST(id));
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateContest<T>(id: string, data: T): Promise<ICommonResponse> {
+  try {
+    const res = await coderspaceBackend.patch(API_ROUTES.UPDATE_CONTEST(id), data);
     return res.data;
   } catch (error) {
     throw error;

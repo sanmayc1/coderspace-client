@@ -1,4 +1,4 @@
-import { LoaderCircle, Menu, X } from 'lucide-react';
+import { Crown, LoaderCircle, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { navIcons, navHeads } from '@/utils/constants';
 import { Button } from '../ui/Button';
@@ -13,6 +13,7 @@ const Header: React.FC<{ hideNavigation?: boolean }> = ({ hideNavigation = false
   const [isLoading, setLoading] = useState(false);
   const auth = useAppSelector((s) => s.authReducer.auth);
   const profileUrl = useAppSelector((s) => s.authReducer.profileUrl) || '/defaultProfile.jpg';
+  const isPremium = useAppSelector((s) => s.authReducer.isPremium);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const closeAndOpenMenu = () => {
@@ -94,14 +95,25 @@ const Header: React.FC<{ hideNavigation?: boolean }> = ({ hideNavigation = false
                     </li>
                   ))}
                   <li
-                    className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400"
+                    className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400 relative"
                     onClick={() => navigate('/user')}
                   >
-                    <img
-                      src={profileUrl}
-                      alt="profile"
-                      className="rounded-full h-8 border-2 border-black p-[1.5px] w-8 box-content object-cover"
-                    />
+                    <div className="relative">
+                      <img
+                        src={profileUrl}
+                        alt="profile"
+                        className={`rounded-full h-8 w-8 box-content object-cover ${
+                          isPremium
+                            ? 'border-2 border-amber-400'
+                            : 'border-2 border-black p-[1.5px]'
+                        }`}
+                      />
+                      {isPremium && (
+                        <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-[2px] border border-white">
+                          <Crown size={8} className="text-white fill-white" />
+                        </div>
+                      )}
+                    </div>
                   </li>
                   <li>
                     <Button
@@ -151,11 +163,20 @@ const Header: React.FC<{ hideNavigation?: boolean }> = ({ hideNavigation = false
                 <li>{icon.icon}</li>
               ))}
               <li>
-                <img
-                  src={profileUrl}
-                  alt="profile"
-                  className="rounded-full h-7 border-2 border-black p-[1.5px] box-content "
-                />
+                <div className="relative">
+                  <img
+                    src={profileUrl}
+                    alt="profile"
+                    className={`rounded-full h-7 box-content ${
+                      isPremium ? 'border-2 border-amber-400' : 'border-2 border-black p-[1.5px]'
+                    }`}
+                  />
+                  {isPremium && (
+                    <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-[2px] border border-white">
+                      <Crown size={8} className="text-white fill-white" />
+                    </div>
+                  )}
+                </div>
               </li>
             </ul>
           ) : (

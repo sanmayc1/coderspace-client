@@ -1,13 +1,14 @@
 import AdminLayout from '@/components/layout/AdminLayout';
 import UserManagement from '@/pages/admin/manage-users/ManageUser';
 import type { IAppRoutes } from '@/types/types';
-import Table from '@/components/common/Table';
 import ProblemManagement from '@/pages/admin/manage-problems/ManageProblems';
 import AddProblem from '@/pages/admin/manage-problems/AddProblem';
 import AddLanguage from '@/pages/admin/manage-problems/AddLanguage';
 import AddTestcase from '@/pages/admin/manage-problems/AddTestcase';
 import ManageSkillsAndDomains from '@/pages/admin/manage-skills-and-domains/ManageSkillsAndDomains';
 import EditProblem from '@/pages/admin/manage-problems/EditProblem';
+import ListAllPlans from '@/pages/admin/manage-payments/ListAllPlans';
+import ListAllPayments from '@/pages/admin/manage-payments/ListAllPayments';
 
 export const adminRoutes: IAppRoutes[] = [
   {
@@ -23,17 +24,6 @@ export const adminRoutes: IAppRoutes[] = [
       {
         path: 'manage-user',
         element: <UserManagement />,
-        allowedRoles: ['admin'],
-      },
-      {
-        path: 'manage-business',
-        element: (
-          <Table
-            columns={[{ key: 'hell', label: 'sdf' }]}
-            data={[{ hell: 'dfsdf' }]}
-            className=""
-          />
-        ),
         allowedRoles: ['admin'],
       },
       {
@@ -66,6 +56,16 @@ export const adminRoutes: IAppRoutes[] = [
         element: <ManageSkillsAndDomains />,
         allowedRoles: ['admin'],
       },
+      {
+        path: 'manage-plans',
+        element: <ListAllPlans />,
+        allowedRoles: ['admin'],
+      },
+      {
+        path:"manage-payments",
+        element: <ListAllPayments />,
+        allowedRoles: ['admin'],
+      }
     ],
   },
 ];
