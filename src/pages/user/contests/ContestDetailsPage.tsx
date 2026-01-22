@@ -1,32 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { CheckCircle, CircleDot, Play, RotateCcw } from 'lucide-react';
+import {
+  CheckCircle,
+  CircleDot,
+  Play,
+  RotateCcw,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  LucideAlarmClock,
+} from 'lucide-react';
 import { Editor } from '@monaco-editor/react';
 import 'monaco-editor/esm/vs/basic-languages/java/java.contribution';
 import 'monaco-editor/esm/vs/basic-languages/typescript/typescript.contribution';
 import 'monaco-editor/esm/vs/basic-languages/python/python.contribution';
 import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
-import {
-  getProblemupdates,
-  getProblemUser,
-  runProblemUser,
-  submitProblemUser,
-} from '@/api/user/user.problem';
-import { useParams } from 'react-router-dom';
+import { runProblemUser } from '@/api/user/user.problem';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
-import type { IGetProblemUpdatesResponse, IUserGetProblemDetailed } from '@/types/response.types';
+import type { IContestProblem, IGetProblemUpdatesResponse } from '@/types/response.types';
 import SelectTag from '@/components/common/Select';
 import { Button } from '@/components/ui/Button';
 import { AxiosError } from 'axios';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';
 import LoadingSpin from '@/components/common/LoadingSpin';
+import {
+  contestSubmitProblemUser,
+  finishContestUser,
+  getContestProblems,
+} from '@/api/user/user.contest';
+import Modal from '@/components/common/Modal';
 
-const ProblemDetails: React.FC = () => {
+const ContestDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'solution'>('description');
   const [code, setCode] = useState(``);
   const [defaultCode, setDefaultCode] = useState(``);
   const [language, setLanguage] = useState('');
-  const [problem, setProblem] = useState<IUserGetProblemDetailed>();
+  const [problem, setProblem] = useState<IContestProblem>();
   const [output, setOutput] = useState('');
   const [error, setError] = useState('');
   const [testPassed, setTestPassed] = useState(false);
@@ -41,33 +51,65 @@ const ProblemDetails: React.FC = () => {
   });
   const auth = useAppSelector((s) => s.authReducer.auth);
   const [loading, setLoading] = useState(true);
+  const [allProblems, setAllProblems] = useState<IContestProblem[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [solvedProblemIds, setSolvedProblemIds] = useState<Set<string>>(new Set());
+  const [userCodeMap, setUserCodeMap] = useState<Record<string, string>>({});
+  const [endTime, setEndTime] = useState<string>('');
+
+  const calculateTimeLeft = () => {
+    if (!endTime) return null;
+    const difference = +new Date(endTime) - +new Date();
+
+    if (difference > 0) {
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+    return null;
+  };
+
+  const [timeRemaining, setTimeRemaining] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  } | null>(null);
+  const [timeUpModalOpen, setTimeUpModalOpen] = useState(false);
+  const [finishModalOpen, setFinishModalOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProblemDetails() {
       try {
-        const res = await getProblemUser(id as string);
+        const contest = await getContestProblems(id as string);
+        setAllProblems(contest.problems);
+        setEndTime(String(contest.endDateAndTime));
+        if (contest.problems.length > 0) {
+          const currentProb = contest.problems[0];
+          setProblem(currentProb);
+          const lang = currentProb.templateCodes[0].language;
+          setLanguage(lang);
 
-        let updates: IGetProblemUpdatesResponse | null = null;
-        if (auth) {
-          updates = await getProblemupdates(id as string, res.data.templateCodes[0].language);
-          console.log('updates', updates);
-          setCurrentStatus(updates);
+          const defaultC = currentProb.templateCodes[0].templateCode;
+          setDefaultCode(defaultC);
+
+          const key = `${currentProb.id}_${lang}`;
+          setCode(userCodeMap[key] || defaultC);
+
+          setCurrentIndex(0);
         }
-
-        if (updates?.status === 'solved' || updates?.status === 'attempted') {
-          setCode(updates?.solution);
-          setLanguage(updates?.language);
-        } else {
-          setCode(res.data.templateCodes[0].templateCode);
-          setLanguage(res.data.templateCodes[0].language);
-        }
-        setDefaultCode(res.data.templateCodes[0].templateCode);
-
-        setProblem(res.data);
         setLoading(false);
       } catch (error) {
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data.message, toastifyOptionsCenter);
+        }
         setLoading(false);
-        toast.error('Something went wrong', toastifyOptionsCenter);
+        navigate('/contest');
       }
     }
     if (id) {
@@ -76,13 +118,52 @@ const ProblemDetails: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if(currentStatus.language === language){
-      setCode(currentStatus.solution);
-      return
+    if (problem && language) {
+      const key = `${problem.id}_${language}`;
+      setUserCodeMap((prev) => ({ ...prev, [key]: code }));
     }
-    setCode(problem?.templateCodes.find((t) => t.language === language)?.templateCode as string);
-    
-  }, [language]);
+  }, [code, problem, language]);
+
+  useEffect(() => {
+    if (!problem) return;
+    const template = problem.templateCodes.find((t) => t.language === language)?.templateCode || '';
+    setDefaultCode(template);
+
+    const key = `${problem.id}_${language}`;
+    if (userCodeMap[key]) {
+      setCode(userCodeMap[key]);
+    } else {
+      setCode(template);
+    }
+  }, [language, problem]);
+
+  useEffect(() => {
+    if (!endTime) return;
+
+
+    const initial = calculateTimeLeft();
+    if (initial) {
+      setTimeRemaining(initial);
+    } else {
+
+      if (!isNaN(new Date(endTime).getTime())) {
+      
+        setTimeRemaining(null);
+        setTimeUpModalOpen(true);
+      }
+    }
+
+    const timer = setInterval(() => {
+      const remaining = calculateTimeLeft();
+      setTimeRemaining(remaining);
+      if (!remaining) {
+        setTimeUpModalOpen(true);
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [endTime]);
 
   const handleRunCode = async () => {
     try {
@@ -90,10 +171,10 @@ const ProblemDetails: React.FC = () => {
       setTestPassed(false);
       setIsRunning(true);
       setOutput('Running Test Cases.....');
-      const res = await runProblemUser(id as string, code, language);
+      const res = await runProblemUser(problem?.id as string, code, language);
       setIsRunning(false);
-      console.log(res);
       setTestPassed(res.success);
+      setError(res.success ? '' : 'Test cases failed');
       setProblem(
         (prev) =>
           prev && {
@@ -104,13 +185,10 @@ const ProblemDetails: React.FC = () => {
       setOutput('Finsihed Running Test Cases');
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.response?.data);
         setOutput('');
         setIsRunning(false);
         setError(error.response?.data.message);
       }
-
-      // toast.error('Something went wrong', toastifyOptionsCenter);
     }
   };
 
@@ -125,9 +203,15 @@ const ProblemDetails: React.FC = () => {
       setTestPassed(false);
       setIsRunning(true);
       setOutput('Running Test Cases.....');
-      const res = await submitProblemUser(id as string, code, language);
+      const res = await contestSubmitProblemUser(
+        problem?.id as string,
+        code,
+        language,
+        id as string
+      );
       setIsRunning(false);
       setTestPassed(res.success);
+      setError(res.success ? '' : 'Test cases failed');
       setProblem(
         (prev) =>
           prev && {
@@ -137,17 +221,7 @@ const ProblemDetails: React.FC = () => {
       );
 
       if (res.success) {
-        setCurrentStatus({
-          solution: code,
-          status: 'solved',
-          language,
-        });
-      } else {
-        setCurrentStatus({
-          solution: code,
-          status: 'attempted',
-          language,
-        });
+        setSolvedProblemIds(new Set(solvedProblemIds).add(problem?.id as string));
       }
       setOutput('Finsihed Running Test Cases');
     } catch (error) {
@@ -166,6 +240,62 @@ const ProblemDetails: React.FC = () => {
     setTestPassed(false);
   };
 
+  const activeProblemId = problem?.id;
+  const isSolved = activeProblemId ? solvedProblemIds.has(activeProblemId) : false;
+
+  const handleNextProblem = () => {
+    if (currentIndex < allProblems.length - 1) {
+      const nextIndex = currentIndex + 1;
+      const nextProb = allProblems[nextIndex];
+      setCurrentIndex(nextIndex);
+      setProblem(nextProb);
+
+      const supportsCurrentLang = nextProb.templateCodes.some((t) => t.language === language);
+      const nextLang = supportsCurrentLang ? language : nextProb.templateCodes[0].language;
+
+      setLanguage(nextLang);
+
+      setCurrentStatus({ solution: '', status: '', language: '' });
+      setTestPassed(false);
+      setOutput('');
+      setError('');
+    }
+  };
+
+  const handlePrevProblem = () => {
+    if (currentIndex > 0) {
+      const prevIndex = currentIndex - 1;
+      const prevProb = allProblems[prevIndex];
+      setCurrentIndex(prevIndex);
+      setProblem(prevProb);
+
+      const supportsCurrentLang = prevProb.templateCodes.some((t) => t.language === language);
+      const nextLang = supportsCurrentLang ? language : prevProb.templateCodes[0].language;
+
+      setLanguage(nextLang);
+
+      setCurrentStatus({ solution: '', status: '', language: '' });
+      setTestPassed(false);
+      setOutput('');
+      setError('');
+    }
+  };
+
+  const handleFinish = () => {
+    setFinishModalOpen(true);
+  };
+
+  const confirmFinish = async () => {
+    try {
+      const res = await finishContestUser(id as string);
+      if (res.success) {
+        navigate('/contest');
+      }
+    } catch (error) {
+      toast.error('Failed to finish contest', toastifyOptionsCenter);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -176,10 +306,53 @@ const ProblemDetails: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
+      {/* Finish Confirmation Modal */}
+      <Modal isOpen={finishModalOpen} onClose={() => setFinishModalOpen(false)}>
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Finish Contest?</h2>
+          <p className="text-gray-600 mb-6">
+            Are you sure you want to finish the contest? You won't be able to submit any more
+            solutions.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button
+              variant="outline"
+              onClick={() => setFinishModalOpen(false)}
+              className="px-6 border-gray-300 hover:bg-gray-50"
+            >
+              Cancel
+            </Button>
+            <Button onClick={confirmFinish} className="px-6 bg-red-600 hover:bg-red-700 text-white">
+              Confirm Finish
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Time Up Modal */}
+      {timeUpModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center relative animate-in fade-in zoom-in duration-300">
+            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Clock className="w-10 h-10 text-red-600" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Time's Up!</h2>
+            <p className="text-gray-600 mb-8 text-lg">
+              The contest has ended. You can no longer submit solutions.
+            </p>
+            <Button
+              onClick={() => navigate('/contest')}
+              className="w-full py-3 bg-black text-white hover:bg-gray-800 text-lg font-semibold rounded-lg transition-all"
+            >
+              Back to Contests
+            </Button>
+          </div>
+        </div>
+      )}
       <div className="flex-1 flex flex-col lg:flex-row my-4 mx-2 md:my-20 md:mx-10 lg:my-28 lg:mx-14 border-2 rounded-lg p-2 h-auto lg:h-[calc(100vh-160px)]">
         <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-gray-200 overflow-y-auto h-[50vh] lg:h-auto">
-          <div className="p-4 md:p-8">
-            <div className="flex border-b border-gray-200 mb-6">
+          <div className="p-4">
+            <div className="flex border-b justify-between border-gray-200 mb-6">
               <button
                 onClick={() => setActiveTab('description')}
                 className={`pb-2 px-1 mr-8 font-medium ${
@@ -190,12 +363,34 @@ const ProblemDetails: React.FC = () => {
               >
                 Description
               </button>
-              <button
+              {/* <button
                 onClick={() => setActiveTab('solution')}
                 className={`pb-2 px-1 font-medium ${
                   activeTab === 'solution' ? 'border-b-2 border-black text-black' : 'text-gray-600'
                 }`}
-              ></button>
+              ></button> */}
+              <div className="flex items-center gap-2">
+                <p className="font-mono text-xl flex gap-2 ">
+                  <LucideAlarmClock className="w-5 h-5 text-gray-600 mr-2" />
+                  {timeRemaining
+                    ? `${
+                        timeRemaining.days > 0
+                          ? `${String(timeRemaining.days).padStart(2, '0')}:`
+                          : ''
+                      }${String(timeRemaining.hours).padStart(2, '0')}:${String(
+                        timeRemaining.minutes
+                      ).padStart(2, '0')}:${String(timeRemaining.seconds).padStart(2, '0')}`
+                    : '00:00:00'}
+                </p>
+                <div className="ml-4 pl-4 border-l border-gray-300">
+                  <Button
+                    onClick={handleFinish}
+                    className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                  >
+                    Finish Contest
+                  </Button>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -208,17 +403,39 @@ const ProblemDetails: React.FC = () => {
                     .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
                     .join(' ')}
                 </span>
-                {currentStatus.status && currentStatus.status === 'solved' ? (
-                  <span className="text-green-600 text-sm font-medium flex items-center gap-1">
-                    <CheckCircle className="w-4 h-4" /> Solved
-                  </span>
-                ) : currentStatus.status && currentStatus.status === 'attempted' ? (
-                  <span className="text-yellow-500 text-sm font-medium flex items-center gap-1">
-                    <CircleDot className="w-4 h-4" /> Attempted
-                  </span>
-                ) : (
-                  <span className="text-gray-600 text-sm font-medium flex items-center gap-1"></span>
-                )}
+                <div className="flex items-center gap-4">
+                  {/* Status Indicator */}
+                  {currentStatus.status === 'solved' || isSolved ? (
+                    <span className="text-green-600 text-sm font-medium flex items-center gap-1">
+                      <CheckCircle className="w-4 h-4" /> Solved
+                    </span>
+                  ) : currentStatus.status === 'attempted' ? (
+                    <span className="text-yellow-500 text-sm font-medium flex items-center gap-1">
+                      <CircleDot className="w-4 h-4" /> Attempted
+                    </span>
+                  ) : null}
+
+                  {/* Navigation */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handlePrevProblem}
+                      disabled={currentIndex === 0}
+                      className="p-1 hover:bg-gray-100 rounded-full disabled:opacity-30 disabled:hover:bg-transparent"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <span className="font-mono text-sm font-medium">
+                      {currentIndex + 1} / {allProblems.length}
+                    </span>
+                    <button
+                      onClick={handleNextProblem}
+                      disabled={currentIndex === allProblems.length - 1}
+                      className="p-1 hover:bg-gray-100 rounded-full disabled:opacity-30 disabled:hover:bg-transparent"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
               </h2>
 
               <p className="text-gray-700 mb-4">{problem?.description}</p>
@@ -278,14 +495,24 @@ const ProblemDetails: React.FC = () => {
                   <span>Run Code</span>
                 </Button>
                 <div className="flex items-center space-x-2">
-                  <Button
-                    className="px-6 py-2 border "
-                    onClick={handleSubmitCode}
-                    disabled={isRunning}
-                    title="Submit"
-                  >
-                    Submit
-                  </Button>
+                  {!isSolved ? (
+                    <Button
+                      className="px-6 py-2 border "
+                      onClick={handleSubmitCode}
+                      disabled={isRunning}
+                      title="Submit"
+                    >
+                      Submit
+                    </Button>
+                  ) : currentIndex < allProblems.length - 1 ? (
+                    <Button
+                      className="px-6 py-2 border bg-black text-white hover:bg-gray-800"
+                      onClick={handleNextProblem}
+                      title="Next"
+                    >
+                      Next
+                    </Button>
+                  ) : null}
                   <Button
                     onClick={handleReset}
                     className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -440,4 +667,4 @@ const ProblemDetails: React.FC = () => {
   );
 };
 
-export default ProblemDetails;
+export default ContestDetails;

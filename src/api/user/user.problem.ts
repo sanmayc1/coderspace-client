@@ -1,7 +1,7 @@
 import type {
-  ICommonResponse,
   IGetProblemUpdatesResponse,
   IRunProblemResponse,
+  ISubmitProblemResponse,
   ISuccessResponse,
   IUserGetProblemDetailed,
   IUserGetProblemsResponse,
@@ -59,14 +59,14 @@ export async function submitProblemUser(
   id: string,
   code: string,
   language: string,
-): Promise<ICommonResponse> {
+): Promise<ISubmitProblemResponse> {
   try {
     const res = await coderspaceBackend.post(API_ROUTES.SUBMIT_PROBLEM_USER,{
       problemId:id,
       code,
       language
     });
-    return res.data;
+    return res.data.data;
   } catch (error) {
     throw error;
   }

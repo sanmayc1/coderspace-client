@@ -33,7 +33,8 @@ export const API_ROUTES = {
   GET_ALL_CONTEST_CREATED_BY_COMPANY: (search: string, page: string) =>
     `/company/contests?search=${search}&page=${page}`,
   GET_CONTEST: (id: string) => `/company/contests/${id}`,
-  UPDATE_CONTEST: (id: string) => `/company/contests/${id}`,
+  UPDATE_CONTEST: '/company/contests',
+  DELETE_CONTEST: (id: string) => `/company/contests/${id}`,
 
   CREATE_DOMAIN: '/admin/domain',
   GET_ALL_DOMAINS: '/admin/domains',
@@ -65,4 +66,13 @@ export const API_ROUTES = {
   UPDATE_PLAN_ADMIN: '/admin/payments/plans/edit',
   GET_ALL_PAYMENTS_ADMIN: (page: number, sort: string, search: string, limit: string) =>
     `/admin/payments?page=${page}&sort=${sort}&search=${search}&limit=${limit}`,
+
+  GET_ALL_UPCOMING_AND_ONGOING_CONTESTS: (page: number) =>
+    `/user/contests/upcoming-and-ongoing?page=${page}`,
+  GET_ALL_PAST_CONTESTS: (page: number) => `/user/contests/past?page=${page}`,
+  GET_USER_CONTEST: (id: string) => `/user/contests/${id}`,
+  SUBMIT_CONTEST_PROBLEM: `/user/contests/submit/problem`,
+  JOIN_CONTEST_USER: `/user/contests/join`,
+  FINISH_CONTEST_USER: `/user/contests/finish`,
+  GET_CONTEST_LEADERBOARD: (id: string) => `/user/contests/${id}/leaderboard`,
 };

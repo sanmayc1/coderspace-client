@@ -320,12 +320,13 @@ const AddContest: React.FC = () => {
     // If any errors exist, don't submit
     const hasError = Object.values(submitErrors).some((v) => !!v);
     if (hasError) return;
-
+ 
+    const dateAndTime = new Date(data.dateAndTime);
     try {
       const contestBody = {
         title: data.title,
         description: data.description,
-        dateAndTime: data.dateAndTime,
+        dateAndTime: dateAndTime.toString(),
         duration: Number(data.duration),
         visibility: data.visibility,
         domain: data.domain,

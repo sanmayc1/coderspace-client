@@ -108,7 +108,7 @@ const EditContest: React.FC = () => {
         if (contest.problems && Array.isArray(contest.problems)) {
           setSelectedProblems(problemsData.filter((p) => contest.problems.includes(p.id)));
         }
-        setRewards(contest.rewards || []);
+        setRewards(contest.rewards.map((r) => ({ ...r, id: uuid() })));
       } catch (error) {
         console.error(error);
         toast.error('Failed to fetch data', toastifyOptionsCenter);
@@ -274,7 +274,12 @@ const EditContest: React.FC = () => {
   };
 
   const removeReward = (id: string) => {
+    console.log(id);
+    console.log(rewards);
+
     const newRewards = rewards.filter((r) => r.id !== id);
+    console.log(newRewards);
+
     setRewards(newRewards);
     const rError = validateField('', 'rewards');
     setError((prev) => ({
@@ -344,11 +349,14 @@ const EditContest: React.FC = () => {
 
     if (!contestId) return;
 
+    const dateAndTime = new Date(data.dateAndTime);
+
     try {
       const contestBody = {
+        id: contestId,
         title: data.title,
         description: data.description,
-        dateAndTime: data.dateAndTime,
+        dateAndTime:dateAndTime.toString(),
         duration: Number(data.duration),
         visibility: data.visibility,
         domain: data.domain,
@@ -359,8 +367,7 @@ const EditContest: React.FC = () => {
           description: r.description,
         })),
       };
-
-      await updateContest(contestId, contestBody);
+      await updateContest(contestBody);
       toast.success('Contest Updated Successfully!', toastifyOptionsCenter);
       navigate(`/company/manage-contest`);
     } catch (error) {

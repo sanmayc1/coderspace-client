@@ -132,4 +132,5 @@ export interface IListContestState {
   id: string;
   title: string;
   view: string;
+  endDateAndTime: string;
 }

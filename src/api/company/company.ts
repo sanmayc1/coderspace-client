@@ -57,9 +57,18 @@ export async function getContestById(id: string): Promise<ISuccessResponse<IGetC
   }
 }
 
-export async function updateContest<T>(id: string, data: T): Promise<ICommonResponse> {
+export async function updateContest<T>(data: T): Promise<ICommonResponse> {
   try {
-    const res = await coderspaceBackend.patch(API_ROUTES.UPDATE_CONTEST(id), data);
+    const res = await coderspaceBackend.patch(API_ROUTES.UPDATE_CONTEST, data);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteContest(id: string): Promise<ICommonResponse> {
+  try {
+    const res = await coderspaceBackend.delete(API_ROUTES.DELETE_CONTEST(id));
     return res.data;
   } catch (error) {
     throw error;

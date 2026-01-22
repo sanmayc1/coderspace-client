@@ -134,7 +134,7 @@ export interface IUserGetProblemDetailed {
   constrain: string;
   examples: IExample[];
   templateCodes: ITemplateCodes[];
-  testcases:{input:string,output:string,expected:string,isCorrect?:boolean}[]
+  testcases: { input: string; output: string; expected: string; isCorrect?: boolean }[];
 }
 
 export interface IGetAllContest {
@@ -153,57 +153,54 @@ export interface IGetAllCodersResponse {
 }
 
 export interface IGetCoderResponse {
-    userId:string
-    name:string
-    username:string
-    badge:string
-    level:number
-    following:number
-    followers:number
-    about?:string
-    joinDate:string
-    problemSolved:number
-    profileUrl:string
-    isFollowing:boolean
+  userId: string;
+  name: string;
+  username: string;
+  badge: string;
+  level: number;
+  following: number;
+  followers: number;
+  about?: string;
+  joinDate: string;
+  problemSolved: number;
+  profileUrl: string;
+  isFollowing: boolean;
 }
-
 
 export interface IGetProblemUpdatesResponse {
-    status:string
-    solution:string
-    language:string
+  status: string;
+  solution: string;
+  language: string;
 }
 
-
-export interface IRunProblemResponse{
-  testcases:{
-    input:string
-    output:string
-    expected:string
-    isCorrect:boolean
-  }[]   
-  success:boolean
+export interface IRunProblemResponse {
+  testcases: {
+    input: string;
+    output: string;
+    expected: string;
+    isCorrect: boolean;
+  }[];
+  success: boolean;
 }
 
-
-export interface IGetAllPlansResponse{
-    id:string
-    name:string
-    price:number
-    description:string
-    features:string[]
-    duration:string
+export interface IGetAllPlansResponse {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  features: string[];
+  duration: string;
 }
 
-export interface ICreateOrderResponse{
-    orderId:string
-    amount:string
-    currency:string
-    name:string
-    email:string
+export interface ICreateOrderResponse {
+  orderId: string;
+  amount: string;
+  currency: string;
+  name: string;
+  email: string;
 }
 
-export interface IGetContestResponse{
+export interface IGetContestResponse {
   title: string;
   description: string;
   domain: string;
@@ -213,4 +210,48 @@ export interface IGetContestResponse{
   dateAndTime: string;
   duration: number;
   visibility: string;
+}
+
+export interface IGetAllContestUpcomingAndOngoingResponse {
+  contests: IGetUserContestsResponse[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface IGetUserContestsResponse {
+  id: string;
+  title: string;
+  description: string;
+  dateAndTime: string;
+  domain: string;
+  skills: ISkill[];
+  duration: string;
+  rewards: Omit<IReward, 'id'>[];
+}
+
+export interface IContestProblem extends IUserGetProblemDetailed {
+  id: string;
+}
+
+export interface IGetContestProblemsResponse {
+  problems: IContestProblem[];
+  endDateAndTime: Date;
+}
+
+export interface ISubmitProblemResponse extends IRunProblemResponse {}
+
+export interface IContestSubmitProblemResponse extends IRunProblemResponse {}
+
+export interface IContestLeaderboardResponse {
+  userId: string;
+  username: string;
+  contestName: string;
+  totalProblems: number;
+  name: string;
+  profileUrl: string;
+  badge: string;
+  score: number;
+  solvedProblems: number;
+  totalSubmissions: number;
+  timeTaken: number;
 }
