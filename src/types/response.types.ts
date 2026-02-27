@@ -164,6 +164,7 @@ export interface IGetCoderResponse {
   joinDate: string;
   problemSolved: number;
   profileUrl: string;
+  accountId: string;
   isFollowing: boolean;
 }
 
@@ -242,7 +243,7 @@ export interface ISubmitProblemResponse extends IRunProblemResponse {}
 
 export interface IContestSubmitProblemResponse extends IRunProblemResponse {}
 
-export interface IContestLeaderboardResponse {
+export interface ILeaderboard {
   userId: string;
   username: string;
   contestName: string;
@@ -254,4 +255,45 @@ export interface IContestLeaderboardResponse {
   solvedProblems: number;
   totalSubmissions: number;
   timeTaken: number;
+}
+
+export interface IContestLeaderboardResponse {
+  leaderboard: ILeaderboard[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export interface IGetAllAvailableProblems {
+  problems: { id: string; title: string }[];
+}
+
+export interface IGetAllChatsResponse {
+  chatPartner: {
+    id: string;
+    name: string;
+    profilePicture: string;
+  };
+  lastMessage: {
+    content: string;
+    timestamp: Date;
+  };
+  unreadCount: number;
+}
+
+export interface IGetChatMessagesResponse {
+  chats: IGetChatMessages[];
+  chatPartner: {
+    id: string;
+    name: string;
+    profilePicture: string;
+  };
+}
+
+export interface IGetChatMessages {
+  id: string;
+  message: string;
+  timestamp: Date;
+  seen: boolean;
+  receiverId: string;
+  senderId: string;
 }

@@ -113,9 +113,9 @@ const UserProfile: React.FC = () => {
         <div className="flex flex-grow flex-col h-full">
           {/* top */}
           <div
-            className={`h-1/2 flex items-center ${isPremium ? 'justify-end' : 'justify-between'}`}
+            className={`h-1/2 flex items-center justify-between`}
           >
-            {!isPremium && (
+           
               <Button
                 variant="outline"
                 className="rounded-xl  w-32 border-amber-500 text-amber-500 cursor-pointer"
@@ -123,7 +123,7 @@ const UserProfile: React.FC = () => {
               >
                 Upgrade
               </Button>
-            )}
+         
             {/* settings ,logout ,xp */}
             <div className="px-14 flex items-center gap-4  ">
               <p className="px-2 py-1 flex gap-1 border-1 border-black rounded-full font-semibold cursor-pointer items-center justify-center">

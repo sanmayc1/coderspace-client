@@ -25,7 +25,7 @@ export const navIcons = [
   { icon: <Bell className="text-gray-600" size={24} />, navigate: '' },
   {
     icon: <MessageSquareText className="text-gray-500" size={24} />,
-    navigate: '',
+    navigate: '/chat', 
   },
 ];
 

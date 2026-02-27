@@ -1,9 +1,15 @@
-import { addSingleTestcase, deleteTestcase, getAllTestcase } from '@/api/admin/problem-management';
+import {
+  addSingleTestcase,
+  autoGenerateTestcases,
+  deleteTestcase,
+  getAllTestcase,
+} from '@/api/admin/problem-management';
 import CustomPagination from '@/components/common/Pagination';
 import { Button } from '@/components/ui/Button';
 import type { IGetTestcase } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { Editor } from '@monaco-editor/react';
+import { AxiosError } from 'axios';
 import { Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -74,6 +80,21 @@ const AddTestcase = () => {
     }
   };
 
+  const handleAutoGenerateTestcase = async () => {
+    try {
+      await autoGenerateTestcases(id as string);
+      toast.success("Auto generated successfully",toastifyOptionsCenter)
+      window.location.reload();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.errors[0].error, toastifyOptionsCenter);
+        
+      } else {
+        toast.error('Something went wrong', toastifyOptionsCenter);
+      }
+    }
+  };
+
   const handleDeleteTestcase = async (id: string) => {
     try {
       await deleteTestcase(id);
@@ -100,13 +121,22 @@ const AddTestcase = () => {
             <div className="bg-[#1E1E1E] rounded-md">
               <div className="py-2 bg-[#5F5F5F] text-white px-4 flex items-center justify-between text-sm rounded-t-md ">
                 <p>Single Testcase</p>
-                <Button
-                  size={'sm'}
-                  className="text-xs cursor-pointer"
-                  onClick={handleSingleTestcaseSubmit}
-                >
-                  Add testcase
-                </Button>
+                <div className="flex gap-3">
+                  <Button
+                    size={'sm'}
+                    className="text-xs cursor-pointer"
+                    onClick={handleSingleTestcaseSubmit}
+                  >
+                    Add testcase
+                  </Button>
+                  <Button
+                    size={'sm'}
+                    className="text-xs cursor-pointer"
+                    onClick={handleAutoGenerateTestcase}
+                  >
+                    Auto Generate
+                  </Button>
+                </div>
               </div>
               <div className="p-2">
                 <Editor

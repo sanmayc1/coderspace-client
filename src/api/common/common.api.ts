@@ -1,13 +1,19 @@
-import type { IGetAllSkills, ISuccessResponse } from '@/types/response.types';
+import type { IContestLeaderboardResponse, IGetAllSkills, ISuccessResponse } from '@/types/response.types';
 import { coderspaceBackend } from '../instance';
 import { API_ROUTES } from '../apiRoutes';
 
 export async function getAllSkills(): Promise<ISuccessResponse<IGetAllSkills>> {
-  try {
+ 
     const res = await coderspaceBackend.get(API_ROUTES.GET_ALL_SKILLS);
 
     return res.data;
-  } catch (error) {
-    throw error;
-  }
+
+}
+
+
+export async function getContestLeaderboard(id: string,page:number,search:string): Promise<IContestLeaderboardResponse> {
+ 
+    const response = await coderspaceBackend.get(API_ROUTES.GET_CONTEST_LEADERBOARD(id,page,search));
+    return response.data.data;
+ 
 }

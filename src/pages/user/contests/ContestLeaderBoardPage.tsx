@@ -1,30 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { Trophy, Clock, Target, Hash, Search, Filter, Crown, Medal } from 'lucide-react';
-import { getContestLeaderboard } from '@/api/user/user.contest';
+import {
+  Trophy,
+  Clock,
+  Target,
+  Hash,
+  Search,
+  Filter,
+  Crown,
+  Medal,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
+
 import { useParams } from 'react-router-dom';
-import type { IContestLeaderboardResponse } from '@/types/response.types';
+import type { ILeaderboard } from '@/types/response.types';
+import { getContestLeaderboard } from '@/api/common/common.api';
 
 const ContestLeaderBoardPage: React.FC = () => {
-  const [leaderboardData, setLeaderboardData] = useState<IContestLeaderboardResponse[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<ILeaderboard[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const { id } = useParams();
+
+  // Handle debouncing
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch((prev) => {
+        if (prev !== search) {
+          setCurrentPage(1);
+          return search;
+        }
+        return prev;
+      });
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    async function fetchContestLeaderboard() {
+    const fetchContestLeaderboard = async () => {
       try {
         if (!id) return;
-        const res = await getContestLeaderboard(id);
-        if (Array.isArray(res)) {
-          setLeaderboardData(res);
-        } else {
-          setLeaderboardData([]);
-        }
+        const res = await getContestLeaderboard(id, currentPage, debouncedSearch);
+        console.log(res);
+        setLeaderboardData(res.leaderboard);
+
+        setTotalPages(res.totalPages);
       } catch (error) {
         console.error('Failed to fetch leaderboard', error);
       }
-    }
+    };
+
     fetchContestLeaderboard();
-  }, [id]);
+  }, [id, currentPage, debouncedSearch]);
 
   const formatTime = (ms: number) => {
     const totalSeconds = Math.floor(ms / 1000);
@@ -66,10 +99,11 @@ const ContestLeaderBoardPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Leaderboard</h1>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Contest Leaderboard</h1>
             <p className="text-gray-500 mt-1 flex items-center gap-2">
               <Trophy className="w-4 h-4" />
-              Top performers from the contest
+              Top performers from the{' '}
+              {leaderboardData.length > 0 ? leaderboardData[0].contestName : ''} contest
             </p>
           </div>
 
@@ -79,6 +113,10 @@ const ContestLeaderBoardPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Search user..."
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
                 className="pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 w-64 transition-all"
               />
             </div>
@@ -98,6 +136,7 @@ const ContestLeaderBoardPage: React.FC = () => {
                   <th className="px-6 py-4">User</th>
                   <th className="px-6 py-4 text-center">Badge</th>
                   <th className="px-6 py-4 text-center">Solved</th>
+                  <th className="px-6 py-4 text-center">Score</th>
                   <th className="px-6 py-4 text-center">Time Taken</th>
                   <th className="px-6 py-4 text-center">Submissions</th>
                 </tr>
@@ -105,7 +144,7 @@ const ContestLeaderBoardPage: React.FC = () => {
               <tbody className="divide-y divide-gray-100">
                 {leaderboardData.length > 0 ? (
                   leaderboardData.map((entry, index) => {
-                    const rank = index + 1;
+                    const rank = (currentPage - 1) * 10 + index + 1;
                     return (
                       <tr
                         key={entry.userId}
@@ -138,7 +177,7 @@ const ContestLeaderBoardPage: React.FC = () => {
                             />
                             <div className="flex flex-col">
                               <span className="font-semibold text-gray-900 group-hover:text-black transition-colors">
-                                {entry.username}
+                                {entry.name}
                               </span>
                               <span className="text-xs text-gray-400">
                                 @{entry.username.toLowerCase()}
@@ -178,6 +217,13 @@ const ContestLeaderBoardPage: React.FC = () => {
                           </div>
                         </td>
 
+                        {/* Score */}
+                        <td className="px-6 py-4">
+                          <div className="flex justify-center">
+                            <span className="font-bold text-gray-900">{entry.score}</span>
+                          </div>
+                        </td>
+
                         {/* Time Taken */}
                         <td className="px-6 py-4">
                           <div className="flex justify-center">
@@ -204,7 +250,7 @@ const ContestLeaderBoardPage: React.FC = () => {
                   })
                 ) : (
                   <tr>
-                    <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
                       No one won this contest yet!
                     </td>
                   </tr>
@@ -213,6 +259,31 @@ const ContestLeaderBoardPage: React.FC = () => {
             </table>
           </div>
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 py-4">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 bg-white transition-all shadow-sm"
+              aria-label="Previous page"
+            >
+              <ChevronLeft className="w-4 h-4 text-gray-600" />
+            </button>
+            <span className="text-sm font-medium text-gray-700">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="p-2 border border-gray-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 bg-white transition-all shadow-sm"
+              aria-label="Next page"
+            >
+              <ChevronRight className="w-4 h-4 text-gray-600" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

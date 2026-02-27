@@ -129,7 +129,7 @@ const ManageContests: React.FC = () => {
             <div
               className="cursor-pointer text-amber-500 hover:text-amber-700 transition-colors"
               title="Leaderboard"
-              onClick={() => navigate(`/company/manage-contest/leaderboard/${item.id}`)}
+              onClick={() => navigate(`/company/manage-contest/${item.id}/leaderboard`)}
             >
               <Trophy size={18} />
             </div>

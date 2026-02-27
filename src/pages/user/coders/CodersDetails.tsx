@@ -4,7 +4,7 @@ import { Calendar } from 'lucide-react';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import LoadingSpin from '@/components/common/LoadingSpin';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { followCoder, getCoder, unFollowCoder } from '@/api/user/user.coders';
 import type { IGetCoderResponse } from '@/types/response.types';
 
@@ -12,6 +12,7 @@ const CodersDetails: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [coder, setCoder] = useState<IGetCoderResponse | null>(null);
   const [disable, setDisable] = useState(false);
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -19,6 +20,7 @@ const CodersDetails: React.FC = () => {
       try {
         const res = await getCoder(id as string);
         setCoder(res);
+        console.log(res)
         setLoading(false);
       } catch (error) {
         toast.error('Something went wrong', toastifyOptionsCenter);
@@ -91,6 +93,7 @@ const CodersDetails: React.FC = () => {
                 <Button
                   variant="outline"
                   className=" border-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-50"
+                  onClick={()=>navigate(`/chat?contactId=${coder.accountId}`)}
                 >
                   Message
                 </Button>

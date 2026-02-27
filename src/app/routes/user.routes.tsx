@@ -1,4 +1,5 @@
 import UserLayout from '@/components/layout/UserLayout';
+import ChatListing from '@/pages/user/chat/ChatListing';
 import CodersDetails from '@/pages/user/coders/CodersDetails';
 import CodersListing from '@/pages/user/coders/CodersListing';
 import ContestDetails from '@/pages/user/contests/ContestDetailsPage';
@@ -48,6 +49,11 @@ export const userRoutes: IAppRoutes[] = [
       {
         path: 'contest/:id/leaderboard',
         element: <ContestLeaderBoardPage />,
+        allowedRoles: ['user'],
+      },
+      {
+        path: 'chat',
+        element: <ChatListing />,
         allowedRoles: ['user'],
       }
     ],

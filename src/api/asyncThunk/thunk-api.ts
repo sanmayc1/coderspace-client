@@ -5,6 +5,7 @@ import type { AxiosError } from 'axios';
 import type { AuthLoginError, ILoginPayload, ILoginResponse } from '@/types/types';
 import { API_ROUTES } from '../apiRoutes';
 import type { IErrorResponse } from '@/types/response.types';
+import { socket } from '@/socket';
 
 export const fetchRoleData = createAsyncThunk('fetch/role', async (_, thunkAPI) => {
   try {
@@ -22,6 +23,7 @@ export const authLogin = createAsyncThunk<
 >('auth/login', async ({ endpoint, payload }, thunkAPI) => {
   try {
     const response = await coderspaceBackend.post(endpoint, payload);
+
     return response.data.data as IFetchRoleData;
   } catch (error) {
     return thunkAPI.rejectWithValue({

@@ -49,6 +49,7 @@ export const API_ROUTES = {
   GET_LANGUAGE: (id: string) => `/admin/problems/${id}/language`,
   UPDATE_LANGUAGE: '/admin/problems/language',
   ADD_TESTCASE: '/admin/problems/testcase',
+  AUTO_GENERATE_TESTCASES:'/admin/problems/testcase/auto-generate',
   GET_TESTCASES: (id: string) => `/admin/problems/${id}/testcases`,
   TESTCASE_DELETED: (id: string) => `/admin/problems/${id}/testcase`,
   GET_PROBLEM: (id: string) => `/admin/problems/${id}`,
@@ -74,5 +75,10 @@ export const API_ROUTES = {
   SUBMIT_CONTEST_PROBLEM: `/user/contests/submit/problem`,
   JOIN_CONTEST_USER: `/user/contests/join`,
   FINISH_CONTEST_USER: `/user/contests/finish`,
-  GET_CONTEST_LEADERBOARD: (id: string) => `/user/contests/${id}/leaderboard`,
+  GET_CONTEST_LEADERBOARD: (id: string, page: number, search: string) =>
+    `/common/contest/${id}/leaderboard?page=${page}&search=${search}`,
+  GET_ALL_AVAILABLE_PROBLEMS_COMPANY:"/company/contests/problems",
+  GET_ALL_CHATS:"/user/chats",
+  GET_CHAT_MESSAGES: (id: string) => `/user/chats/${id}/messages`,
+  
 };

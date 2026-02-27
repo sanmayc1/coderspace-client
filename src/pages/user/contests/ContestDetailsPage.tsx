@@ -84,6 +84,7 @@ const ContestDetails: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     async function fetchProblemDetails() {
       try {
         const contest = await getContestProblems(id as string);
@@ -140,14 +141,11 @@ const ContestDetails: React.FC = () => {
   useEffect(() => {
     if (!endTime) return;
 
-
     const initial = calculateTimeLeft();
     if (initial) {
       setTimeRemaining(initial);
     } else {
-
       if (!isNaN(new Date(endTime).getTime())) {
-      
         setTimeRemaining(null);
         setTimeUpModalOpen(true);
       }

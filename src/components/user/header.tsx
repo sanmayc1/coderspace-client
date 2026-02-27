@@ -90,6 +90,7 @@ const Header: React.FC<{ hideNavigation?: boolean }> = ({ hideNavigation = false
                     <li
                       className="cursor-pointer select-none hover:text-black hover:scale-105 transition-all duration-400"
                       key={index}
+                      onClick={() => navigate(icon.navigate)}
                     >
                       {icon.icon}
                     </li>
