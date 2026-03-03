@@ -18,7 +18,7 @@ export const navHeads = [
   { title: 'Problems', navigate: '/problems' },
   { title: 'Contest', navigate: '/contest' },
   { title: 'Coders', navigate: '/coders' },
-  { title: 'Interview', navigate: '' },
+  { title: 'Interview', navigate: '/interview' },
 ];
 
 export const navIcons = [
