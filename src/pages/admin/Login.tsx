@@ -33,7 +33,7 @@ const AdminLogin: React.FC = () => {
           })
         ).unwrap();
         setLoading(false);
-        navigate('/admin');
+        navigate('/admin/dashboard');
       } catch (error) {
         mapLoginErrors(
           (error as AuthLoginError)?.error as ILoginResponse,

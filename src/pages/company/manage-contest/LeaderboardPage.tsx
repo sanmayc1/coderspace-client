@@ -86,7 +86,7 @@ const LeaderboardWithRank: React.FC = () => {
       render: (_, item) => (
         <div className="flex items-center gap-3">
           <img
-            src={item.profileUrl || '/default-avatar.png'}
+            src={item.profileUrl || '/defaultProfile.jpg'}
             alt={item.username}
             className="w-8 h-8 rounded-full object-cover bg-gray-100"
           />

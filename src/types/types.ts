@@ -134,3 +134,14 @@ export interface IListContestState {
   view: string;
   endDateAndTime: string;
 }
+
+export interface IInterviewData {
+  title: string;
+  id?: string;
+  description: string;
+  context: string;
+  numberOfQuestions: number;
+  difficulty: string;
+  premium: boolean;
+  duration: number;
+}

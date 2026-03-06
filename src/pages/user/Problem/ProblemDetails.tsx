@@ -94,6 +94,7 @@ const ProblemDetails: React.FC = () => {
       setIsRunning(false);
       console.log(res);
       setTestPassed(res.success);
+      console.log(res.testcases);
       setProblem(
         (prev) =>
           prev && {
@@ -408,7 +409,7 @@ const ProblemDetails: React.FC = () => {
                         >
                           {isRunning
                             ? 'Running...'
-                            : testPassed
+                            : !testPassed
                               ? problem.testcases[activeTestCaseId].output // Simulating correct output
                               : error
                                 ? error // Showing error if failed (since actual output missing)

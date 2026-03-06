@@ -139,7 +139,7 @@ export const adminMenuItems: ISideBarItems[] = [
   {
     icon: LayoutDashboard,
     label: 'Dashboard',
-    navigate: '/admin',
+    navigate: '/admin/dashboard',
   },
   { icon: Users, label: 'Manage Users', navigate: '/admin/manage-user' },
   { icon: Code, label: 'Manage Problems', navigate: '/admin/manage-problems' },
@@ -148,10 +148,10 @@ export const adminMenuItems: ISideBarItems[] = [
     label: 'Manage Domains & Skills',
     navigate: '/admin/manage-skills-and-domains',
   },
-  { icon: MessageSquare, label: 'Manage Interviews' },
+  { icon: MessageSquare, label: 'Manage Interviews', navigate: '/admin/manage-interviews' },
   { icon: CreditCard, label: 'Plans' , navigate: '/admin/manage-plans'},
   { icon: CreditCard, label: 'Payment', navigate: '/admin/manage-payments' },
-  { icon: Settings, label: 'Settings' },
+  { icon: Settings, label: 'Settings', navigate:"/admin/settings"},
 ];
 
 export const LANGUAGES: { label: string; value: TLanguages }[] = [
@@ -165,11 +165,10 @@ export const companyMenuItems: ISideBarItems[] = [
   {
     icon: LayoutDashboard,
     label: 'Dashboard',
-    navigate: '/company',
+    navigate: '/company/dashboard',
   },
   { icon: Trophy, label: 'Manage Contests', navigate: '/company/manage-contest' },
-  // { icon: CreditCard, label: 'Revenue' },
-  { icon: Settings, label: 'Settings' },
+  { icon: Settings, label: 'Settings',navigate:'/company/settings' },
 ];
 
 export const Badges = [

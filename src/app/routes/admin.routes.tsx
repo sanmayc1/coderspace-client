@@ -9,6 +9,9 @@ import ManageSkillsAndDomains from '@/pages/admin/manage-skills-and-domains/Mana
 import EditProblem from '@/pages/admin/manage-problems/EditProblem';
 import ListAllPlans from '@/pages/admin/manage-payments/ListAllPlans';
 import ListAllPayments from '@/pages/admin/manage-payments/ListAllPayments';
+import ListAllInterviews from '@/pages/admin/manage-interviews/ListAllInterviews';
+import Dashboard from '@/pages/admin/Dashboard';
+import Settings from '@/pages/admin/Settings';
 
 export const adminRoutes: IAppRoutes[] = [
   {
@@ -65,6 +68,22 @@ export const adminRoutes: IAppRoutes[] = [
         path:"manage-payments",
         element: <ListAllPayments />,
         allowedRoles: ['admin'],
+      },
+      {
+        path:"manage-interviews",
+        element: <ListAllInterviews />,
+        allowedRoles: ['admin'],
+      },
+      {
+        path:"dashboard",
+        element: <Dashboard />,
+        allowedRoles: ['admin'],
+      }
+      ,
+      {
+        path:"settings",
+        element:<Settings/>,
+        allowedRoles:['admin']
       }
     ],
   },
