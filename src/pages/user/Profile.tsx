@@ -237,7 +237,7 @@ const UserProfile: React.FC = () => {
       </div>
 
       <div className="border-b border-gray-200 mt-10 mb-8 flex gap-8 ">
-        {['Overview', 'Submissions', 'Contests'].map((tab) => (
+        {['Overview'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}

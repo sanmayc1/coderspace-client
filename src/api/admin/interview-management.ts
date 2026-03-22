@@ -1,7 +1,10 @@
 // import { API_ROUTES } from '../apiRoutes';
 // import { axiosInstance } from '../instance';
 
+import type { ICommonResponse } from "@/types/response.types";
 import type { title } from "process";
+import { coderspaceBackend } from "../instance";
+import { API_ROUTES } from "../apiRoutes";
 
 export const getAllInterviewsAdmin = async (params: {
   page: number;
@@ -90,3 +93,13 @@ export const getAllInterviewsAdmin = async (params: {
     }, 500);
   });
 };
+
+
+
+export async function createInterview<T>(data: T): Promise<ICommonResponse> {
+  
+    const res = await coderspaceBackend.post(API_ROUTES.CREATE_INTERVIEW, data);
+
+    return res.data;
+
+}

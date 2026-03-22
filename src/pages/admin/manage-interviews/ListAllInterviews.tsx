@@ -1,4 +1,4 @@
-import { getAllInterviewsAdmin } from '@/api/admin/interview-management';
+import { createInterview, getAllInterviewsAdmin } from '@/api/admin/interview-management';
 import AddEditInterviewModal from '@/components/admin/AddEditInterviewModal';
 import InputFiled from '@/components/common/Input';
 import Table from '@/components/common/Table';
@@ -114,6 +114,20 @@ const ListAllInterviews: React.FC = () => {
     });
    }
 
+   const handleCreateInterview = async () => {
+    try {
+      setLoading(true);
+      const res: any = await createInterview(interviewData);
+      toast.success(res.data?.message || 'Interview created successfully', toastifyOptionsCenter);
+      closeEditModal();
+    } catch (error) {
+      toast.error('Failed to create interview', toastifyOptionsCenter);
+    } finally {
+      setLoading(false);
+    }
+   }
+
+
   const renderActions = ( _: string, item: IInterviewData) => {
     return (
       <div className="flex gap-2">
@@ -178,7 +192,7 @@ const ListAllInterviews: React.FC = () => {
       <AddEditInterviewModal
         isOpen={isOpenAddModal}
         onClose={closeEditModal}
-        onSubmit={() => {}}
+        onSubmit={handleCreateInterview}
         data={interviewData}
         setData={setInterviewData}
       />

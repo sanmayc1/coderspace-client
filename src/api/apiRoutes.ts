@@ -80,5 +80,6 @@ export const API_ROUTES = {
   GET_ALL_AVAILABLE_PROBLEMS_COMPANY:"/company/contests/problems",
   GET_ALL_CHATS:"/user/chats",
   GET_CHAT_MESSAGES: (id: string) => `/user/chats/${id}/messages`,
+  CREATE_INTERVIEW:'/admin/interviews/create'
   
 };
