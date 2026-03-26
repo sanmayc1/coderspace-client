@@ -145,3 +145,13 @@ export interface IInterviewData {
   premium: boolean;
   duration: number;
 }
+
+
+export interface IInterviewDataUser {
+  title: string;
+  id: string;
+  description: string;
+  numberOfQuestions: number;
+  premium: boolean;
+  duration: number;
+}

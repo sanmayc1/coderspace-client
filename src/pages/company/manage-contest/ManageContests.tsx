@@ -27,7 +27,7 @@ const ManageContests: React.FC = () => {
     const debouncedFetchAllContests = debounce(async () => {
       setLoading(true);
       try {
-        const res = await getAllCreatedContestsOfCompany(search, String(currentPage));
+        const res = await getAllCreatedContestsOfCompany(search, String(currentPage), itemsPerPage);
         setContests(res.data.contests || []);
         setTotalPages(res.data.totalPages || 1);
       } catch (error) {
@@ -38,6 +38,11 @@ const ManageContests: React.FC = () => {
     }, 500);
     debouncedFetchAllContests();
   }, [search, currentPage, itemsPerPage]);
+
+  // Reset page to 1 when search or itemsPerPage changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, itemsPerPage]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);

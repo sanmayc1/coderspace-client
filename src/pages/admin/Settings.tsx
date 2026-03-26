@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { z } from 'zod';
 import InputFiled from '../../components/common/Input';
 import { Button } from '../../components/ui/Button';
-import { Activity } from 'lucide-react';
+import { changePassword } from '@/api/common/common.api';
+import type { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
+import { toastifyOptionsCenter } from '@/utils/toastify.options';
 
 const changePasswordSchema = z
   .object({
@@ -39,7 +42,7 @@ const Settings = () => {
     setSuccessMsg('');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
     setSuccessMsg('');
@@ -58,19 +61,23 @@ const Settings = () => {
       return;
     }
 
-    // Here you will handle the API request
-    console.log('Form data is valid:', formData);
+    try {
+      const res = await changePassword(formData.currentPassword, formData.newPassword);
 
-    // Mock success behavior
-    setSuccessMsg('Password successfully changed!');
-
-    setFormData({
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    });
-    setTouched({});
-    setIsSubmitted(false);
+      console.log(res);
+      setSuccessMsg('Password successfully changed!');
+      toast.success("Password successfully changed!" , toastifyOptionsCenter)
+      setFormData({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+      setTouched({});
+      setIsSubmitted(false);
+    } catch (error) {
+      const axError = error as AxiosError<{ errors: { message: string; path: string }[] }>;
+      toast.error(axError.response?.data.errors[0].message,toastifyOptionsCenter);
+    }
   };
 
   const getError = (fieldName: string) => {
@@ -78,60 +85,58 @@ const Settings = () => {
   };
 
   return (
+    <div className="p-6 max-w-3xl lg:px-8 xl:px-12 mx-auto">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
+        <h2 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">
+          Change Password
+        </h2>
 
-      <div className="p-6 max-w-3xl lg:px-8 xl:px-12 mx-auto">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
-          <h2 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white">
-            Change Password
-          </h2>
+        {successMsg && (
+          <div className="mb-6 p-4 bg-emerald-50 text-emerald-700 rounded-lg text-sm border border-emerald-200">
+            {successMsg}
+          </div>
+        )}
 
-          {successMsg && (
-            <div className="mb-6 p-4 bg-emerald-50 text-emerald-700 rounded-lg text-sm border border-emerald-200">
-              {successMsg}
-            </div>
-          )}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <InputFiled
+            label="Current Password"
+            name="currentPassword"
+            type="password"
+            placeholder="Enter your current password"
+            value={formData.currentPassword}
+            handleChange={handleChange}
+            error={getError('currentPassword')}
+            className="w-full"
+          />
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <InputFiled
-              label="Current Password"
-              name="currentPassword"
-              type="password"
-              placeholder="Enter your current password"
-              value={formData.currentPassword}
-              handleChange={handleChange}
-              error={getError('currentPassword')}
-              className="w-full"
-            />
+          <InputFiled
+            label="New Password"
+            name="newPassword"
+            type="password"
+            placeholder="Enter new password"
+            value={formData.newPassword}
+            handleChange={handleChange}
+            error={getError('newPassword')}
+            className="w-full"
+          />
 
-            <InputFiled
-              label="New Password"
-              name="newPassword"
-              type="password"
-              placeholder="Enter new password"
-              value={formData.newPassword}
-              handleChange={handleChange}
-              error={getError('newPassword')}
-              className="w-full"
-            />
+          <InputFiled
+            label="Confirm New Password"
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm your new password"
+            value={formData.confirmPassword}
+            handleChange={handleChange}
+            error={getError('confirmPassword')}
+            className="w-full"
+          />
 
-            <InputFiled
-              label="Confirm New Password"
-              name="confirmPassword"
-              type="password"
-              placeholder="Confirm your new password"
-              value={formData.confirmPassword}
-              handleChange={handleChange}
-              error={getError('confirmPassword')}
-              className="w-full"
-            />
-
-            <div className="pt-2">
-              <Button type="submit">Update Password</Button>
-            </div>
-          </form>
-        </div>
+          <div className="pt-2">
+            <Button type="submit">Update Password</Button>
+          </div>
+        </form>
       </div>
- 
+    </div>
   );
 };
 

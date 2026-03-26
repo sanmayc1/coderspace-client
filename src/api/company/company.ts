@@ -1,4 +1,5 @@
 import type {
+  DashboardDataResponse,
   ICommonResponse,
   IGetAllAvailableProblems,
   IGetAllContest,
@@ -33,11 +34,12 @@ export async function createContest<T>(data: T): Promise<ICommonResponse> {
 
 export async function getAllCreatedContestsOfCompany(
   search: string,
-  page: string
+  page: string,
+  limit: string
 ): Promise<ISuccessResponse<IGetAllContest>> {
  
     const res = await coderspaceBackend.get(
-      API_ROUTES.GET_ALL_CONTEST_CREATED_BY_COMPANY(search, page)
+      API_ROUTES.GET_ALL_CONTEST_CREATED_BY_COMPANY(search, page, limit)
     );
     return res.data;
 
@@ -69,4 +71,9 @@ export async function getAllAvailableProblems(): Promise<IGetAllAvailableProblem
     const res = await coderspaceBackend.get(API_ROUTES.GET_ALL_AVAILABLE_PROBLEMS_COMPANY);
     return res.data.data;
  
+}
+
+export async function  getCompanyDashboard():Promise<ISuccessResponse<DashboardDataResponse>> {
+  const res = await coderspaceBackend.get(API_ROUTES.GET_COMPANY_DASHBOARD)
+  return res.data
 }

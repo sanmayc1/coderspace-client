@@ -23,6 +23,7 @@ interface IAddEditInterviewModalProps {
   onSubmit: (data: IInterviewData) => void;
   data: IInterviewData;
   setData: React.Dispatch<React.SetStateAction<IInterviewData>>;
+  loading: boolean; 
 }
 
 const AddEditInterviewModal = ({
@@ -31,6 +32,7 @@ const AddEditInterviewModal = ({
   onSubmit,
   data,
   setData,
+  loading
 }: IAddEditInterviewModalProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -157,7 +159,7 @@ const AddEditInterviewModal = ({
           <Button variant={'outline'} onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>{data.id ? 'Update Interview' : 'Add Interview'}</Button>
+          <Button onClick={handleSubmit} disabled={loading}>{data.id ? 'Update Interview' : 'Add Interview'}</Button>
         </div>
       </div>
     </Modal>

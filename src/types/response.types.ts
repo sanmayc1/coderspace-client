@@ -1,6 +1,8 @@
 import type {
   IDomain,
   IExample,
+  IInterviewData,
+  IInterviewDataUser,
   IListContestState,
   IProblemListing,
   IReward,
@@ -296,4 +298,53 @@ export interface IGetChatMessages {
   seen: boolean;
   receiverId: string;
   senderId: string;
+}
+
+export interface IGetAllInterviewsResponse {
+  interviews: IInterviewData[];
+  currentPage: number;
+  totalPages: number;
+  itemsPerPage: number;
+}
+
+
+
+
+
+export interface IGetAllUserInterviewsResponse {
+  interviews: IInterviewDataUser[];
+  currentPage: number;
+  totalPages: number;
+  itemsPerPage: number;
+}
+
+
+export interface IGetInterviewQuestionResponse{
+  question:string,
+  audio:string,
+  questionNumber:number
+}
+
+
+type Month =
+  | "Jan" | "Feb" | "Mar" | "Apr"
+  | "May" | "Jun" | "Jul" | "Aug"
+  | "Sep" | "Oct" | "Nov" | "Dec";
+
+export interface ChartItem {
+  name: Month;
+  participants: number;
+  submissions: number;
+}
+
+export interface QuickTab {
+  totalContests: number;
+  totalParticipants: number;
+  activeContests: number;
+  upcomingContests: number;
+}
+
+export interface DashboardDataResponse {
+  quicktab: QuickTab;
+  chart: ChartItem[];
 }

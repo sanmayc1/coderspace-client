@@ -30,8 +30,8 @@ export const API_ROUTES = {
   GET_COMPANY: '/company',
   UPDATE_COMPANY: '/company',
   CREATE_CONTEST_BY_COMPANY: '/company/contests',
-  GET_ALL_CONTEST_CREATED_BY_COMPANY: (search: string, page: string) =>
-    `/company/contests?search=${search}&page=${page}`,
+  GET_ALL_CONTEST_CREATED_BY_COMPANY: (search: string, page: string, limit: string) =>
+    `/company/contests?search=${search}&page=${page}&limit=${limit}`,
   GET_CONTEST: (id: string) => `/company/contests/${id}`,
   UPDATE_CONTEST: '/company/contests',
   DELETE_CONTEST: (id: string) => `/company/contests/${id}`,
@@ -49,7 +49,7 @@ export const API_ROUTES = {
   GET_LANGUAGE: (id: string) => `/admin/problems/${id}/language`,
   UPDATE_LANGUAGE: '/admin/problems/language',
   ADD_TESTCASE: '/admin/problems/testcase',
-  AUTO_GENERATE_TESTCASES:'/admin/problems/testcase/auto-generate',
+  AUTO_GENERATE_TESTCASES: '/admin/problems/testcase/auto-generate',
   GET_TESTCASES: (id: string) => `/admin/problems/${id}/testcases`,
   TESTCASE_DELETED: (id: string) => `/admin/problems/${id}/testcase`,
   GET_PROBLEM: (id: string) => `/admin/problems/${id}`,
@@ -77,9 +77,16 @@ export const API_ROUTES = {
   FINISH_CONTEST_USER: `/user/contests/finish`,
   GET_CONTEST_LEADERBOARD: (id: string, page: number, search: string) =>
     `/common/contest/${id}/leaderboard?page=${page}&search=${search}`,
-  GET_ALL_AVAILABLE_PROBLEMS_COMPANY:"/company/contests/problems",
-  GET_ALL_CHATS:"/user/chats",
+  GET_ALL_AVAILABLE_PROBLEMS_COMPANY: '/company/contests/problems',
+  GET_ALL_CHATS: '/user/chats',
   GET_CHAT_MESSAGES: (id: string) => `/user/chats/${id}/messages`,
-  CREATE_INTERVIEW:'/admin/interviews/create'
-  
+  CREATE_INTERVIEW: '/admin/interviews/create',
+  GET_ALL_INTERVIEWS: '/admin/interviews',
+  DELETE_INTERVIEW: (id: string) => `/admin/interviews/${id}/delete`,
+  GET_ALL_INTERVIEWS_USER: (page: number) => `/user/interviews?page=${page}`,
+  CREATE_INTERVIEW_SESSION: '/user/interviews/create-session',
+  GET_INTERVIEW_QUESTION: (id: string, questionNumber: number) =>
+    `/user/interviews/${id}/question?order=${questionNumber}`,
+  CHANGE_ACCOUNT_PASSWORD:`/common/change-password`,
+  GET_COMPANY_DASHBOARD:"/company/dashboard"
 };
