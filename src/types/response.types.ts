@@ -241,7 +241,11 @@ export interface IGetContestProblemsResponse {
   endDateAndTime: Date;
 }
 
-export interface ISubmitProblemResponse extends IRunProblemResponse {}
+export interface ISubmitProblemResponse extends IRunProblemResponse {
+  levelReached: number;
+  badgeReached: string;
+  xpCoinEarned: number;
+}
 
 export interface IContestSubmitProblemResponse extends IRunProblemResponse {}
 
@@ -307,10 +311,6 @@ export interface IGetAllInterviewsResponse {
   itemsPerPage: number;
 }
 
-
-
-
-
 export interface IGetAllUserInterviewsResponse {
   interviews: IInterviewDataUser[];
   currentPage: number;
@@ -318,18 +318,25 @@ export interface IGetAllUserInterviewsResponse {
   itemsPerPage: number;
 }
 
-
-export interface IGetInterviewQuestionResponse{
-  question:string,
-  audio:string,
-  questionNumber:number
+export interface IGetInterviewQuestionResponse {
+  question: string;
+  audio: string;
+  questionNumber: number;
 }
 
-
 type Month =
-  | "Jan" | "Feb" | "Mar" | "Apr"
-  | "May" | "Jun" | "Jul" | "Aug"
-  | "Sep" | "Oct" | "Nov" | "Dec";
+  | 'Jan'
+  | 'Feb'
+  | 'Mar'
+  | 'Apr'
+  | 'May'
+  | 'Jun'
+  | 'Jul'
+  | 'Aug'
+  | 'Sep'
+  | 'Oct'
+  | 'Nov'
+  | 'Dec';
 
 export interface ChartItem {
   name: Month;
@@ -348,3 +355,31 @@ export interface DashboardDataResponse {
   quicktab: QuickTab;
   chart: ChartItem[];
 }
+
+export interface IGetAdminDashboardResponse {
+  quicktab: {
+    totalUsers: number;
+    activeSubscriptions: number;
+    totalProblems: number;
+    totalInterviews: number;
+  };
+  monthlyGrowthData: { name: string; users: number; revenue: number }[];
+}
+
+
+export interface Notification {
+  _id: string;
+  accountId: string;
+  message: string;
+  title: string;
+  type: "level_up" | "badge" | "system" | string; 
+  isRead: boolean;
+  createdAt: string; 
+  updatedAt: string; 
+}
+
+export interface NotificationsDataResponse {
+  notifications: Notification[];
+  total: number;
+}
+

@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios';
 import { coderspaceBackend } from '../instance';
 import { API_ROUTES } from '../apiRoutes';
-import type { ICommonResponse, IGetUserResponse, ISuccessResponse } from '@/types/response.types';
+import type { ICommonResponse, IGetUserResponse, ISuccessResponse, NotificationsDataResponse } from '@/types/response.types';
 
 export async function getUser(): Promise<AxiosResponse<ISuccessResponse<IGetUserResponse>>> {
   const res: AxiosResponse<ISuccessResponse<IGetUserResponse>> = await coderspaceBackend.get(
@@ -32,4 +32,19 @@ export async function updateUserPassword<T>(data: T): Promise<AxiosResponse<ICom
     data
   );
   return res;
+}
+
+
+export async function getUserNotifications(): Promise<ISuccessResponse<NotificationsDataResponse>> {
+  const res = await coderspaceBackend.get(
+    API_ROUTES.GET_USER_NOTIFICATIONS
+  );
+  return res.data;
+}
+
+export async function markAllNotificationsAsRead(): Promise<ISuccessResponse<NotificationsDataResponse>> {
+  const res = await coderspaceBackend.put(
+    API_ROUTES.MARK_ALL_NOTIFICATIONS_AS_READ
+  );
+  return res.data;
 }

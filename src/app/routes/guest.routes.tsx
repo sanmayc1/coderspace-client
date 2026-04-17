@@ -6,11 +6,8 @@ import CompanyRegister from '@/pages/company/Register';
 import ForgotPassword from '@/pages/ForgetPassword';
 import UserOtpVerificationPage from '@/pages/Otp';
 import RestPassword from '@/pages/ResetPassword';
-import CodersDetails from '@/pages/user/coders/CodersDetails';
-import CodersListing from '@/pages/user/coders/CodersListing';
 import ContestsListing from '@/pages/user/contests/ContestsListing';
 import Home from '@/pages/user/Home';
-import InterviewListing from '@/pages/user/interview/InterviewListing';
 import UserLogin from '@/pages/user/Login';
 import ProblemDetails from '@/pages/user/Problem/ProblemDetails';
 import ProblemListing from '@/pages/user/Problem/ProblemListing';
@@ -36,11 +33,7 @@ export const guestRoutes: IAppRoutes[] = [
         allowedRoles: ['user', 'guest'],
       },
 
-      {
-        path: 'interview',
-        element: <InterviewListing />,
-        allowedRoles: ['user', 'guest'],
-      },
+
 
       {
         path: 'contest',

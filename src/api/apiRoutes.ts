@@ -88,5 +88,11 @@ export const API_ROUTES = {
   GET_INTERVIEW_QUESTION: (id: string, questionNumber: number) =>
     `/user/interviews/${id}/question?order=${questionNumber}`,
   CHANGE_ACCOUNT_PASSWORD:`/common/change-password`,
-  GET_COMPANY_DASHBOARD:"/company/dashboard"
+  GET_COMPANY_DASHBOARD:"/company/dashboard",
+  GET_ADMIN_DASHBOARD:"/admin/dashboard",
+  GET_USER_NOTIFICATIONS:"/common/notifications",
+  MARK_ALL_NOTIFICATIONS_AS_READ:"/common/notifications/mark-all-read",
+  SUBMIT_ANSWER:"/user/interviews/submit-answer",
+  FINISH_INTERVIEW:"/user/interviews/finish-interview",
+  GET_INTERVIEW_FEEDBACK:(id:string)=>`/user/interviews/${id}/feedback`,
 };

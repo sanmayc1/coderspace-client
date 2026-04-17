@@ -5,6 +5,7 @@ import CodersListing from '@/pages/user/coders/CodersListing';
 import ContestDetails from '@/pages/user/contests/ContestDetailsPage';
 import ContestLeaderBoardPage from '@/pages/user/contests/ContestLeaderBoardPage';
 import Interview from '@/pages/user/interview/Interview';
+import InterviewListing from '@/pages/user/interview/InterviewListing';
 import UserProfile from '@/pages/user/Profile';
 import UpgradePlan from '@/pages/user/UpgradePlan';
 import type { IAppRoutes } from '@/types/types';
@@ -55,6 +56,11 @@ export const userRoutes: IAppRoutes[] = [
       {
         path: 'chat',
         element: <ChatListing />,
+        allowedRoles: ['user'],
+      },
+            {
+        path: 'interview',
+        element: <InterviewListing />,
         allowedRoles: ['user'],
       },
     ],

@@ -46,7 +46,7 @@ const InterviewListing = () => {
     return () => clearTimeout(timeout);
   }, [index]);
 
-  const handleInterviewStart = async (id: string,duration:number) => {
+  const handleInterviewStart = async (id: string,duration:number,totalQuestions:number) => {
     if (!auth) {
       toast.error('Please login to start the interview', toastifyOptionsCenter);
       navigate('/access-login');
@@ -59,6 +59,7 @@ const InterviewListing = () => {
       setLoading(false);
       localStorage.setItem('interviewDuration', (duration *60).toString());
       localStorage.setItem('questionNumber','1')
+      localStorage.setItem('totalQuestions',totalQuestions.toString())
       navigate(`/interview/${res.data.sessionId}`);
     } catch (error) {
       setLoading(false);
@@ -148,7 +149,7 @@ const InterviewListing = () => {
 
                 {!interview.premium && (
                   <button
-                    onClick={() => handleInterviewStart(interview.id,interview.duration)}
+                    onClick={() => handleInterviewStart(interview.id,interview.duration,interview.numberOfQuestions)}
                     className="w-full py-3.5 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors text-sm"
                     disabled={loading}
                   >
