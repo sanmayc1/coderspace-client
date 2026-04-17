@@ -5,13 +5,14 @@ import { nameSchema, passwordSchema } from './user-validation';
 export const CompanyRegistreSchema = z
   .object({
     companyName: nameSchema,
-    email: z.string().trim().regex(strongEmailRegex, { message: 'Invalid email format' }),
+    email: z.string().trim().regex(strongEmailRegex, { message: 'Invalid email format' }).max(50, { message: 'Email must be at most 50 characters long' }),
     gstin: z
       .string()
       .trim()
       .regex(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/, {
         message: 'Invalid GSTIN',
-      }),
+      })
+      .max(15, { message: 'GSTIN must be at most 15 characters long' }),
     password: passwordSchema,
     confirmPassword: z.string(),
   })
@@ -26,8 +27,8 @@ export const CompanyRegistreSchema = z
   });
 
 export const createContestSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  description: z.string().min(1, 'Description is required'),
+  title: z.string().min(1, 'Title is required').max(50, { message: 'Title must be at most 50 characters long' }),
+  description: z.string().min(1, 'Description is required').max(50, { message: 'Description must be at most 50 characters long' }),
   dateAndTime: z
     .string()
     .min(1, 'Date and time is required')

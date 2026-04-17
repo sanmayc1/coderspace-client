@@ -48,7 +48,7 @@ export async function updateLanguage<T>(data: T): Promise<ICommonResponse> {
   return res.data;
 }
 
-export async function addSingleTestcase<T>(data: T): Promise<ICommonResponse> {
+export async function addSingleTestcase<T>(data: T): Promise<ISuccessResponse<{ language: string; isPassed: boolean }[]>> {
   const res = await coderspaceBackend.post(API_ROUTES.ADD_TESTCASE, data);
   return res.data;
 }

@@ -62,6 +62,7 @@ export interface IGetUserResponse {
   auth: string;
   followers: number;
   following: number;
+  problemSolved: number;
 }
 
 export interface IGetAllDomains {

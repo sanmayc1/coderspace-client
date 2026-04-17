@@ -154,4 +154,6 @@ export interface IInterviewDataUser {
   numberOfQuestions: number;
   premium: boolean;
   duration: number;
+  isAttempted:boolean;
+  sessionId:string;
 }

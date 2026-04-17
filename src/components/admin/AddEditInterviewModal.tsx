@@ -136,13 +136,13 @@ const AddEditInterviewModal = ({
           handleChange={handleDifficultyChange}
           error={touched.difficulty || isSubmitted ? errors.difficulty : ''}
         ></SelectTag>
-        <div className="flex items-center gap-2 justify-between px-1">
+        {/* <div className="flex items-center gap-2 justify-between px-1">
           <label className="text-sm">Premium</label>
           <Switch
             checked={data.premium}
             onCheckedChange={(value) => setData((prev) => ({ ...prev, premium: value }))}
           />
-        </div>
+        </div> */}
 
         <InputFiled
           className="border-gray-300"

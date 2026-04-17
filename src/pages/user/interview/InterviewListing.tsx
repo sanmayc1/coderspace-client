@@ -10,6 +10,7 @@ import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';
 import type { AxiosError } from 'axios';
 import LoadingSpin from '@/components/common/LoadingSpin';
+import InterviewFeedbackModal from '@/components/user/InterviewFeedbackModal';
 
 const messages = ['Starting Interview...', 'Please wait...'];
 
@@ -22,11 +23,14 @@ const InterviewListing = () => {
   const [loading, setLoading] = useState(false);
   const [index, setIndex] = useState(0);
   const auth = useAppSelector((s) => s.authReducer.auth);
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [selectedSessionId, setSelectedSessionId] = useState('');
 
   useEffect(() => {
     async function fetchInterviews() {
       try {
         const res = await getAllInterviews(currentPage);
+        console.log(res.data.interviews);
         setInterviews(res.data.interviews);
         setTotalPages(res.data.totalPages);
         setCurrentPage(res.data.currentPage);
@@ -66,6 +70,11 @@ const InterviewListing = () => {
       const err = error as AxiosError<{ message: string }>;
       toast.error(err.response?.data.message, toastifyOptionsCenter);
     }
+  };
+
+  const handleFeedback = (sessionId: string) => {
+    setSelectedSessionId(sessionId);
+    setIsFeedbackModalOpen(true);
   };
 
   if (loading) {
@@ -147,7 +156,7 @@ const InterviewListing = () => {
                   </div>
                 </div>
 
-                {!interview.premium && (
+                {!interview.isAttempted && (
                   <button
                     onClick={() => handleInterviewStart(interview.id,interview.duration,interview.numberOfQuestions)}
                     className="w-full py-3.5 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors text-sm"
@@ -156,12 +165,13 @@ const InterviewListing = () => {
                     Start interview
                   </button>
                 )}
-                {interview.premium && (
+                {interview.isAttempted && (
                   <button
                     disabled={loading}
+                    onClick={() => handleFeedback(interview.sessionId)}
                     className="w-full py-3.5 bg-black text-white rounded-lg font-medium flex items-center justify-center cursor-not-allowed"
                   >
-                    <Lock size={20} className="text-yellow-500" />
+                    View Feedback
                   </button>
                 )}
               </div>
@@ -176,6 +186,11 @@ const InterviewListing = () => {
           />
         </div>
       </div>
+{
+  selectedSessionId && (
+    <InterviewFeedbackModal isOpen={isFeedbackModalOpen} onClose={() => setIsFeedbackModalOpen(false)} sessionId={selectedSessionId} />
+  )
+}
     </>
   );
 };
