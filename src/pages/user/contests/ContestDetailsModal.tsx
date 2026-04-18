@@ -43,7 +43,10 @@ const ContestDetailsModal: React.FC<ContestDetailsModalProps> = ({ isOpen, onClo
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      toast.error(error?.response?.data?.message || 'Failed to join contest', toastifyOptionsCenter);
+      toast.error(
+        error?.response?.data?.message || 'Failed to join contest',
+        toastifyOptionsCenter
+      );
     }
   };
 

@@ -4,7 +4,7 @@ import { getContestById, updateContest } from '@/api/company/company';
 import { getProblemsUser } from '@/api/user/user.problem';
 import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
 import InputFiled from '@/components/common/Input';
-import SelectTag from '@/components/common/Select';
+import SelectTag from '@/components/common/select';
 import TextArea from '@/components/common/Textarea';
 import { Button } from '@/components/ui/Button';
 import type {
@@ -356,7 +356,7 @@ const EditContest: React.FC = () => {
         id: contestId,
         title: data.title,
         description: data.description,
-        dateAndTime:dateAndTime.toString(),
+        dateAndTime: dateAndTime.toString(),
         duration: Number(data.duration),
         visibility: data.visibility,
         domain: data.domain,

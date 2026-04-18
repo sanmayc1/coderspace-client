@@ -115,12 +115,12 @@ const EditPlanModal: React.FC<EditPlanModalProps> = ({ isOpen, onClose, plan, se
     try {
       const response = await updatePlanAdmin(formData);
       if (response.success) {
-        toast.success('Plan updated successfully',toastifyOptionsCenter);
+        toast.success('Plan updated successfully', toastifyOptionsCenter);
         setPlans((prev) => prev.map((plan) => (plan.id === formData.id ? formData : plan)));
         onClose();
       }
     } catch (error) {
-      toast.error('Failed to update plan',toastifyOptionsCenter);
+      toast.error('Failed to update plan', toastifyOptionsCenter);
     }
 
     onClose();

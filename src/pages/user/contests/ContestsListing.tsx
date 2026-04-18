@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/Button';
-import CustomPagination from '@/components/common/Pagination';
+import CustomPagination from '@/components/common/pagination';
 import { useEffect, useState } from 'react';
 import { Clock, Calendar, Network, Trophy } from 'lucide-react';
 import { getAllPastContests, getAllUpcomingAndOngoingContests } from '@/api/user/user.contest';
@@ -25,8 +25,6 @@ const ContestsListing: React.FC = () => {
       navigate(`/contest/${contest.id}/leaderboard`);
     }
   };
-
-
 
   useEffect(() => {
     async function fetchAllUpcomingAndOngoingContests() {
@@ -155,7 +153,6 @@ const ContestsListing: React.FC = () => {
         </div>
       </div>
       <ContestDetailsModal
-       
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         contest={selectedContest}

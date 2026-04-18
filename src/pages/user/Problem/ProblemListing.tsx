@@ -1,8 +1,8 @@
 import { getAllSkills } from '@/api/common/common.api';
 import { getProblemsUser } from '@/api/user/user.problem';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';
-import SelectTag from '@/components/common/Select';
-import Table from '@/components/common/Table';
+import SelectTag from '@/components/common/select';
+import Table from '@/components/common/table';
 import { Button } from '@/components/ui/Button';
 import type { IUserGetProblem } from '@/types/response.types';
 import type { ISkill } from '@/types/types';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
-import CustomPagination from '@/components/common/Pagination';
-import SelectTag from '@/components/common/Select';
+import CustomPagination from '@/components/common/pagination';
+import SelectTag from '@/components/common/select';
 import { Button } from '@/components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import { followCoder, getAllCoders, unFollowCoder } from '@/api/user/user.coders';

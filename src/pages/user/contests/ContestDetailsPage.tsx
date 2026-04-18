@@ -19,7 +19,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import type { IContestProblem, IGetProblemUpdatesResponse } from '@/types/response.types';
-import SelectTag from '@/components/common/Select';
+import SelectTag from '@/components/common/select';
 import { Button } from '@/components/ui/Button';
 import { AxiosError } from 'axios';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';

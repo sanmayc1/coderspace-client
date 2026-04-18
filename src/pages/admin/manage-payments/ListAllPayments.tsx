@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Table, { type TableColumn } from '@/components/common/Table';
+import Table, { type TableColumn } from '@/components/common/table';
 import type { IGetAllPaymentsResponse } from '@/types/dummy-payment.types';
 import { getAllPaymentsAdmin } from '@/api/admin/payment-management';
 import { Search } from 'lucide-react';

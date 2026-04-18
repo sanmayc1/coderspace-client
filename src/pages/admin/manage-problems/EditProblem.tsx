@@ -2,8 +2,8 @@ import { getProblem, updateProblem } from '@/api/admin/problem-management';
 import { getAllDomains } from '@/api/admin/skill-and-domain-management';
 import { getAllSkills } from '@/api/common/common.api';
 import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
-import InputFiled from '@/components/common/Input';
-import SelectTag from '@/components/common/Select';
+import InputFiled from '@/components/common/input';
+import SelectTag from '@/components/common/select';
 import TextArea from '@/components/common/Textarea';
 import { Button } from '@/components/ui/Button';
 import { Switch } from '@/components/ui/Switch';
@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import { v4 as uuid } from 'uuid';
 
 const EditProblem: React.FC = () => {
-  const [data, setData] = useState<Omit<IProblemState,"validationType">>({
+  const [data, setData] = useState<Omit<IProblemState, 'validationType'>>({
     constrain: '',
     description: '',
     difficulty: '',

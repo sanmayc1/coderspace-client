@@ -66,7 +66,7 @@ const Settings = () => {
 
       console.log(res);
       setSuccessMsg('Password successfully changed!');
-      toast.success("Password successfully changed!" , toastifyOptionsCenter)
+      toast.success('Password successfully changed!', toastifyOptionsCenter);
       setFormData({
         currentPassword: '',
         newPassword: '',
@@ -76,7 +76,7 @@ const Settings = () => {
       setIsSubmitted(false);
     } catch (error) {
       const axError = error as AxiosError<{ errors: { message: string; path: string }[] }>;
-      toast.error(axError.response?.data.errors[0].message,toastifyOptionsCenter);
+      toast.error(axError.response?.data.errors[0].message, toastifyOptionsCenter);
     }
   };
 

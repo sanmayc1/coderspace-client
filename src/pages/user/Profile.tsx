@@ -75,14 +75,13 @@ const UserProfile: React.FC = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="min-h-screen flex flex-col max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 font-[anybody-regular] mb-20 pt-12">
       <div className="h-10 md:h-16 lg:h-24"></div>
-      
+
       {/* 1. Header Section */}
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        
         {/* Left Side: Avatar & Info */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 lg:w-[55%]">
           {/* Avatar */}
@@ -101,7 +100,7 @@ const UserProfile: React.FC = () => {
               </div>
             )}
           </div>
-          
+
           {/* Info */}
           <div className="flex flex-col gap-4 text-center sm:text-left pt-2 sm:pt-4">
             <div className="space-y-1.5">
@@ -113,10 +112,17 @@ const UserProfile: React.FC = () => {
               </p>
             </div>
             <div className="flex flex-wrap gap-3 justify-center sm:justify-start mt-2">
-              <Button variant="outline" className="rounded-full shadow-sm hover:shadow-md transition-shadow font-bold h-10 px-5 border-gray-200 hover:bg-gray-50" onClick={handleEditOpen}>
+              <Button
+                variant="outline"
+                className="rounded-full shadow-sm hover:shadow-md transition-shadow font-bold h-10 px-5 border-gray-200 hover:bg-gray-50"
+                onClick={handleEditOpen}
+              >
                 <Edit3 className="w-4 h-4 mr-2" /> Edit Profile
               </Button>
-              <Button className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/20 hover:shadow-lg hover:shadow-amber-500/30 transition-all font-bold h-10 px-5 border-none" onClick={() => navigate('/user/upgrade')}>
+              <Button
+                className="rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/20 hover:shadow-lg hover:shadow-amber-500/30 transition-all font-bold h-10 px-5 border-none"
+                onClick={() => navigate('/user/upgrade')}
+              >
                 <Crown className="w-4 h-4 mr-2" /> Upgrade
               </Button>
             </div>
@@ -132,12 +138,12 @@ const UserProfile: React.FC = () => {
           {/* Card Header */}
           <div className="flex justify-between items-center relative z-10 w-full mb-2">
             <div className="bg-amber-50/80 backdrop-blur border border-amber-200/60 text-amber-700 px-4 py-2 rounded-full font-black flex items-center gap-2 shadow-sm hover:shadow transition-shadow cursor-default">
-              <img src="/coin.png" className="w-6 h-6 object-contain drop-shadow-sm" alt="xp" /> 
+              <img src="/coin.png" className="w-6 h-6 object-contain drop-shadow-sm" alt="xp" />
               <span>{user?.xpCoin || 0} XP</span>
             </div>
             <button
-               onClick={() => setSettingsModalOpen(true)}
-               className="p-3 bg-white rounded-full shadow-sm hover:shadow-md text-gray-500 hover:text-gray-900 border border-gray-100 transition-all hover:rotate-90"
+              onClick={() => setSettingsModalOpen(true)}
+              className="p-3 bg-white rounded-full shadow-sm hover:shadow-md text-gray-500 hover:text-gray-900 border border-gray-100 transition-all hover:rotate-90"
             >
               <Settings className="w-5 h-5" />
             </button>
@@ -146,16 +152,28 @@ const UserProfile: React.FC = () => {
           {/* Stats Grid */}
           <div className="grid grid-cols-3 gap-3 sm:gap-4 relative z-10 flex-grow">
             <div className="flex flex-col items-center justify-center p-3 sm:p-4 bg-gray-50/80 backdrop-blur rounded-2xl border border-gray-100/80 hover:bg-white hover:shadow-md transition-all duration-300">
-              <span className="text-2xl sm:text-3xl font-black text-gray-900">{user?.problemSolved || 0}</span>
-              <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest mt-1 text-center">Problems</span>
+              <span className="text-2xl sm:text-3xl font-black text-gray-900">
+                {user?.problemSolved || 0}
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest mt-1 text-center">
+                Problems
+              </span>
             </div>
             <div className="flex flex-col items-center justify-center p-3 sm:p-4 bg-gray-50/80 backdrop-blur rounded-2xl border border-gray-100/80 hover:bg-white hover:shadow-md transition-all duration-300">
-               <span className="text-2xl sm:text-3xl font-black text-gray-900">{user?.following || 0}</span>
-               <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest mt-1 text-center">Following</span>
+              <span className="text-2xl sm:text-3xl font-black text-gray-900">
+                {user?.following || 0}
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest mt-1 text-center">
+                Following
+              </span>
             </div>
             <div className="flex flex-col items-center justify-center p-3 sm:p-4 bg-gray-50/80 backdrop-blur rounded-2xl border border-gray-100/80 hover:bg-white hover:shadow-md transition-all duration-300">
-               <span className="text-2xl sm:text-3xl font-black text-gray-900">{user?.followers || 0}</span>
-               <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest mt-1 text-center">Followers</span>
+              <span className="text-2xl sm:text-3xl font-black text-gray-900">
+                {user?.followers || 0}
+              </span>
+              <span className="text-[10px] sm:text-xs font-bold text-gray-500 uppercase tracking-widest mt-1 text-center">
+                Followers
+              </span>
             </div>
           </div>
         </div>
@@ -176,34 +194,62 @@ const UserProfile: React.FC = () => {
 
           {/* Silver Node */}
           <div className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 z-10 group">
-            <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-[4px] sm:border-[5px] border-white shadow-md transition-colors duration-500 ${user?.currentLevel && user.currentLevel >= 0 ? 'bg-gray-900' : 'bg-gray-300'}`}></div>
+            <div
+              className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-[4px] sm:border-[5px] border-white shadow-md transition-colors duration-500 ${user?.currentLevel && user.currentLevel >= 0 ? 'bg-gray-900' : 'bg-gray-300'}`}
+            ></div>
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 flex flex-col items-center w-max">
               <div className="relative group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                <img src="/silver.png" alt="Silver" className={`w-12 h-14 sm:w-16 sm:h-[4.5rem] object-contain drop-shadow-md ${user?.currentLevel && user.currentLevel < 0 ? 'opacity-50 grayscale blur-[1px]' : ''}`} />
+                <img
+                  src="/silver.png"
+                  alt="Silver"
+                  className={`w-12 h-14 sm:w-16 sm:h-[4.5rem] object-contain drop-shadow-md ${user?.currentLevel && user.currentLevel < 0 ? 'opacity-50 grayscale blur-[1px]' : ''}`}
+                />
               </div>
-              <span className="font-bold text-xs sm:text-sm mt-1 sm:mt-2 text-gray-700 tracking-wider">SILVER</span>
+              <span className="font-bold text-xs sm:text-sm mt-1 sm:mt-2 text-gray-700 tracking-wider">
+                SILVER
+              </span>
             </div>
           </div>
 
           {/* Gold Node */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 group">
-            <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-[4px] sm:border-[5px] border-white shadow-md transition-colors duration-500 ${user?.currentLevel && user.currentLevel >= 50 ? 'bg-amber-400 shadow-amber-400/50' : 'bg-gray-200'}`}></div>
+            <div
+              className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-[4px] sm:border-[5px] border-white shadow-md transition-colors duration-500 ${user?.currentLevel && user.currentLevel >= 50 ? 'bg-amber-400 shadow-amber-400/50' : 'bg-gray-200'}`}
+            ></div>
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 flex flex-col items-center w-max">
-               <div className="relative group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                  <img src="/gold.png" alt="Gold" className={`w-12 h-14 sm:w-16 sm:h-[4.5rem] object-contain drop-shadow-md ${user?.currentLevel && user.currentLevel >= 50 ? '' : 'opacity-40 grayscale blur-[1px]'}`} />
-               </div>
-               <span className={`font-bold text-xs sm:text-sm mt-1 sm:mt-2 tracking-wider ${user?.currentLevel && user.currentLevel >= 50 ? 'text-amber-500' : 'text-gray-400'}`}>GOLD</span>
+              <div className="relative group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
+                <img
+                  src="/gold.png"
+                  alt="Gold"
+                  className={`w-12 h-14 sm:w-16 sm:h-[4.5rem] object-contain drop-shadow-md ${user?.currentLevel && user.currentLevel >= 50 ? '' : 'opacity-40 grayscale blur-[1px]'}`}
+                />
+              </div>
+              <span
+                className={`font-bold text-xs sm:text-sm mt-1 sm:mt-2 tracking-wider ${user?.currentLevel && user.currentLevel >= 50 ? 'text-amber-500' : 'text-gray-400'}`}
+              >
+                GOLD
+              </span>
             </div>
           </div>
 
           {/* Platinum Node */}
           <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 z-10 group">
-            <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-[4px] sm:border-[5px] border-white shadow-md transition-colors duration-500 ${user?.currentLevel && user.currentLevel >= 100 ? 'bg-blue-400 shadow-blue-400/50' : 'bg-gray-200'}`}></div>
+            <div
+              className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-[4px] sm:border-[5px] border-white shadow-md transition-colors duration-500 ${user?.currentLevel && user.currentLevel >= 100 ? 'bg-blue-400 shadow-blue-400/50' : 'bg-gray-200'}`}
+            ></div>
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 flex flex-col items-center w-max">
-               <div className="relative group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
-                  <img src="/platinum.png" alt="Platinum" className={`w-12 h-14 sm:w-16 sm:h-[4.5rem] object-contain drop-shadow-md ${user?.currentLevel && user.currentLevel >= 100 ? '' : 'grayscale opacity-40 blur-[1px]'}`} />
-               </div>
-               <span className={`font-bold text-xs sm:text-sm mt-1 sm:mt-2 tracking-wider ${user?.currentLevel && user.currentLevel >= 100 ? 'text-blue-500' : 'text-gray-400'}`}>PLATINUM</span>
+              <div className="relative group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300">
+                <img
+                  src="/platinum.png"
+                  alt="Platinum"
+                  className={`w-12 h-14 sm:w-16 sm:h-[4.5rem] object-contain drop-shadow-md ${user?.currentLevel && user.currentLevel >= 100 ? '' : 'grayscale opacity-40 blur-[1px]'}`}
+                />
+              </div>
+              <span
+                className={`font-bold text-xs sm:text-sm mt-1 sm:mt-2 tracking-wider ${user?.currentLevel && user.currentLevel >= 100 ? 'text-blue-500' : 'text-gray-400'}`}
+              >
+                PLATINUM
+              </span>
             </div>
           </div>
         </div>
@@ -216,9 +262,7 @@ const UserProfile: React.FC = () => {
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`pb-4 text-sm sm:text-base lg:text-lg font-bold tracking-wide transition-colors relative whitespace-nowrap px-1 ${
-              activeTab === tab
-                ? 'text-gray-900'
-                : 'text-gray-400 hover:text-gray-700'
+              activeTab === tab ? 'text-gray-900' : 'text-gray-400 hover:text-gray-700'
             }`}
           >
             {tab}
@@ -231,17 +275,20 @@ const UserProfile: React.FC = () => {
 
       {/* 4. Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 pb-10">
-        
         {/* Left Column (2/3) */}
         <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
           {/* About Section */}
           <div className="bg-white border border-gray-100 rounded-[2rem] p-6 sm:p-8 hover:shadow-[0_8px_30px_rgb(0,0,0,0.03)] transition-shadow group relative overflow-hidden">
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-gray-50 rounded-full blur-3xl group-hover:bg-amber-50 transition-colors duration-500 pointer-events-none"></div>
             <h3 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-gray-900 flex items-center gap-3">
-               About Me
+              About Me
             </h3>
             <p className="text-gray-600 leading-relaxed text-sm sm:text-base font-medium relative z-10">
-              {user?.about || <span className="text-gray-400 italic font-semibold">No about added yet. Tell the world about yourself!</span>}
+              {user?.about || (
+                <span className="text-gray-400 italic font-semibold">
+                  No about added yet. Tell the world about yourself!
+                </span>
+              )}
             </p>
           </div>
 
@@ -288,17 +335,19 @@ const UserProfile: React.FC = () => {
             <div className="z-10 flex flex-col items-center w-full h-full justify-between">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-[1px] w-8 bg-gray-200 group-hover:bg-amber-200 transition-colors duration-500"></div>
-                <h3 className="text-[11px] font-bold tracking-[0.25em] text-gray-400 uppercase">Honor Badge</h3>
+                <h3 className="text-[11px] font-bold tracking-[0.25em] text-gray-400 uppercase">
+                  Honor Badge
+                </h3>
                 <div className="h-[1px] w-8 bg-gray-200 group-hover:bg-amber-200 transition-colors duration-500"></div>
               </div>
-              
+
               <div className="relative flex justify-center items-center w-full flex-grow py-2 group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-700 ease-out will-change-transform">
-                 <div className="absolute inset-0 bg-amber-400/5 blur-2xl rounded-full scale-50 group-hover:scale-100 group-hover:bg-amber-400/10 transition-all duration-700"></div>
-                 <img 
-                   src={`/${user?.currentBadge || 'silver'}.png`} 
-                   alt={user?.currentBadge || 'Badge'} 
-                   className="w-48 h-48 object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.15)] relative z-10" 
-                 />
+                <div className="absolute inset-0 bg-amber-400/5 blur-2xl rounded-full scale-50 group-hover:scale-100 group-hover:bg-amber-400/10 transition-all duration-700"></div>
+                <img
+                  src={`/${user?.currentBadge || 'silver'}.png`}
+                  alt={user?.currentBadge || 'Badge'}
+                  className="w-48 h-48 object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.15)] relative z-10"
+                />
               </div>
 
               <div className="flex flex-col items-center gap-2 mt-5">

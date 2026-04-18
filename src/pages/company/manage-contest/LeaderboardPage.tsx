@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import type { ILeaderboard } from '@/types/response.types';
-import Table, { type TableColumn } from '@/components/common/Table';
+import Table, { type TableColumn } from '@/components/common/table';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { getContestLeaderboard } from '@/api/common/common.api';
-
 
 interface ILeaderboardWithRank extends ILeaderboard {
   rank: number;
@@ -158,7 +157,9 @@ const LeaderboardWithRank: React.FC = () => {
       render: () => {
         return (
           <>
-            <Button size={'sm'} onClick={()=>alert("feature not implimented")}>Contact</Button>
+            <Button size={'sm'} onClick={() => alert('feature not implimented')}>
+              Contact
+            </Button>
           </>
         );
       },

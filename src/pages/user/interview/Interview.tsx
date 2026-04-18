@@ -154,7 +154,7 @@ const Interview = () => {
     playVoice();
   };
 
-  const handleEndInterview = async() => {
+  const handleEndInterview = async () => {
     await finishInterview(params.id as string);
     setIsFeedbackModalOpen(true);
   };
@@ -304,10 +304,8 @@ const Interview = () => {
             </div>
             <div>
               <h2 className="text-xl font-bold text-center pb-3"> How it works ? </h2>
-              <video src="/hw.mp4" autoPlay loop muted controls className='rounded-lg' />
-              <p className="text-center mt-2 text-sm italic">
-                Watch this video to know how it use
-              </p>
+              <video src="/hw.mp4" autoPlay loop muted controls className="rounded-lg" />
+              <p className="text-center mt-2 text-sm italic">Watch this video to know how it use</p>
             </div>
           </div>
           <Button onClick={handleStartInterview} className="bg-red-500 hover:bg-red-600">

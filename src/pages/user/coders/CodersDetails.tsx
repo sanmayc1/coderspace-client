@@ -20,7 +20,7 @@ const CodersDetails: React.FC = () => {
       try {
         const res = await getCoder(id as string);
         setCoder(res);
-        console.log(res)
+        console.log(res);
         setLoading(false);
       } catch (error) {
         toast.error('Something went wrong', toastifyOptionsCenter);
@@ -93,7 +93,7 @@ const CodersDetails: React.FC = () => {
                 <Button
                   variant="outline"
                   className=" border-gray-300 text-gray-700 px-6 py-2 hover:bg-gray-50"
-                  onClick={()=>navigate(`/chat?contactId=${coder.accountId}`)}
+                  onClick={() => navigate(`/chat?contactId=${coder.accountId}`)}
                 >
                   Message
                 </Button>

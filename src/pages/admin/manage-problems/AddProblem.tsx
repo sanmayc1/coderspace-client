@@ -2,8 +2,8 @@ import { createProblem } from '@/api/admin/problem-management';
 import { getAllDomains } from '@/api/admin/skill-and-domain-management';
 import { getAllSkills } from '@/api/common/common.api';
 import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
-import InputFiled from '@/components/common/Input';
-import SelectTag from '@/components/common/Select';
+import InputFiled from '@/components/common/input';
+import SelectTag from '@/components/common/select';
 import TextArea from '@/components/common/Textarea';
 import { Button } from '@/components/ui/Button';
 import { Switch } from '@/components/ui/Switch';
@@ -317,7 +317,10 @@ const AddProblem: React.FC = () => {
             ></SelectTag>
 
             <SelectTag
-              options={[{value:'exactMatch',label:'Exact Match'}, {value:'unorderedArray',label:'Unordered Array'}]}
+              options={[
+                { value: 'exactMatch', label: 'Exact Match' },
+                { value: 'unorderedArray', label: 'Unordered Array' },
+              ]}
               placeholder="Select Validation"
               label="Validation"
               head="Validation (can't be changed after submission)"

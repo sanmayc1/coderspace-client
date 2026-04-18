@@ -1,7 +1,7 @@
 import { deleteContest, getAllCreatedContestsOfCompany } from '@/api/company/company';
 import InputFiled from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
-import Table, { type TableColumn } from '@/components/common/Table';
+import Table, { type TableColumn } from '@/components/common/table';
 import { Button } from '@/components/ui/Button';
 import type { IListContestState } from '@/types/types';
 import { debounce } from '@/utils/debouncing';

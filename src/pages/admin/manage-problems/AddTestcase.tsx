@@ -1,11 +1,7 @@
-import {
-  addSingleTestcase,
-  deleteTestcase,
-  getAllTestcase,
-} from '@/api/admin/problem-management';
+import { addSingleTestcase, deleteTestcase, getAllTestcase } from '@/api/admin/problem-management';
 import LoadingSpin from '@/components/common/LoadingSpin';
 import Modal from '@/components/common/Modal';
-import CustomPagination from '@/components/common/Pagination';
+import CustomPagination from '@/components/common/pagination';
 import { Button } from '@/components/ui/Button';
 import type { IGetTestcase } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
@@ -80,10 +76,10 @@ const AddTestcase = () => {
         output: JSON.stringify(data.output),
         ...(data.example ? { example: data.example } : {}),
       });
-      
+
       setPassedLanguages(res.data);
       setTestcaseModal(true);
-      if(res.success){
+      if (res.success) {
         setRefetch((prev) => !prev);
       }
       setLoading(false);
@@ -145,7 +141,7 @@ const AddTestcase = () => {
                       onClick={handleSingleTestcaseSubmit}
                       disabled={loading}
                     >
-                      {loading ? <LoadingSpin/> : 'Add testcase'}
+                      {loading ? <LoadingSpin /> : 'Add testcase'}
                     </Button>
                     {/* <Button
                     size={'sm'}
@@ -230,89 +226,117 @@ const AddTestcase = () => {
         </div>
       </div>
 
-      <Modal isOpen={testcaseModal} onClose={() => setTestcaseModal(false)} className="max-w-[550px] p-8 !rounded-[2rem] font-[anybody-regular]">
+      <Modal
+        isOpen={testcaseModal}
+        onClose={() => setTestcaseModal(false)}
+        className="max-w-[550px] p-8 !rounded-[2rem] font-[anybody-regular]"
+      >
         <div className="flex flex-col gap-7">
           {/* Header */}
           <div className="space-y-1.5 flex flex-col items-center">
-        
-            <h3 className="text-2xl font-black text-gray-900 tracking-tight text-center">Testcase Details</h3>
-            <p className="text-sm text-gray-500 text-center font-medium">Evaluation summary across all languages</p>
+            <h3 className="text-2xl font-black text-gray-900 tracking-tight text-center">
+              Testcase Details
+            </h3>
+            <p className="text-sm text-gray-500 text-center font-medium">
+              Evaluation summary across all languages
+            </p>
           </div>
-          
+
           {/* Output Block */}
           <div className="flex flex-col gap-3 p-5 bg-gray-50 rounded-2xl border border-gray-200/60 shadow-inner overflow-hidden">
             <div className="flex flex-col gap-1">
-               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-1">Input Data</span>
-               <div className="bg-white p-3 rounded-xl border border-gray-100 text-gray-800 overflow-x-auto whitespace-pre-wrap max-h-24 shadow-sm text-sm font-mono custom-scrollbar">
-                 {(() => {
-                   try {
-                      return JSON.stringify(JSON.parse(value).input); 
-                   } catch {
-                      return value;
-                   }
-                 })() || 'No Input'}
-               </div>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-1">
+                Input Data
+              </span>
+              <div className="bg-white p-3 rounded-xl border border-gray-100 text-gray-800 overflow-x-auto whitespace-pre-wrap max-h-24 shadow-sm text-sm font-mono custom-scrollbar">
+                {(() => {
+                  try {
+                    return JSON.stringify(JSON.parse(value).input);
+                  } catch {
+                    return value;
+                  }
+                })() || 'No Input'}
+              </div>
             </div>
             <div className="flex flex-col gap-1 mt-2">
-               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-1">Expected Output</span>
-               <div className="bg-white p-3 rounded-xl border border-gray-100 text-gray-800 overflow-x-auto whitespace-pre-wrap max-h-24 shadow-sm text-sm font-mono custom-scrollbar">
-                 {(() => {
-                   try {
-                      return JSON.stringify(JSON.parse(value).output); 
-                   } catch {
-                      return value;
-                   }
-                 })() || 'No Output'}
-               </div>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] ml-1">
+                Expected Output
+              </span>
+              <div className="bg-white p-3 rounded-xl border border-gray-100 text-gray-800 overflow-x-auto whitespace-pre-wrap max-h-24 shadow-sm text-sm font-mono custom-scrollbar">
+                {(() => {
+                  try {
+                    return JSON.stringify(JSON.parse(value).output);
+                  } catch {
+                    return value;
+                  }
+                })() || 'No Output'}
+              </div>
             </div>
           </div>
 
           {/* Languages Status */}
           <div className="space-y-3">
-             <div className="flex items-center gap-3">
-                <span className="h-[1px] bg-gray-200 flex-1"></span>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Language Status</span>
-                <span className="h-[1px] bg-gray-200 flex-1"></span>
-             </div>
+            <div className="flex items-center gap-3">
+              <span className="h-[1px] bg-gray-200 flex-1"></span>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+                Language Status
+              </span>
+              <span className="h-[1px] bg-gray-200 flex-1"></span>
+            </div>
 
-             <div className="grid grid-cols-2 gap-3 mt-4">
-               {passedLanguages.map((l) => (
-                 <div
-                   key={l.language}
-                   className={`flex justify-between items-center p-3.5 rounded-[1rem] border transition-all duration-300 ${
-                     l.isPassed 
-                       ? 'bg-green-50 border-green-200 hover:shadow-[0_4px_15px_rgba(34,197,94,0.15)]' 
-                       : 'bg-red-50 border-red-200 hover:shadow-[0_4px_15px_rgba(239,68,68,0.15)]'
-                   }`}
-                 >
-                   <span className="font-bold text-gray-800 capitalize text-sm">{l.language}</span>
-                   <span className={`text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-sm ${
-                     l.isPassed ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-red-100 text-red-700 border border-red-200'
-                   }`}>{l.isPassed ? 'Passed' : 'Failed'}</span>
-                 </div>
-               ))}
-               {passedLanguages.length === 0 && (
-                   <div className="col-span-2 text-center text-sm text-gray-400 italic font-medium p-2">No languages evaluated</div>
-               )}
-             </div>
-             
-             {!passedLanguages.every((l) => l.isPassed) && passedLanguages.length > 0 ? (
-               <div className="bg-amber-50/80 backdrop-blur text-amber-800 p-3.5 rounded-2xl border border-amber-200/60 text-xs font-semibold mt-4 flex items-center justify-center gap-2 shadow-sm transition-all duration-300 hover:bg-amber-100">
-                 <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                 Please check your testcase or failed language solutions
-               </div>
-             ) : passedLanguages.every((l) => l.isPassed) && passedLanguages.length > 0 ? (
-                <div className="bg-blue-50/80 backdrop-blur text-blue-800 p-3.5 rounded-2xl border border-blue-200/60 text-xs font-semibold mt-4 flex items-center justify-center gap-2 shadow-sm">
-                  <span className="text-base">🎉</span> All active languages successfully passed!
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              {passedLanguages.map((l) => (
+                <div
+                  key={l.language}
+                  className={`flex justify-between items-center p-3.5 rounded-[1rem] border transition-all duration-300 ${
+                    l.isPassed
+                      ? 'bg-green-50 border-green-200 hover:shadow-[0_4px_15px_rgba(34,197,94,0.15)]'
+                      : 'bg-red-50 border-red-200 hover:shadow-[0_4px_15px_rgba(239,68,68,0.15)]'
+                  }`}
+                >
+                  <span className="font-bold text-gray-800 capitalize text-sm">{l.language}</span>
+                  <span
+                    className={`text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-sm ${
+                      l.isPassed
+                        ? 'bg-green-100 text-green-700 border border-green-200'
+                        : 'bg-red-100 text-red-700 border border-red-200'
+                    }`}
+                  >
+                    {l.isPassed ? 'Passed' : 'Failed'}
+                  </span>
                 </div>
-             ) : null}
+              ))}
+              {passedLanguages.length === 0 && (
+                <div className="col-span-2 text-center text-sm text-gray-400 italic font-medium p-2">
+                  No languages evaluated
+                </div>
+              )}
+            </div>
+
+            {!passedLanguages.every((l) => l.isPassed) && passedLanguages.length > 0 ? (
+              <div className="bg-amber-50/80 backdrop-blur text-amber-800 p-3.5 rounded-2xl border border-amber-200/60 text-xs font-semibold mt-4 flex items-center justify-center gap-2 shadow-sm transition-all duration-300 hover:bg-amber-100">
+                <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                Please check your testcase or failed language solutions
+              </div>
+            ) : passedLanguages.every((l) => l.isPassed) && passedLanguages.length > 0 ? (
+              <div className="bg-blue-50/80 backdrop-blur text-blue-800 p-3.5 rounded-2xl border border-blue-200/60 text-xs font-semibold mt-4 flex items-center justify-center gap-2 shadow-sm">
+                <span className="text-base">🎉</span> All active languages successfully passed!
+              </div>
+            ) : null}
           </div>
-          
+
           <div className="flex justify-end gap-3 mt-2">
-            <Button onClick={() => setTestcaseModal(false)} variant="outline" className="flex-1 h-12 rounded-xl text-gray-600 border-gray-300 font-bold hover:bg-gray-50 hover:text-gray-900 transition-colors">
+            <Button
+              onClick={() => setTestcaseModal(false)}
+              variant="outline"
+              className="flex-1 h-12 rounded-xl text-gray-600 border-gray-300 font-bold hover:bg-gray-50 hover:text-gray-900 transition-colors"
+            >
               Close Center
             </Button>
-            <Button onClick={() => setTestcaseModal(false)} className="flex-1 h-12 bg-gray-900 text-white rounded-xl shadow-md hover:bg-black hover:shadow-lg font-bold transition-all">
+            <Button
+              onClick={() => setTestcaseModal(false)}
+              className="flex-1 h-12 bg-gray-900 text-white rounded-xl shadow-md hover:bg-black hover:shadow-lg font-bold transition-all"
+            >
               Done
             </Button>
           </div>

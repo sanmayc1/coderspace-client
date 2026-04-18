@@ -5,7 +5,7 @@ import {
 } from '@/api/admin/interview-management';
 import AddEditInterviewModal from '@/components/admin/AddEditInterviewModal';
 import InputFiled from '@/components/common/Input';
-import Table from '@/components/common/Table';
+import Table from '@/components/common/table';
 import { Button } from '@/components/ui/Button';
 import type { IInterviewData } from '@/types/types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';

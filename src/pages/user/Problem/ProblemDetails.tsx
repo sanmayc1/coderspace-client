@@ -19,7 +19,7 @@ import type {
   ISubmitProblemResponse,
   IUserGetProblemDetailed,
 } from '@/types/response.types';
-import SelectTag from '@/components/common/Select';
+import SelectTag from '@/components/common/select';
 import { Button } from '@/components/ui/Button';
 import { AxiosError } from 'axios';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';
@@ -512,7 +512,9 @@ const ProblemDetails: React.FC = () => {
                 </span>
               </div>
             </div>
-          ):""}
+          ) : (
+            ''
+          )}
           <Button
             onClick={backToProblems}
             className="w-full mt-6 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all"

@@ -2,7 +2,7 @@ import { CircleHelp, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import CustomPagination from '@/components/common/Pagination';
+import CustomPagination from '@/components/common/pagination';
 import { createInterviewSession, getAllInterviews } from '@/api/user/user.interview';
 import type { IInterviewDataUser } from '@/types/types';
 import { toast } from 'react-toastify';
@@ -50,7 +50,7 @@ const InterviewListing = () => {
     return () => clearTimeout(timeout);
   }, [index]);
 
-  const handleInterviewStart = async (id: string,duration:number,totalQuestions:number) => {
+  const handleInterviewStart = async (id: string, duration: number, totalQuestions: number) => {
     if (!auth) {
       toast.error('Please login to start the interview', toastifyOptionsCenter);
       navigate('/access-login');
@@ -61,9 +61,9 @@ const InterviewListing = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       const res = await createInterviewSession(id);
       setLoading(false);
-      localStorage.setItem('interviewDuration', (duration *60).toString());
-      localStorage.setItem('questionNumber','1')
-      localStorage.setItem('totalQuestions',totalQuestions.toString())
+      localStorage.setItem('interviewDuration', (duration * 60).toString());
+      localStorage.setItem('questionNumber', '1');
+      localStorage.setItem('totalQuestions', totalQuestions.toString());
       navigate(`/interview/${res.data.sessionId}`);
     } catch (error) {
       setLoading(false);
@@ -81,9 +81,7 @@ const InterviewListing = () => {
     return (
       <div className="h-screen flex items-center justify-center flex-col gap-4 ">
         <LoadingSpin size={30} />
-        <span className="text-lg font-medium tracking-wide animate-pulse">
-          {messages[index]}
-        </span>
+        <span className="text-lg font-medium tracking-wide animate-pulse">{messages[index]}</span>
       </div>
     );
   }
@@ -158,7 +156,13 @@ const InterviewListing = () => {
 
                 {!interview.isAttempted && (
                   <button
-                    onClick={() => handleInterviewStart(interview.id,interview.duration,interview.numberOfQuestions)}
+                    onClick={() =>
+                      handleInterviewStart(
+                        interview.id,
+                        interview.duration,
+                        interview.numberOfQuestions
+                      )
+                    }
                     className="w-full py-3.5 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors text-sm"
                     disabled={loading}
                   >
@@ -186,11 +190,13 @@ const InterviewListing = () => {
           />
         </div>
       </div>
-{
-  selectedSessionId && (
-    <InterviewFeedbackModal isOpen={isFeedbackModalOpen} onClose={() => setIsFeedbackModalOpen(false)} sessionId={selectedSessionId} />
-  )
-}
+      {selectedSessionId && (
+        <InterviewFeedbackModal
+          isOpen={isFeedbackModalOpen}
+          onClose={() => setIsFeedbackModalOpen(false)}
+          sessionId={selectedSessionId}
+        />
+      )}
     </>
   );
 };

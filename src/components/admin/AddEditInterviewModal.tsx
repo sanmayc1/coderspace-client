@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import InputFiled from '../common/Input';
 import Modal from '../common/Modal';
-import SelectTag from '../common/Select';
+import SelectTag from '../common/select';
 import TextArea from '../common/Textarea';
 import { Button } from '../ui/Button';
 import type { IInterviewData } from '@/types/types';
-
 
 const interviewSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters'),
@@ -23,7 +22,7 @@ interface IAddEditInterviewModalProps {
   onSubmit: (data: IInterviewData) => void;
   data: IInterviewData;
   setData: React.Dispatch<React.SetStateAction<IInterviewData>>;
-  loading: boolean; 
+  loading: boolean;
 }
 
 const AddEditInterviewModal = ({
@@ -32,7 +31,7 @@ const AddEditInterviewModal = ({
   onSubmit,
   data,
   setData,
-  loading
+  loading,
 }: IAddEditInterviewModalProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -159,7 +158,9 @@ const AddEditInterviewModal = ({
           <Button variant={'outline'} onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={loading}>{data.id ? 'Update Interview' : 'Add Interview'}</Button>
+          <Button onClick={handleSubmit} disabled={loading}>
+            {data.id ? 'Update Interview' : 'Add Interview'}
+          </Button>
         </div>
       </div>
     </Modal>

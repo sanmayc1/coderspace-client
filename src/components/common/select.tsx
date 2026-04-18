@@ -6,7 +6,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/Select';
+} from '@/components/ui/select';
 import type { ISelectTagProps } from '@/types/props.types';
 
 const SelectTag: React.FC<ISelectTagProps> = ({
