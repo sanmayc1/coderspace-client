@@ -20,7 +20,7 @@ import { toast } from 'react-toastify';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import type { IContestProblem, IGetProblemUpdatesResponse } from '@/types/response.types';
 import SelectTag from '@/components/common/select';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { AxiosError } from 'axios';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';
 import LoadingSpin from '@/components/common/LoadingSpin';
@@ -29,7 +29,7 @@ import {
   finishContestUser,
   getContestProblems,
 } from '@/api/user/user.contest';
-import Modal from '@/components/common/Modal';
+import Modal from '@/components/common/modal';
 
 const ContestDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'solution'>('description');

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import type { ILeaderboard } from '@/types/response.types';
 import Table, { type TableColumn } from '@/components/common/table';
 import { Search } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { getContestLeaderboard } from '@/api/common/common.api';
 
 interface ILeaderboardWithRank extends ILeaderboard {

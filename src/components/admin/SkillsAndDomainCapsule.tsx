@@ -1,5 +1,5 @@
 import { Trash2 } from 'lucide-react';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import type { ISkillProps } from '@/types/props.types';
 
 const SkillsAndDomainCapsule: React.FC<ISkillProps> = ({ id, deleteFn, title }) => {

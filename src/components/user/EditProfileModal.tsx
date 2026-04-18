@@ -2,7 +2,7 @@ import { ImageUp } from 'lucide-react';
 import Modal from '../common/Modal';
 import InputFiled from '../common/Input';
 import TextArea from '../common/Textarea';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import LoadingSpin from '../common/LoadingSpin';
 import { useState } from 'react';
 import type { IUserState } from '@/pages/user/Profile';

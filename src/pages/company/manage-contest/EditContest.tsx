@@ -3,10 +3,10 @@ import { getAllSkills } from '@/api/common/common.api';
 import { getContestById, updateContest } from '@/api/company/company';
 import { getProblemsUser } from '@/api/user/user.problem';
 import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
-import InputFiled from '@/components/common/Input';
+import InputFiled from '@/components/common/input';
 import SelectTag from '@/components/common/select';
 import TextArea from '@/components/common/Textarea';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type {
   IContestError,
   IContestProblem,

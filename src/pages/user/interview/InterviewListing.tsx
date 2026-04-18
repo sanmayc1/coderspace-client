@@ -1,5 +1,5 @@
 import { CircleHelp, Clock } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import CustomPagination from '@/components/common/pagination';

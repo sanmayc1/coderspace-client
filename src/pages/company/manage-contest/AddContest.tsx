@@ -5,14 +5,8 @@ import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
 import InputFiled from '@/components/common/input';
 import SelectTag from '@/components/common/select';
 import TextArea from '@/components/common/Textarea';
-import { Button } from '@/components/ui/Button';
-import type {
-  IContestError,
-  IContestState,
-  IDomain,
-  IReward,
-  ISkill,
-} from '@/types/types';
+import { Button } from '@/components/ui/button';
+import type { IContestError, IContestState, IDomain, IReward, ISkill } from '@/types/types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { createContestSchema } from '@/utils/validation/company-validation';
 import { Trash2 } from 'lucide-react';

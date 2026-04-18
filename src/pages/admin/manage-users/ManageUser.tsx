@@ -1,10 +1,10 @@
 import { getAllUsers, updateUserStatus } from '@/api/admin/user-management';
 import EditUser from '@/components/admin/EditUser';
 import InputFiled from '@/components/common/input';
-import Modal from '@/components/common/Modal';
+import Modal from '@/components/common/modal';
 import SelectTag from '@/components/common/select';
 import Table from '@/components/common/table';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/Switch';
 import type { IErrorResponse } from '@/types/response.types';
 import type { IUsersData } from '@/types/types';

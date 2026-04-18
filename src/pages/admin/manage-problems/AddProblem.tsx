@@ -5,7 +5,7 @@ import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
 import InputFiled from '@/components/common/input';
 import SelectTag from '@/components/common/select';
 import TextArea from '@/components/common/Textarea';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/Switch';
 import type { IDomain, IExample, IProblemState, ISkill } from '@/types/types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';

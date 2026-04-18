@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { z } from 'zod';
 import InputFiled from '../../components/common/Input';
-import { Button } from '../../components/ui/Button';
+import { Button } from '../../components/ui/button';
 import { changePassword } from '@/api/common/common.api';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { toast } from 'react-toastify';

@@ -7,8 +7,8 @@ import {
 } from '@/api/admin/skill-and-domain-management';
 import { getAllSkills } from '@/api/common/common.api';
 import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
-import InputFiled from '@/components/common/Input';
-import { Button } from '@/components/ui/Button';
+import InputFiled from '@/components/common/input';
+import { Button } from '@/components/ui/button';
 import type { IDomain, ISkill } from '@/types/types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { AxiosError } from 'axios';

@@ -1,7 +1,7 @@
 import { sendOtp, userSignup } from '@/api/auth/auth.api';
 import AuthFormWraper from '@/components/common/AuthFormWraper';
 import CustomForm from '@/components/common/Form';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IErrorResponse } from '@/types/response.types';
 import { UserRegisterFormFields } from '@/utils/constants';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';

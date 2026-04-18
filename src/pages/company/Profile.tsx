@@ -1,6 +1,6 @@
 import { getComapny, updateCompany } from '@/api/company/company';
 import LoadingSpin from '@/components/common/LoadingSpin';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IGetCompanyResponse } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { Building2, Edit, FileText, Mail } from 'lucide-react';

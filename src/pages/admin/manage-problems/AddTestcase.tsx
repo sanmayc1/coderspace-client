@@ -1,8 +1,8 @@
 import { addSingleTestcase, deleteTestcase, getAllTestcase } from '@/api/admin/problem-management';
 import LoadingSpin from '@/components/common/LoadingSpin';
-import Modal from '@/components/common/Modal';
+import Modal from '@/components/common/modal';
 import CustomPagination from '@/components/common/pagination';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IGetTestcase } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { Editor } from '@monaco-editor/react';

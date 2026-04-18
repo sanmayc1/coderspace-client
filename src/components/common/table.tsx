@@ -1,7 +1,7 @@
 import type { IPaginationProps } from '@/types/props.types';
-import PaginationComponent from './Pagination';
-import SelectTag from './Select';
-import { Skeleton } from '../ui/Skeleton';
+import PaginationComponent from './pagination';
+import SelectTag from './select';
+import { Skeleton } from '../ui/skeleton';
 
 export interface TableColumn<T> {
   key: keyof T;
@@ -106,7 +106,7 @@ const Table = <T extends Record<string, any>>({
                   label="Items Per Page"
                   placeholder="Items Per Page"
                   value={itemsPerPage}
-                  handleChange={(value) => setItemsPerPage(value)}
+                  handleChange={(value:any) => setItemsPerPage(value)}
                 />
               </div>
             )}

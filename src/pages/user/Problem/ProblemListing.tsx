@@ -3,7 +3,7 @@ import { getProblemsUser } from '@/api/user/user.problem';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';
 import SelectTag from '@/components/common/select';
 import Table from '@/components/common/table';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IUserGetProblem } from '@/types/response.types';
 import type { ISkill } from '@/types/types';
 import { debounce } from '@/utils/debouncing';

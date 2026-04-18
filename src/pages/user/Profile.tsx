@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUser } from '@/api/user/user.profile';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/redux-custom-hook';
 import LoadingSpin from '@/components/common/LoadingSpin';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IErrorResponse } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import type { AxiosError } from 'axios';

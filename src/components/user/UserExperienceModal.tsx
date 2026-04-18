@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent } from 'react';
 import Modal from '../common/Modal';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/redux-custom-hook';
 import { updateSuggestionLevel } from '@/api/user/user.profile';
 import { setProfileComplete } from '@/app/redux-slice/authReducer';

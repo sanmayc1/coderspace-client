@@ -1,7 +1,7 @@
 import type { CustomFormProps } from '@/types/props.types';
 import { useState } from 'react';
 import type { z, ZodObject } from 'zod';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 
 function CustomForm<T extends ZodObject<any>>({
   fields,

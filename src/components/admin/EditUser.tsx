@@ -2,7 +2,7 @@ import { useState } from 'react';
 import InputFiled from '../common/Input';
 import SelectTag from '../common/Select';
 import { Badges } from '@/utils/constants';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import type { IUsersData } from '@/types/types';
 import { updateUser } from '@/api/admin/user-management';
 import { toast } from 'react-toastify';

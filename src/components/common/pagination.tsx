@@ -27,7 +27,7 @@ const CustomPagination: React.FC<IPaginationProps> = ({
         {/* Previous */}
         <PaginationItem>
           <PaginationPrevious
-            onClick={(e) => {
+            onClick={(e:any) => {
               e.preventDefault();
               goToPage(currentPage - 1);
             }}

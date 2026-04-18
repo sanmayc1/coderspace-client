@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Edit2 } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IGetAllPlansResponse } from '@/types/response.types';
 import EditPlanModal from '@/components/admin/plans/EditPlanModal';
 import { getAllPlansAdmin } from '@/api/admin/payment-management';

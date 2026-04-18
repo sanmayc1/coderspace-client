@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Modal from '@/components/common/Modal';
-import { Button } from '@/components/ui/Button';
+import Modal from '@/components/common/modal';
+import { Button } from '@/components/ui/button';
 import { Plus, X } from 'lucide-react';
-import InputFiled from '@/components/common/Input';
+import InputFiled from '@/components/common/input';
 import { z } from 'zod';
 import type { IGetAllPlansResponse } from '@/types/response.types';
 import { updatePlanAdmin } from '@/api/admin/payment-management';

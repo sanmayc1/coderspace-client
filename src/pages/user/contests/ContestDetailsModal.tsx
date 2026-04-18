@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, Clock, Trophy, Network } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IGetUserContestsResponse } from '@/types/response.types';
 import { useNavigate } from 'react-router-dom';
 import { joinContestUser } from '@/api/user/user.contest';

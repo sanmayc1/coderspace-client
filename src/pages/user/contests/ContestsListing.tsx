@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import CustomPagination from '@/components/common/pagination';
 import { useEffect, useState } from 'react';
 import { Clock, Calendar, Network, Trophy } from 'lucide-react';

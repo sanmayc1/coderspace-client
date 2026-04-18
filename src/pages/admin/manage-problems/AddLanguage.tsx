@@ -1,6 +1,6 @@
 import { getLanguageDetails, updateLanguage } from '@/api/admin/problem-management';
-import InputFiled from '@/components/common/Input';
-import { Button } from '@/components/ui/Button';
+import InputFiled from '@/components/common/input';
+import { Button } from '@/components/ui/button';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import Editor from '@monaco-editor/react';
 import 'monaco-editor/esm/vs/basic-languages/java/java.contribution';

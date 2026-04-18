@@ -4,7 +4,7 @@ import InputFiled from '../common/Input';
 import Modal from '../common/Modal';
 import SelectTag from '../common/select';
 import TextArea from '../common/Textarea';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import type { IInterviewData } from '@/types/types';
 
 const interviewSchema = z.object({

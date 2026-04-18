@@ -1,5 +1,5 @@
 import InputFiled from '../common/Input';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import Modal from '../common/Modal';
 import { Switch } from '../ui/Switch';
 import { useState } from 'react';

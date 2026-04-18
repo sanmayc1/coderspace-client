@@ -1,9 +1,9 @@
 import { getAllProblemAdminListing } from '@/api/admin/problem-management';
 import ProblemCard from '@/components/admin/ProblemCard';
-import InputFiled from '@/components/common/Input';
+import InputFiled from '@/components/common/input';
 import CustomPagination from '@/components/common/pagination';
 import SelectTag from '@/components/common/select';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IProblemListing } from '@/types/types';
 import { SORT_SELECT_2 } from '@/utils/constants-admin';
 import { debounce } from '@/utils/debouncing';

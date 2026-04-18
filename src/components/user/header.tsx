@@ -1,7 +1,7 @@
 import { Crown, LoaderCircle, Menu, X, Bell } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { navIcons, navHeads } from '@/utils/constants';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/redux-custom-hook';

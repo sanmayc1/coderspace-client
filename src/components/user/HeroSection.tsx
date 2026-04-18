@@ -1,4 +1,4 @@
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import { motion } from 'framer-motion';
 
 const HeroSection = () => {

@@ -1,6 +1,6 @@
 import { verifyOtp } from '@/api/auth/auth.api';
 import AuthFormWraper from '@/components/common/AuthFormWraper';
-import OtpForm from '@/components/common/Otp';
+import OtpForm from '@/components/common/otp';
 import type { IErrorResponse } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import type { AxiosError } from 'axios';

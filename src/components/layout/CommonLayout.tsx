@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks/redux-custom-hook';
 import { logout } from '@/api/auth/auth.api';
 import { clearAuth } from '@/app/redux-slice/authReducer';
 import LoadingSpin from '../common/LoadingSpin';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import type { ISideBarItems } from '@/types/types';
 
 const CommonLayout: React.FC<{

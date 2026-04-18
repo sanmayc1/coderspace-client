@@ -4,9 +4,9 @@ import {
   getAllInterviewsAdmin,
 } from '@/api/admin/interview-management';
 import AddEditInterviewModal from '@/components/admin/AddEditInterviewModal';
-import InputFiled from '@/components/common/Input';
+import InputFiled from '@/components/common/input';
 import Table from '@/components/common/table';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import type { IInterviewData } from '@/types/types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { Trash2 } from 'lucide-react';

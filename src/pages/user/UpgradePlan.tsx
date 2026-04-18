@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Zap, Crown, type LucideProps } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import {
   createRazorpayOrder,
   getAllPlans,

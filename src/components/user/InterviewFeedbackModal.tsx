@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import Modal from '../common/Modal';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import { getInterviewFeedback } from '@/api/user/user.interview';
 import LoadingSpin from '../common/LoadingSpin';
 

@@ -1,5 +1,5 @@
 import { Edit, Eye, EyeOff, MoveRight } from 'lucide-react';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 import type { IProblemCardProps } from '@/types/props.types';
 import SelectTag from '../common/Select';
