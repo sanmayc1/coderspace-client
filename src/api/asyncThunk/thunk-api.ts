@@ -5,7 +5,6 @@ import type { AxiosError } from 'axios';
 import type { AuthLoginError, ILoginPayload, ILoginResponse } from '@/types/types';
 import { API_ROUTES } from '../apiRoutes';
 import type { IErrorResponse } from '@/types/response.types';
-import { socket } from '@/socket';
 
 export const fetchRoleData = createAsyncThunk('fetch/role', async (_, thunkAPI) => {
   try {
