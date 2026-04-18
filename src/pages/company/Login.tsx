@@ -29,7 +29,7 @@ const CompanyLogin: React.FC = () => {
             payload: data as ILoginPayload,
           })
         ).unwrap();
-        navigate('/company');
+        navigate('/company/dashboard');
       } catch (error) {
         mapLoginErrors(
           (error as AuthLoginError)?.error as ILoginResponse,

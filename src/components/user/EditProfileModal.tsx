@@ -5,7 +5,7 @@ import TextArea from '../common/Textarea';
 import { Button } from '../ui/Button';
 import LoadingSpin from '../common/LoadingSpin';
 import { useState } from 'react';
-import type { IGetUserUsecaseOutputDto } from '@/pages/user/Profile';
+import type { IUserState } from '@/pages/user/Profile';
 import { UserProfileEditSchema } from '@/utils/validation/user-validation';
 import { toast } from 'react-toastify';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
@@ -15,7 +15,7 @@ import { AxiosError } from 'axios';
 const EditProfileModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
-  data: IGetUserUsecaseOutputDto;
+  data: IUserState;
   setEditModalOpen: (value: boolean) => void;
   setRefetch: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ isOpen, onClose, data, setEditModalOpen, setRefetch }) => {

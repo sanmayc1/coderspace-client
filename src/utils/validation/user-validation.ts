@@ -7,12 +7,14 @@ export const nameSchema = z
   .trim()
   .regex(/^[a-zA-Z-\s]+$/, {
     message: 'Name must contain only alphabetic characters',
-  });
+  })
+  .max(20, { message: 'Name must be at most 20 characters long' });
 
 export const emailSchema = z
   .string()
   .trim()
-  .regex(strongEmailRegex, { message: 'Invalid email format' });
+  .regex(strongEmailRegex, { message: 'Invalid email format' })
+  .max(50, { message: 'Email must be at most 50 characters long' });
 
 export const usernameSchema = z
   .string()
@@ -24,7 +26,8 @@ export const usernameSchema = z
   })
   .regex(usernameRegex3, {
     message: 'Username must be at least 4 characters long',
-  });
+  })
+  .max(20, { message: 'Username must be at most 20 characters long' });
 
 export const passwordSchema = z
   .string()
@@ -36,7 +39,8 @@ export const passwordSchema = z
   .regex(/[0-9]/, { message: 'Password must contain at least one digit' })
   .regex(/[@$!%*?&]/, {
     message: 'Password must contain at least one special character',
-  });
+  })
+  .max(20, { message: 'Password must be at most 20 characters long' });
 
 export const RegistreSchema = z
   .object({

@@ -27,15 +27,27 @@ const UserManagement: React.FC = () => {
   const [selectedUser, setUser] = useState<IUsersData | null>(null);
   const [refetch, setRefetch] = useState<boolean>(false);
 
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  // Debounce the search input
   useEffect(() => {
-    const debouncedFetchAllUsers = debounce(async () => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  // Fetch users when dependencies (including debouncedSearch) change
+  useEffect(() => {
+    const fetchUsers = async () => {
       try {
         setLoading(true);
         const res = await getAllUsers({
           sort: selectedSort,
           limit: itemsPerPage || '5',
           page: currentPage,
-          search: search,
+          search: debouncedSearch,
         });
 
         setUsers(res.data?.data?.users || []);
@@ -47,10 +59,10 @@ const UserManagement: React.FC = () => {
       } finally {
         setLoading(false);
       }
-    }, 500);
+    };
 
-    debouncedFetchAllUsers();
-  }, [selectedSort, currentPage, itemsPerPage, search, refetch]);
+    fetchUsers();
+  }, [selectedSort, currentPage, itemsPerPage, debouncedSearch, refetch]);
 
   const handleSortChange = (value: string) => {
     setSort(value);
@@ -58,6 +70,7 @@ const UserManagement: React.FC = () => {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    setCurrentPage(1); // Reset to first page on new search
   };
 
   const openEditModal = (user: IUsersData) => {

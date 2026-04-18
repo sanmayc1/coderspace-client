@@ -23,12 +23,18 @@ export const API_ROUTES = {
       page ? `page=${page}&` : ''
     }${difficulty ? `difficulty=${difficulty}&` : ''}${skill ? `skill=${skill}&` : ''}`,
   GET_PROBLEM_USER: (id: string) => `/user/problems/${id}`,
-
+  RUN_PROBLEM_USER: `/user/problems/run`,
+  SUBMIT_PROBLEM_USER: `/user/problems/submit`,
+  GET_PROBLEM_UPDATES: (problemId: string, language: string) =>
+    `/user/problems/${problemId}/updates?language=${language}`,
   GET_COMPANY: '/company',
   UPDATE_COMPANY: '/company',
   CREATE_CONTEST_BY_COMPANY: '/company/contests',
-  GET_ALL_CONTEST_CREATED_BY_COMPANY: (search: string, page: string) =>
-    `/company/contests?search=${search}&page=${page}`,
+  GET_ALL_CONTEST_CREATED_BY_COMPANY: (search: string, page: string, limit: string) =>
+    `/company/contests?search=${search}&page=${page}&limit=${limit}`,
+  GET_CONTEST: (id: string) => `/company/contests/${id}`,
+  UPDATE_CONTEST: '/company/contests',
+  DELETE_CONTEST: (id: string) => `/company/contests/${id}`,
 
   CREATE_DOMAIN: '/admin/domain',
   GET_ALL_DOMAINS: '/admin/domains',
@@ -43,10 +49,50 @@ export const API_ROUTES = {
   GET_LANGUAGE: (id: string) => `/admin/problems/${id}/language`,
   UPDATE_LANGUAGE: '/admin/problems/language',
   ADD_TESTCASE: '/admin/problems/testcase',
+  AUTO_GENERATE_TESTCASES: '/admin/problems/testcase/auto-generate',
   GET_TESTCASES: (id: string) => `/admin/problems/${id}/testcases`,
   TESTCASE_DELETED: (id: string) => `/admin/problems/${id}/testcase`,
   GET_PROBLEM: (id: string) => `/admin/problems/${id}`,
   UPDATE_PROBLEM: '/admin/problems',
   CHANGE_VISIBILITY: '/admin/problems/visibility',
   GET_ALL_CODERS: '/user/coders',
+  FOLLOW_CODER: '/user/coders/follow',
+  UNFOLLOW_CODER: (id: string) => `/user/coders/unfollow/${id}`,
+  GET_CODER: (id: string) => `/user/coders/${id}/coder`,
+  GET_ALL_PLANS: '/user/payments/plans',
+  CREATE_ORDER: '/user/payments/create/razorpay-order',
+  VERIFY_ORDER: '/user/payments/verify',
+  MARK_PAYMENT_FAILED: '/user/payments/mark-failed',
+  GET_ALL_PLANS_ADMIN: '/admin/payments/plans',
+  UPDATE_PLAN_ADMIN: '/admin/payments/plans/edit',
+  GET_ALL_PAYMENTS_ADMIN: (page: number, sort: string, search: string, limit: string) =>
+    `/admin/payments?page=${page}&sort=${sort}&search=${search}&limit=${limit}`,
+
+  GET_ALL_UPCOMING_AND_ONGOING_CONTESTS: (page: number) =>
+    `/user/contests/upcoming-and-ongoing?page=${page}`,
+  GET_ALL_PAST_CONTESTS: (page: number) => `/user/contests/past?page=${page}`,
+  GET_USER_CONTEST: (id: string) => `/user/contests/${id}`,
+  SUBMIT_CONTEST_PROBLEM: `/user/contests/submit/problem`,
+  JOIN_CONTEST_USER: `/user/contests/join`,
+  FINISH_CONTEST_USER: `/user/contests/finish`,
+  GET_CONTEST_LEADERBOARD: (id: string, page: number, search: string) =>
+    `/common/contest/${id}/leaderboard?page=${page}&search=${search}`,
+  GET_ALL_AVAILABLE_PROBLEMS_COMPANY: '/company/contests/problems',
+  GET_ALL_CHATS: '/user/chats',
+  GET_CHAT_MESSAGES: (id: string) => `/user/chats/${id}/messages`,
+  CREATE_INTERVIEW: '/admin/interviews/create',
+  GET_ALL_INTERVIEWS: '/admin/interviews',
+  DELETE_INTERVIEW: (id: string) => `/admin/interviews/${id}/delete`,
+  GET_ALL_INTERVIEWS_USER: (page: number) => `/user/interviews?page=${page}`,
+  CREATE_INTERVIEW_SESSION: '/user/interviews/create-session',
+  GET_INTERVIEW_QUESTION: (id: string, questionNumber: number) =>
+    `/user/interviews/${id}/question?order=${questionNumber}`,
+  CHANGE_ACCOUNT_PASSWORD:`/common/change-password`,
+  GET_COMPANY_DASHBOARD:"/company/dashboard",
+  GET_ADMIN_DASHBOARD:"/admin/dashboard",
+  GET_USER_NOTIFICATIONS:"/common/notifications",
+  MARK_ALL_NOTIFICATIONS_AS_READ:"/common/notifications/mark-all-read",
+  SUBMIT_ANSWER:"/user/interviews/submit-answer",
+  FINISH_INTERVIEW:"/user/interviews/finish-interview",
+  GET_INTERVIEW_FEEDBACK:(id:string)=>`/user/interviews/${id}/feedback`,
 };

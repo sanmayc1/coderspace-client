@@ -15,6 +15,7 @@ const SelectTag: React.FC<ISelectTagProps> = ({
   options,
   name,
   handleChange,
+  defaultValue,
   value,
   head,
   error,
@@ -23,7 +24,7 @@ const SelectTag: React.FC<ISelectTagProps> = ({
     <>
       <div className="flex flex-col">
         {head && <p className="text-gray-700 pl-1 text-sm">{head}</p>}
-        <Select name={name} onValueChange={handleChange} value={value}>
+        <Select name={name} onValueChange={handleChange} value={value} defaultValue={defaultValue}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>

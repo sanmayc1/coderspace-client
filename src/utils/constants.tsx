@@ -18,14 +18,14 @@ export const navHeads = [
   { title: 'Problems', navigate: '/problems' },
   { title: 'Contest', navigate: '/contest' },
   { title: 'Coders', navigate: '/coders' },
-  { title: 'Interview', navigate: '' },
+  { title: 'Interview', navigate: '/interview' },
 ];
 
 export const navIcons = [
   { icon: <Bell className="text-gray-600" size={24} />, navigate: '' },
   {
     icon: <MessageSquareText className="text-gray-500" size={24} />,
-    navigate: '',
+    navigate: '/chat', 
   },
 ];
 
@@ -139,29 +139,23 @@ export const adminMenuItems: ISideBarItems[] = [
   {
     icon: LayoutDashboard,
     label: 'Dashboard',
-    navigate: '/admin',
+    navigate: '/admin/dashboard',
   },
   { icon: Users, label: 'Manage Users', navigate: '/admin/manage-user' },
-  // {
-  //   icon: BriefcaseBusiness,
-  //   label: "Manage Business",
-  //   navigate: "/admin/manage-business",
-  // },
   { icon: Code, label: 'Manage Problems', navigate: '/admin/manage-problems' },
-  // { icon: Trophy, label: "Manage Contests" },
   {
     icon: Globe,
     label: 'Manage Domains & Skills',
     navigate: '/admin/manage-skills-and-domains',
   },
-  { icon: MessageSquare, label: 'Manage Interviews' },
-  { icon: CreditCard, label: 'Plans' },
-  { icon: CreditCard, label: 'Payment' },
-  { icon: Settings, label: 'Settings' },
+  { icon: MessageSquare, label: 'Manage Interviews', navigate: '/admin/manage-interviews' },
+  { icon: CreditCard, label: 'Plans' , navigate: '/admin/manage-plans'},
+  { icon: CreditCard, label: 'Payment', navigate: '/admin/manage-payments' },
+  { icon: Settings, label: 'Settings', navigate:"/admin/settings"},
 ];
 
 export const LANGUAGES: { label: string; value: TLanguages }[] = [
-  { value: 'cpp', label: 'C++' },
+  { value: 'typescript', label: 'Typescript' },
   { value: 'java', label: 'Java' },
   { value: 'javascript', label: 'Javascript' },
   { value: 'python', label: 'Python' },
@@ -171,11 +165,10 @@ export const companyMenuItems: ISideBarItems[] = [
   {
     icon: LayoutDashboard,
     label: 'Dashboard',
-    navigate: '/company',
+    navigate: '/company/dashboard',
   },
   { icon: Trophy, label: 'Manage Contests', navigate: '/company/manage-contest' },
-  { icon: CreditCard, label: 'Revenue' },
-  { icon: Settings, label: 'Settings' },
+  { icon: Settings, label: 'Settings',navigate:'/company/settings' },
 ];
 
 export const Badges = [
@@ -183,3 +176,11 @@ export const Badges = [
   { label: 'Gold', value: 'gold' },
   { label: 'Platinum', value: 'platinum' },
 ];
+
+
+export const languageToPath: Record<TLanguages, string> = {
+  typescript: "solution.ts",
+  javascript: "solution.js",
+  java: "Solution.java",
+  python: "solution.py",
+};

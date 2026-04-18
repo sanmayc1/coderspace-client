@@ -50,6 +50,7 @@ export interface ISelectTagProps {
   name: string;
   handleChange: (value: string) => void;
   value: string;
+  defaultValue?: string;
   head?: string;
   error?: string;
 }

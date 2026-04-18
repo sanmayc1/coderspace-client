@@ -1,6 +1,6 @@
 import { getAllDomains } from '@/api/admin/skill-and-domain-management';
 import { getAllSkills } from '@/api/common/common.api';
-import { createContest } from '@/api/company/company';
+import { createContest, getAllAvailableProblems } from '@/api/company/company';
 import { getProblemsUser } from '@/api/user/user.problem';
 import SkillsAndDomainCapsule from '@/components/admin/SkillsAndDomainCapsule';
 import InputFiled from '@/components/common/Input';
@@ -55,9 +55,9 @@ const AddContest: React.FC = () => {
 
   const [skills, setSkills] = useState<ISkill[]>([]);
   const [domains, setDomains] = useState<IDomain[]>([]);
-  const [availableProblems, setAvailableProblems] = useState<IContestProblem[]>([]);
+  const [availableProblems, setAvailableProblems] = useState<{id:string,title:string}[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
-  const [selectedProblems, setSelectedProblems] = useState<IContestProblem[]>([]);
+  const [selectedProblems, setSelectedProblems] = useState<{id:string,title:string}[]>([]);
   const [rewards, setRewards] = useState<IReward[]>([]);
   const [showSkillsProblemsError, setShowSkillsProblemsError] = useState(false); // <--- added
   const navigate = useNavigate();
@@ -81,8 +81,8 @@ const AddContest: React.FC = () => {
     }
 
     async function fetchAllProblems() {
-      const res = await getProblemsUser('', '1');
-      setAvailableProblems(res.data.problems);
+      const res = await getAllAvailableProblems();
+      setAvailableProblems(res.problems);
     }
     fetchAllDomains();
     fetchAllSkills();
@@ -320,12 +320,13 @@ const AddContest: React.FC = () => {
     // If any errors exist, don't submit
     const hasError = Object.values(submitErrors).some((v) => !!v);
     if (hasError) return;
-
+ 
+    const dateAndTime = new Date(data.dateAndTime);
     try {
       const contestBody = {
         title: data.title,
         description: data.description,
-        dateAndTime: data.dateAndTime,
+        dateAndTime: dateAndTime.toString(),
         duration: Number(data.duration),
         visibility: data.visibility,
         domain: data.domain,

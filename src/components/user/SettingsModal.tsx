@@ -136,7 +136,7 @@ const SettingsModal: React.FC<{
           >
             Change Password
           </button>
-          <button
+          {/* <button
             onClick={() => setActiveTab('notification')}
             className={`text-left px-4 py-3 rounded-lg font-medium transition-colors ${
               activeTab === 'notification'
@@ -145,7 +145,7 @@ const SettingsModal: React.FC<{
             }`}
           >
             Notifications
-          </button>
+          </button> */}
         </div>
 
         {/* Right Side - Content */}

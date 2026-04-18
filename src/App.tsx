@@ -11,12 +11,37 @@ import { socket } from './socket';
 function App() {
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector((s) => s.authReducer.loading);
+  const auth = useAppSelector((s) => s.authReducer.auth);
   useEffect(() => {
     dispatch(fetchRoleData());
-    socket.on('connect', () => {
-      console.log('Connected to socket server', socket.id);
-    });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (auth) {
+      socket.connect();
+
+      socket.on('connect', () => {
+        console.log('Connected to socket server', socket.id);
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Socket disconnected');
+      });
+
+      socket.on('disconnect', (reason) => {
+        console.log('Socket disconnected:', reason);
+      });
+
+      socket.on('connect_error', (err) => {
+        console.log('Connect error:', err.message);
+      });
+
+      return () => {
+        socket.off('connect');
+        socket.off('disconnect');
+      };
+    }
+  }, [auth]);
 
   if (isLoading) {
     return (

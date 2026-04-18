@@ -58,6 +58,7 @@ export interface IProblemState {
   domain: string;
   constrain: string;
   example: IExample;
+  validationType: string;
 }
 
 export interface IExample {
@@ -87,7 +88,7 @@ export type TSort = 'NEWEST' | 'OLDEST' | 'NAME_ASC' | 'NAME_DESC';
 
 export type Role = 'admin' | 'user' | 'company' | 'guest';
 
-export type TLanguages = 'javascript' | 'java' | 'python' | 'cpp';
+export type TLanguages = 'javascript' | 'java' | 'python' | 'typescript';
 export type TView = 'public' | 'private';
 
 export interface IReward {
@@ -131,4 +132,28 @@ export interface IListContestState {
   id: string;
   title: string;
   view: string;
+  endDateAndTime: string;
+}
+
+export interface IInterviewData {
+  title: string;
+  id?: string;
+  description: string;
+  context: string;
+  numberOfQuestions: number;
+  difficulty: string;
+  premium: boolean;
+  duration: number;
+}
+
+
+export interface IInterviewDataUser {
+  title: string;
+  id: string;
+  description: string;
+  numberOfQuestions: number;
+  premium: boolean;
+  duration: number;
+  isAttempted:boolean;
+  sessionId:string;
 }

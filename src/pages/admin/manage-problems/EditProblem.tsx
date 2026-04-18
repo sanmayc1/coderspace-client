@@ -17,7 +17,7 @@ import { toast } from 'react-toastify';
 import { v4 as uuid } from 'uuid';
 
 const EditProblem: React.FC = () => {
-  const [data, setData] = useState<IProblemState>({
+  const [data, setData] = useState<Omit<IProblemState,"validationType">>({
     constrain: '',
     description: '',
     difficulty: '',

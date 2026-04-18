@@ -10,6 +10,7 @@ interface IAuthSliceState {
   profileComplete: boolean;
   role: Role;
   loading: boolean;
+  isPremium: boolean;
 }
 
 const handleRoleDataFullfilled = (
@@ -21,6 +22,7 @@ const handleRoleDataFullfilled = (
   state.profileComplete = actions.payload?.profileComplete ?? false;
   state.profileUrl = actions.payload.profileUrl || '';
   state.role = actions.payload.role;
+  state.isPremium = actions.payload.isPremium ?? false;
   state.loading = false;
 };
 
@@ -30,11 +32,13 @@ const handleRoleDataRejected = (state: IAuthSliceState) => {
   state.profileComplete = false;
   state.profileUrl = '';
   state.role = 'guest';
+  state.isPremium = false;
   state.loading = false;
 };
 
 const initialState: IAuthSliceState = {
   auth: false,
+  isPremium:false,
   profileUrl: '',
   accountId: '',
   profileComplete: false,

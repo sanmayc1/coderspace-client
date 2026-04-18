@@ -6,8 +6,6 @@ import CompanyRegister from '@/pages/company/Register';
 import ForgotPassword from '@/pages/ForgetPassword';
 import UserOtpVerificationPage from '@/pages/Otp';
 import RestPassword from '@/pages/ResetPassword';
-import CodersDetails from '@/pages/user/coders/CodersDetails';
-import CodersListing from '@/pages/user/coders/CodersListing';
 import ContestsListing from '@/pages/user/contests/ContestsListing';
 import Home from '@/pages/user/Home';
 import UserLogin from '@/pages/user/Login';
@@ -34,6 +32,8 @@ export const guestRoutes: IAppRoutes[] = [
         element: <ProblemDetails />,
         allowedRoles: ['user', 'guest'],
       },
+
+
 
       {
         path: 'contest',

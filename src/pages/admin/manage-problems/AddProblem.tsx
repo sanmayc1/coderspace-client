@@ -24,6 +24,7 @@ const AddProblem: React.FC = () => {
     domain: '',
     premium: false,
     skill: '',
+    validationType: 'exactMatch',
     title: '',
     example: { id: '', explanation: '', input: '', output: '' },
   });
@@ -202,6 +203,7 @@ const AddProblem: React.FC = () => {
         premium: data.premium,
         skills: selectedSkills.map((s) => s.id),
         examples: examples,
+        validationType: data.validationType,
       };
 
       await createProblem(problemBody);
@@ -312,6 +314,16 @@ const AddProblem: React.FC = () => {
               value={data.domain}
               error={error.domain}
               handleChange={(v) => handleChangeOtherTag(v, 'domain')}
+            ></SelectTag>
+
+            <SelectTag
+              options={[{value:'exactMatch',label:'Exact Match'}, {value:'unorderedArray',label:'Unordered Array'}]}
+              placeholder="Select Validation"
+              label="Validation"
+              head="Validation (can't be changed after submission)"
+              name="Validation"
+              value={data.validationType}
+              handleChange={(v) => handleChangeOtherTag(v, 'validationType')}
             ></SelectTag>
             <InputFiled
               label="Constrain"

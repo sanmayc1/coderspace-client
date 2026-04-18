@@ -12,6 +12,7 @@ import { mapLoginErrors } from '@/utils/error-handlers/mapLoginErrors';
 import { authLogin } from '@/api/asyncThunk/thunk-api';
 import type { AuthLoginError, ILoginPayload, ILoginResponse } from '@/types/types';
 import { API_ROUTES } from '@/api/apiRoutes';
+
 const googleAuthUrl = import.meta.env.VITE_REDIRECT_GOOGLE;
 const githubAuthUrl = import.meta.env.VITE_REDIRECT_GITHUB;
 
@@ -33,6 +34,7 @@ const UserLogin: React.FC = () => {
             payload: data as ILoginPayload,
           })
         ).unwrap();
+
         navigate('/', { replace: true, state: { from: '/' } });
       } catch (error) {
         mapLoginErrors(
