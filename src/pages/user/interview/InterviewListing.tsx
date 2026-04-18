@@ -169,7 +169,7 @@ const InterviewListing = () => {
                   <button
                     disabled={loading}
                     onClick={() => handleFeedback(interview.sessionId)}
-                    className="w-full py-3.5 bg-black text-white rounded-lg font-medium flex items-center justify-center cursor-not-allowed"
+                    className="w-full py-3.5 bg-black text-white rounded-lg font-medium flex items-center justify-center"
                   >
                     View Feedback
                   </button>

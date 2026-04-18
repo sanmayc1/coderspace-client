@@ -81,7 +81,7 @@ const AddTestcase = () => {
         output: JSON.stringify(data.output),
         ...(data.example ? { example: data.example } : {}),
       });
-      console.log(res.data);
+      
       setPassedLanguages(res.data);
       setTestcaseModal(true);
       if(res.success){

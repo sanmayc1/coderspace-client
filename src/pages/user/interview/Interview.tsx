@@ -304,9 +304,9 @@ const Interview = () => {
             </div>
             <div>
               <h2 className="text-xl font-bold text-center pb-3"> How it works ? </h2>
-              <img src="/hw.png" alt="robot" />
+              <video src="/hw.mp4" autoPlay loop muted controls className='rounded-lg' />
               <p className="text-center mt-2 text-sm italic">
-                Watch this video to know how it works
+                Watch this video to know how it use
               </p>
             </div>
           </div>
