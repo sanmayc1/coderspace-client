@@ -12,7 +12,6 @@ interface ChatViewProps {
   messages: IGetChatMessages[];
   setMessages: React.Dispatch<React.SetStateAction<IGetChatMessages[]>>;
   setChats: React.Dispatch<React.SetStateAction<IGetAllChatsResponse[]>>;
-  chats: IGetAllChatsResponse[];
 }
 
 const ChatView: React.FC<ChatViewProps> = ({
@@ -20,7 +19,6 @@ const ChatView: React.FC<ChatViewProps> = ({
   messages,
   setMessages,
   setChats,
-  chats,
 }) => {
   const [inputText, setInputText] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);

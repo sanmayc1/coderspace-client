@@ -1,6 +1,6 @@
 import { addSingleTestcase, deleteTestcase, getAllTestcase } from '@/api/admin/problem-management';
 import LoadingSpin from '@/components/common/LoadingSpin';
-import Modal from '@/components/common/modal';
+import Modal from '@/components/common/Modal';
 import CustomPagination from '@/components/common/pagination';
 import { Button } from '@/components/ui/button';
 import type { IGetTestcase } from '@/types/response.types';

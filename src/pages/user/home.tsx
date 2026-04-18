@@ -1,4 +1,4 @@
-import Section from '@/components/common/Section';
+import Section from '@/components/common/section';
 import HeroSection from '@/components/user/HeroSection';
 import { sectionData } from '@/utils/constants';
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Plus, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import ChatView from './components/ChatView';
 import { useSearchParams } from 'react-router-dom';
 import { getAllChats, getChatMessages } from '@/api/user/user.chat';
@@ -232,7 +232,6 @@ const ChatListing = () => {
               messages={messages}
               setMessages={setMessages}
               setChats={setChats}
-              chats={chats}
             />
           ) : (
             <div className="h-full flex items-center justify-center">

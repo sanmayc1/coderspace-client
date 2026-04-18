@@ -2,7 +2,7 @@ import { Edit, Eye, EyeOff, MoveRight } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 import type { IProblemCardProps } from '@/types/props.types';
-import SelectTag from '../common/Select';
+import SelectTag from '../common/select';
 import { LANGUAGES } from '@/utils/constants';
 import { useState } from 'react';
 import { toast } from 'react-toastify';

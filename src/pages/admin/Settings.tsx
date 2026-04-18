@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { z } from 'zod';
-import InputFiled from '../../components/common/Input';
+import InputFiled from '../../components/common/input';
 import { Button } from '../../components/ui/button';
 import { changePassword } from '@/api/common/common.api';
 import type { AxiosError } from 'axios';

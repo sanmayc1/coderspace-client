@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
-import InputFiled from '../common/Input';
+import InputFiled from '../common/input';
 import Modal from '../common/Modal';
 import SelectTag from '../common/select';
 import TextArea from '../common/Textarea';

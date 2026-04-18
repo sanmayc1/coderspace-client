@@ -1,7 +1,7 @@
 import { getAllUsers, updateUserStatus } from '@/api/admin/user-management';
 import EditUser from '@/components/admin/EditUser';
 import InputFiled from '@/components/common/input';
-import Modal from '@/components/common/modal';
+import Modal from '@/components/common/Modal';
 import SelectTag from '@/components/common/select';
 import Table from '@/components/common/table';
 import { Button } from '@/components/ui/button';

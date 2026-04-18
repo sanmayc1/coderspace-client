@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import InputFiled from '../common/Input';
-import SelectTag from '../common/Select';
+import InputFiled from '../common/input';
+import SelectTag from '../common/select';
 import { Badges } from '@/utils/constants';
 import { Button } from '../ui/button';
 import type { IUsersData } from '@/types/types';

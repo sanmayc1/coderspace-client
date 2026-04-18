@@ -1,4 +1,4 @@
-import InputFiled from '../common/Input';
+import InputFiled from '../common/input';
 import { Button } from '../ui/button';
 import Modal from '../common/Modal';
 import { Switch } from '../ui/Switch';

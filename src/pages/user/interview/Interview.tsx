@@ -1,5 +1,5 @@
 import { finishInterview, getInterviewQuestion, submitAnswer } from '@/api/user/user.interview';
-import Modal from '@/components/common/modal';
+import Modal from '@/components/common/Modal';
 import { Button } from '@/components/ui/button';
 import Avatar from '@/components/user/InterviewCharacter';
 import Loader from '@/components/user/InterviewConnectingLoader';

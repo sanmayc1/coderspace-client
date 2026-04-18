@@ -1,6 +1,6 @@
 import { ImageUp } from 'lucide-react';
 import Modal from '../common/Modal';
-import InputFiled from '../common/Input';
+import InputFiled from '../common/input';
 import TextArea from '../common/Textarea';
 import { Button } from '../ui/button';
 import LoadingSpin from '../common/LoadingSpin';

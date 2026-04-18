@@ -2,7 +2,7 @@
 import { getCompanyDashboard } from '@/api/company/company';
 import type { ChartItem, QuickTab } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
-import { Trophy, Users, Activity, Calendar, ArrowUpRight, TrendingUp, Clock } from 'lucide-react';
+import { Trophy, Users, Activity, Calendar, TrendingUp, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -11,8 +11,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
   Legend,
   Area,
   AreaChart,

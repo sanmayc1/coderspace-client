@@ -6,7 +6,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/Pagination';
+} from '@/components/ui/pagination';
 import type { IPaginationProps } from '@/types/props.types';
 
 const CustomPagination: React.FC<IPaginationProps> = ({
