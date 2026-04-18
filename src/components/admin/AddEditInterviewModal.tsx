@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import InputFiled from '../common/input';
-import Modal from '../common/Modal';
+import Modal from '../common/modal';
 import SelectTag from '../common/select';
 import TextArea from '../common/Textarea';
 import { Button } from '../ui/button';

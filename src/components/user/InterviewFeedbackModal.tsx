@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
-import Modal from '../common/Modal';
+import Modal from '../common/modal';
 import { Button } from '../ui/button';
 import { getInterviewFeedback } from '@/api/user/user.interview';
 import LoadingSpin from '../common/LoadingSpin';

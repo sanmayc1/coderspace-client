@@ -1,6 +1,6 @@
 import { companyRegister, sendOtp } from '@/api/auth/auth.api';
 import AuthFormWraper from '@/components/common/AuthFormWraper';
-import CustomForm from '@/components/common/Form';
+import CustomForm from '@/components/common/form';
 import LoadingSpin from '@/components/common/LoadingSpin';
 import type { IErrorResponse } from '@/types/response.types';
 import { CompanyRegisterFields } from '@/utils/constants';

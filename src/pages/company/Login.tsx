@@ -2,7 +2,7 @@ import { API_ROUTES } from '@/api/apiRoutes';
 import { authLogin } from '@/api/asyncThunk/thunk-api';
 import { useAppDispatch } from '@/app/hooks/redux-custom-hook';
 import AuthFormWraper from '@/components/common/AuthFormWraper';
-import CustomForm from '@/components/common/Form';
+import CustomForm from '@/components/common/form';
 import type { AuthLoginError, ILoginPayload, ILoginResponse } from '@/types/types';
 import { LoginFileds } from '@/utils/constants';
 import { mapLoginErrors } from '@/utils/error-handlers/mapLoginErrors';

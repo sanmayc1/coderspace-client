@@ -1,6 +1,6 @@
 import { deleteContest, getAllCreatedContestsOfCompany } from '@/api/company/company';
 import InputFiled from '@/components/common/input';
-import Modal from '@/components/common/Modal';
+import Modal from '@/components/common/modal';
 import Table, { type TableColumn } from '@/components/common/table';
 import { Button } from '@/components/ui/button';
 import type { IListContestState } from '@/types/types';

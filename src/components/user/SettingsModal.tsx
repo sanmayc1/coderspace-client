@@ -1,6 +1,6 @@
 import InputFiled from '../common/input';
 import { Button } from '../ui/button';
-import Modal from '../common/Modal';
+import Modal from '../common/modal';
 import { Switch } from '../ui/Switch';
 import { useState } from 'react';
 import { ResetPasswordSchema } from '@/utils/validation/user-validation';

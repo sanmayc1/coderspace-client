@@ -24,7 +24,7 @@ import { Button } from '@/components/ui/button';
 import { AxiosError } from 'axios';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';
 import LoadingSpin from '@/components/common/LoadingSpin';
-import Modal from '@/components/common/Modal';
+import Modal from '@/components/common/modal';
 
 const ProblemDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'solution'>('description');

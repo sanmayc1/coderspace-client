@@ -1,7 +1,7 @@
 import { resetPassword } from '@/api/auth/auth.api';
 import { useAppSelector } from '@/app/hooks/redux-custom-hook';
 import AuthFormWraper from '@/components/common/AuthFormWraper';
-import CustomForm from '@/components/common/Form';
+import CustomForm from '@/components/common/form';
 import LoadingSpin from '@/components/common/LoadingSpin';
 import type { IErrorResponse } from '@/types/response.types';
 import { ResetPasswordFields } from '@/utils/constants';

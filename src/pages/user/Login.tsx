@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/app/hooks/redux-custom-hook';
 import AuthFormWraper from '@/components/common/AuthFormWraper';
-import CustomForm from '@/components/common/Form';
+import CustomForm from '@/components/common/form';
 import { Button } from '@/components/ui/button';
 import { LoginFileds } from '@/utils/constants';
 import { LoginShema } from '@/utils/validation/user-validation';

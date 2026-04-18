@@ -29,7 +29,7 @@ import {
   finishContestUser,
   getContestProblems,
 } from '@/api/user/user.contest';
-import Modal from '@/components/common/Modal';
+import Modal from '@/components/common/modal';
 
 const ContestDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'description' | 'solution'>('description');
