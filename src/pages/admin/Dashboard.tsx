@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Users, Code2, Video, CreditCard, Activity, TrendingUp } from 'lucide-react';
+import  { useEffect, useState } from 'react';
+import { Users, Code2, Video, CreditCard, Activity} from 'lucide-react';
 import {
   XAxis,
   YAxis,
@@ -13,26 +13,6 @@ import {
 import { getAdminDashboardData } from '@/api/admin/admin-dashboard';
 import type { IGetAdminDashboardResponse } from '@/types/response.types';
 
-// --- Mock Data ---
-// In a real application, you would fetch this data from your admin API endpoints
-const monthlyGrowthData = [
-  { name: 'Jan', users: 400, revenue: 2400 },
-  { name: 'Feb', users: 600, revenue: 3200 },
-  { name: 'Mar', users: 800, revenue: 4100 },
-  { name: 'Apr', users: 1200, revenue: 5800 },
-  { name: 'May', users: 1600, revenue: 7200 },
-  { name: 'Jun', users: 2100, revenue: 9500 },
-];
-
-const activityData = [
-  { name: 'Mon', problems: 120, interviews: 0 },
-  { name: 'Tue', problems: 150, interviews: 52 },
-  { name: 'Wed', problems: 180, interviews: 61 },
-  { name: 'Thu', problems: 140, interviews: 58 },
-  { name: 'Fri', problems: 200, interviews: 70 },
-  { name: 'Sat', problems: 250, interviews: 85 },
-  { name: 'Sun', problems: 220, interviews: 75 },
-];
 
 const getStatCards = (data: IGetAdminDashboardResponse | null) => [
   {

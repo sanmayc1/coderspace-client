@@ -1,6 +1,5 @@
 import {
   addSingleTestcase,
-  autoGenerateTestcases,
   deleteTestcase,
   getAllTestcase,
 } from '@/api/admin/problem-management';
@@ -98,19 +97,19 @@ const AddTestcase = () => {
     }
   };
 
-  const handleAutoGenerateTestcase = async () => {
-    try {
-      await autoGenerateTestcases(id as string);
-      toast.success('Auto generated successfully', toastifyOptionsCenter);
-      window.location.reload();
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.errors[0].error, toastifyOptionsCenter);
-      } else {
-        toast.error('Something went wrong', toastifyOptionsCenter);
-      }
-    }
-  };
+  // const handleAutoGenerateTestcase = async () => {
+  //   try {
+  //     await autoGenerateTestcases(id as string);
+  //     toast.success('Auto generated successfully', toastifyOptionsCenter);
+  //     window.location.reload();
+  //   } catch (error) {
+  //     if (error instanceof AxiosError) {
+  //       toast.error(error.response?.data.errors[0].error, toastifyOptionsCenter);
+  //     } else {
+  //       toast.error('Something went wrong', toastifyOptionsCenter);
+  //     }
+  //   }
+  // };
 
   const handleDeleteTestcase = async (id: string) => {
     try {

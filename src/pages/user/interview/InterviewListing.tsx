@@ -1,4 +1,4 @@
-import { CircleHelp, Clock, Lock } from 'lucide-react';
+import { CircleHelp, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';

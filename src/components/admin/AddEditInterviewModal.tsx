@@ -6,7 +6,7 @@ import SelectTag from '../common/Select';
 import TextArea from '../common/Textarea';
 import { Button } from '../ui/Button';
 import type { IInterviewData } from '@/types/types';
-import { Switch } from '../ui/Switch';
+
 
 const interviewSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters'),
