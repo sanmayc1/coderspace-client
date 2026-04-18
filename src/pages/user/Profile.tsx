@@ -48,11 +48,16 @@ const UserProfile: React.FC = () => {
       try {
         setLoading(true);
         const userProfile = await getUser();
+        if(!userProfile.data?.data?.profileUrl){
+          userProfile.data.data.profileUrl = "/defaultProfile.jpg";
+        }
         setUser(userProfile.data?.data as IUserState);
         setLoading(false);
-        if (profileUrl !== userProfile.data.data.profileUrl) {
+        if (userProfile.data?.data?.profileUrl !== "" && profileUrl !== userProfile.data.data.profileUrl) {
           dispatch(updateProfileUrl(userProfile.data.data.profileUrl));
         }
+      
+
       } catch (error) {
         setLoading(false);
         const axiosError = error as AxiosError<IErrorResponse>;
