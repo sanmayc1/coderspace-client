@@ -19,7 +19,11 @@ const ChatListing = () => {
     const fetchChats = async () => {
       try {
         const chats = await getAllChats();
-        setChats(chats);
+        setChats(chats.sort(
+          (a, b) =>
+            new Date(b.lastMessage.timestamp).getTime() -
+            new Date(a.lastMessage.timestamp).getTime()
+        ));
       } catch (error) {
         console.log(error);
       }

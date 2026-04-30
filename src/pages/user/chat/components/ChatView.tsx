@@ -82,13 +82,17 @@ const ChatView: React.FC<ChatViewProps> = ({
 
       if (!exist) {
         return [
-          ...prev,
+          
           {
             chatPartner: selectedContact?.chatPartner!,
             lastMessage: { content: inputText, timestamp: new Date() },
             unreadCount: 0,
           },
-        ];
+          ...prev,
+        ].sort((a, b) =>
+            new Date(b.lastMessage.timestamp).getTime() -
+            new Date(a.lastMessage.timestamp).getTime()
+          );
       }
 
       return prev.map((chat) =>
@@ -98,8 +102,11 @@ const ChatView: React.FC<ChatViewProps> = ({
               lastMessage: { content: inputText, timestamp: new Date() },
             }
           : chat
-      );
-    });
+      ).sort((a, b) =>
+            new Date(b.lastMessage.timestamp).getTime() -
+            new Date(a.lastMessage.timestamp).getTime()
+          );
+    })
 
     setInputText('');
   };
