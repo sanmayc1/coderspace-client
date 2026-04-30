@@ -85,7 +85,7 @@ const ProblemDetails: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (currentStatus.language === language) {
+    if (currentStatus.language === language && (currentStatus.status==='solved' || currentStatus.status==='attempted')) {
       setCode(currentStatus.solution);
       return;
     }
