@@ -180,7 +180,7 @@ const ContestLeaderBoardPage: React.FC = () => {
                                 {entry.name}
                               </span>
                               <span className="text-xs text-gray-400">
-                                @{entry.username.toLowerCase()}
+                                {entry.username.toLowerCase()}
                               </span>
                             </div>
                           </div>

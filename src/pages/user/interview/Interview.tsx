@@ -34,6 +34,7 @@ const Interview = () => {
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [isEndInterviewModalOpen, setIsEndInterviewModalOpen] = useState(false);
+  const [isEndInterviewLoading, setIsEndInterviewLoading] = useState(false);
   const hasShownStartModal = useRef(false);
   const params = useParams();
   const navigate = useNavigate();
@@ -155,7 +156,9 @@ const Interview = () => {
   };
 
   const handleEndInterview = async () => {
+    setIsEndInterviewLoading(true);
     await finishInterview(params.id as string);
+    setIsEndInterviewLoading(false);
     setIsFeedbackModalOpen(true);
   };
 
@@ -323,8 +326,8 @@ const Interview = () => {
           </p>
           <div className="flex gap-4 justify-end">
             <Button onClick={() => setIsEndInterviewModalOpen(false)}>Cancel</Button>
-            <Button onClick={handleEndInterview} className="bg-red-500 hover:bg-red-600">
-              End
+            <Button disabled={isEndInterviewLoading} onClick={handleEndInterview} className="bg-red-500 hover:bg-red-600">
+              {isEndInterviewLoading ? <LoadingSpin size={14} /> : 'End'}
             </Button>
           </div>
         </div>
