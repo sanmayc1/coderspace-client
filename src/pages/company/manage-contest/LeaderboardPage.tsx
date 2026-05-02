@@ -154,11 +154,11 @@ const LeaderboardWithRank: React.FC = () => {
     {
       key: 'userId',
       label: '',
-      render: () => {
+      render: (_,item) => {
         return (
           <>
-            <Button size={'sm'} onClick={() => alert('feature not implimented')}>
-              Contact
+            <Button size={'sm'} >
+              <a target="_blank" rel="noopener noreferrer" href={`mailto:sanmayc1@gmail.com`}>Contact</a>
             </Button>
           </>
         );

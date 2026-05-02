@@ -59,9 +59,17 @@ const EditProfileModal: React.FC<{
 
   const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setNewImage(file);
+    if (!file) return;
+
+    const maxSize = 1 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+      toast.error('Image must be less than 1MB', toastifyOptionsCenter);
+      e.target.value = '';
+      return;
     }
+
+    setNewImage(file);
   };
 
   const handleEditSubmit = async () => {

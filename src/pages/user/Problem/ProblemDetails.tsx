@@ -38,6 +38,7 @@ const ProblemDetails: React.FC = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [activeOutputTab, setActiveOutputTab] = useState<'test'>('test');
   const [activeTestCaseId, setActiveTestCaseId] = useState(0);
+  const [isAttempted, setIsAttempted] = useState(false);
   const { id } = useParams();
   const [currentStatus, setCurrentStatus] = useState<IGetProblemUpdatesResponse>({
     solution: '',
@@ -85,7 +86,10 @@ const ProblemDetails: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (currentStatus.language === language && (currentStatus.status==='solved' || currentStatus.status==='attempted')) {
+    if (
+      currentStatus.language === language &&
+      (currentStatus.status === 'solved' || currentStatus.status === 'attempted')
+    ) {
       setCode(currentStatus.solution);
       return;
     }
@@ -100,9 +104,8 @@ const ProblemDetails: React.FC = () => {
       setOutput('Running Test Cases.....');
       const res = await runProblemUser(id as string, code, language);
       setIsRunning(false);
-      console.log(res);
       setTestPassed(res.success);
-      console.log(res.testcases);
+      setIsAttempted(true);
       setProblem(
         (prev) =>
           prev && {
@@ -137,6 +140,7 @@ const ProblemDetails: React.FC = () => {
       const res = await submitProblemUser(id as string, code, language);
       setIsRunning(false);
       setTestPassed(res.success);
+      setIsAttempted(true);
       setProblem(
         (prev) =>
           prev && {
@@ -180,6 +184,22 @@ const ProblemDetails: React.FC = () => {
     setCode(defaultCode);
     setOutput('');
     setTestPassed(false);
+    setIsAttempted(false);
+    setProblem((prev) => {
+      if (!prev) {
+        return undefined;
+      }
+      return {
+        ...prev,
+        testcases: prev?.testcases?.map((t) => {
+          return {
+            expected:t.expected,
+            input:t.input,
+            output: 'Run Your Code To See Output',
+          };
+        }),
+      };
+    });
   };
 
   if (loading) {
@@ -374,14 +394,18 @@ const ProblemDetails: React.FC = () => {
                       <div className="flex items-center gap-4">
                         <h3
                           className={`text-lg font-bold ${
-                            testPassed ? 'text-green-500' : error ? 'text-red-500' : 'text-gray-400'
+                            testPassed
+                              ? 'text-green-500'
+                              : error || (isAttempted && !testPassed && !isRunning)
+                                ? 'text-red-500'
+                                : 'text-gray-400'
                           }`}
                         >
                           {isRunning
                             ? 'Running...'
                             : testPassed
                               ? 'Accepted'
-                              : error
+                              : error || (isAttempted && !testPassed)
                                 ? 'Wrong Answer' // Assuming error indicates failure if not 200 OK
                                 : 'Ready'}
                         </h3>

@@ -201,11 +201,11 @@ const ListAllInterviews: React.FC = () => {
               render: renderDuration,
             },
 
-            {
-              key: 'premium',
-              label: 'Premium',
-              render: renderPremium,
-            },
+            // {
+            //   key: 'premium',
+            //   label: 'Premium',
+            //   render: renderPremium,
+            // },
             {
               key: 'id',
               label: ' ',
