@@ -78,17 +78,17 @@ const ListAllInterviews: React.FC = () => {
     setSearch(e.target.value);
     setCurrentPage(1); // Reset to first page on new search
   };
-  const renderPremium = (val: string) => {
-    return (
-      <p
-        className={`text-xs p-1 w-fit px-3 flex justify-center items-center rounded-2xl ${
-          val ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800'
-        }`}
-      >
-        {val ? 'Premium' : 'Free'}
-      </p>
-    );
-  };
+  // const renderPremium = (val: string) => {
+  //   return (
+  //     <p
+  //       className={`text-xs p-1 w-fit px-3 flex justify-center items-center rounded-2xl ${
+  //         val ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800'
+  //       }`}
+  //     >
+  //       {val ? 'Premium' : 'Free'}
+  //     </p>
+  //   );
+  // };
 
   const closeEditModal = () => {
     setIsOpenAddModal(false);
