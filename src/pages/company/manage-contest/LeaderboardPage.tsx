@@ -154,7 +154,7 @@ const LeaderboardWithRank: React.FC = () => {
     {
       key: 'userId',
       label: '',
-      render: (_) => {
+      render: () => {
         return (
           <>
             <Button size={'sm'} >

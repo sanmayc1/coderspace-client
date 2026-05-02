@@ -5,7 +5,7 @@ import SelectTag from '@/components/common/select';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { followCoder, getAllCoders, unFollowCoder } from '@/api/user/user.coders';
-import type { IGetAllCodersResponse } from '@/types/response.types';
+import type { ICoders } from '@/types/response.types';
 import { toast } from 'react-toastify';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import LoadingSpin from '@/components/common/LoadingSpin';
@@ -17,9 +17,10 @@ const CodersListing: React.FC = () => {
   const [sort, setSort] = useState('');
   const [badgeFilter, setBadgeFilter] = useState('');
   const navigate = useNavigate();
-  const [coders, setCoders] = useState<IGetAllCodersResponse[]>([]);
+  const [coders, setCoders] = useState<ICoders[]>([]);
   const [loading, setLoading] = useState(true);
   const [disable, setDisable] = useState(false);
+
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -28,9 +29,10 @@ const CodersListing: React.FC = () => {
   useEffect(() => {
     async function fetchCoders() {
       try {
-        const response = await getAllCoders();
-        setCoders(response);
-        setTotalPages(1);
+        setLoading(true);
+        const response = await getAllCoders(currentPage,search,sort,badgeFilter);
+        setCoders(response.coders);
+        setTotalPages(response.totalPage);
         setLoading(false);
       } catch (error) {
         toast.error('Something went wrong', toastifyOptionsCenter);
@@ -38,9 +40,9 @@ const CodersListing: React.FC = () => {
       }
     }
     fetchCoders();
-  }, [search, sort, badgeFilter]);
+  }, [search, sort, badgeFilter,currentPage]);
 
-  const handleFollowAndUnfollow = async (data: IGetAllCodersResponse) => {
+  const handleFollowAndUnfollow = async (data: ICoders) => {
     try {
       setDisable(true);
       if (!data.isFollowing) {
@@ -95,8 +97,9 @@ const CodersListing: React.FC = () => {
               value={sort}
               handleChange={(val) => setSort(val)}
               options={[
-                { label: 'Name', value: 'name' },
-                { label: 'Rank', value: 'rank' },
+                { label: 'Name Asc', value: 'NAME_ASC' },
+                { label: 'Name Desc', value: 'NAME_DESC' },
+                
               ]}
             />
           </div>

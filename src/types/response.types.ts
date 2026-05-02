@@ -147,13 +147,22 @@ export interface IGetAllContest {
 }
 
 export interface IGetAllCodersResponse {
-  userId: string;
-  name: string;
-  username: string;
-  badge: string;
-  profileUrl: string;
-  isFollowing: boolean;
+  coders: ICoders[];
+  currentPage: number;
+  totalPage: number;
 }
+
+export interface ICoders {
+ 
+    userId: string;
+    name: string;
+    username: string;
+    badge: string;
+    profileUrl: string;
+    isFollowing: boolean;
+ 
+}
+
 
 export interface IGetCoderResponse {
   userId: string;

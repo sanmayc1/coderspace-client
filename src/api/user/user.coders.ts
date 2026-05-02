@@ -2,9 +2,9 @@ import type { ICommonResponse, IGetAllCodersResponse, IGetCoderResponse } from '
 import { API_ROUTES } from '../apiRoutes';
 import { coderspaceBackend } from '../instance';
 
-export async function getAllCoders(): Promise<IGetAllCodersResponse[]> {
+export async function getAllCoders(page: number, search: string, sort: string, badgeFilter: string): Promise<IGetAllCodersResponse> {
   
-    const response = await coderspaceBackend.get(API_ROUTES.GET_ALL_CODERS);
+    const response = await coderspaceBackend.get(API_ROUTES.GET_ALL_CODERS(page,search,sort,badgeFilter));
     return response.data.data;
 
 }

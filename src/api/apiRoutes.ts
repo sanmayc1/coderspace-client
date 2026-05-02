@@ -55,7 +55,7 @@ export const API_ROUTES = {
   GET_PROBLEM: (id: string) => `/admin/problems/${id}`,
   UPDATE_PROBLEM: '/admin/problems',
   CHANGE_VISIBILITY: '/admin/problems/visibility',
-  GET_ALL_CODERS: '/user/coders',
+  GET_ALL_CODERS: (page: number, search: string, sort: string, badgeFilter: string) => `/user/coders?page=${page}&search=${search}&sort=${sort}&badgeFilter=${badgeFilter}`,
   FOLLOW_CODER: '/user/coders/follow',
   UNFOLLOW_CODER: (id: string) => `/user/coders/unfollow/${id}`,
   GET_CODER: (id: string) => `/user/coders/${id}/coder`,
