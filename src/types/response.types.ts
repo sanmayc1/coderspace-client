@@ -393,3 +393,23 @@ export interface NotificationsDataResponse {
   total: number;
 }
 
+
+
+
+export interface ICompany {
+  name: string;
+  email: string;
+  gstNumber: string;
+  isBlocked: boolean;
+  isApproved: boolean;
+  certificateUrl: string;
+  accountId: string; 
+  remarks: string;
+}
+
+
+export interface IGetAllCompanyResponse {
+  companies: ICompany[];
+  totalPages: number;
+  currentPage: number;
+}

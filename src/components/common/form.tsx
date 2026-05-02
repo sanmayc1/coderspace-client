@@ -26,9 +26,10 @@ function CustomForm<T extends ZodObject<any>>({
     setErrors(error as Partial<Record<keyof FormValues, string>>);
   }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-    const result = zodSchema.safeParse({ ...formValues, [name]: value });
+    const { name, value, type, files } = e.target;
+    const fieldValue = type === 'file' ? (files ? files[0] : undefined) : value;
+    setFormValues((prev) => ({ ...prev, [name]: fieldValue }));
+    const result = zodSchema.safeParse({ ...formValues, [name]: fieldValue });
 
     if (!result.success) {
       const newErrors: Partial<Record<keyof FormValues, string>> = {};
@@ -96,7 +97,7 @@ function CustomForm<T extends ZodObject<any>>({
             name={field.name}
             type={field.type || 'text'}
             placeholder={field.placeholder}
-            value={(formValues[field.name as keyof FormValues] as string) || ''}
+            {...(field.type !== 'file' ? { value: (formValues[field.name as keyof FormValues] as string) || '' } : { accept: 'image/jpeg, image/png, image/jpg' })}
             onChange={handleChange}
             className={`border-1 p-2 rounded-md text-sm ${
               errors[field.name as keyof FormValues]

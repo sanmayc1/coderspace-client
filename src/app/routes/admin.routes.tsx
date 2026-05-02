@@ -12,6 +12,7 @@ import ListAllPayments from '@/pages/admin/manage-payments/ListAllPayments';
 import ListAllInterviews from '@/pages/admin/manage-interviews/ListAllInterviews';
 import Dashboard from '@/pages/admin/Dashboard';
 import Settings from '@/pages/admin/Settings';
+import CompanyManagement from '@/pages/admin/manage-company/ListAllCompany';
 
 export const adminRoutes: IAppRoutes[] = [
   {
@@ -29,6 +30,12 @@ export const adminRoutes: IAppRoutes[] = [
         element: <UserManagement />,
         allowedRoles: ['admin'],
       },
+      {
+        path:'manage-company',
+        element:<CompanyManagement/>,
+        allowedRoles: ['admin'],
+      },
+
       {
         path: 'manage-problems',
         element: <ProblemManagement />,

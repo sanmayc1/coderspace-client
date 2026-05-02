@@ -27,12 +27,16 @@ const CompanyRegister: React.FC = () => {
   ) {
     try {
       setLoading(true);
-      const res = await companyRegister({
-        gstin: data.gstin,
-        email: data.email,
-        companyName: data.companyName,
-        password: data.password,
-      });
+      const formData = new FormData();
+      formData.append('gstin', data.gstin);
+      formData.append('email', data.email);
+      formData.append('companyName', data.companyName);
+      formData.append('password', data.password);
+      if (data.companyRegistrationProof) {
+        formData.append('companyRegistrationProof', data.companyRegistrationProof);
+      }
+
+      const res = await companyRegister(formData);
 
       if (res && res.status === 201) {
         setLoading(false);
@@ -45,7 +49,7 @@ const CompanyRegister: React.FC = () => {
       }
     } catch (error) {
       const axiosError = error as AxiosError<IErrorResponse>;
-      console.log(axiosError);
+    
 
       setLoading(false);
       if (
@@ -74,7 +78,6 @@ const CompanyRegister: React.FC = () => {
         gap="2"
         btnName={isLoading ? <LoadingSpin /> : 'Register'}
       />
-
       <div className="flex justify-center items-center pt-3 ">
         <p
           className="text-gray-600 text-sm select-none"

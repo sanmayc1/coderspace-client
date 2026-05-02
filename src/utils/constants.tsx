@@ -2,6 +2,7 @@ import type { FieldConfig, ISectionProps } from '@/types/props.types';
 import type { ISideBarItems, TLanguages } from '@/types/types';
 import {
   Bell,
+  Building2,
   Code,
   CreditCard,
   Globe,
@@ -59,27 +60,32 @@ export const sectionData: ISectionProps[] = [
 export const UserRegisterFormFields: FieldConfig[] = [
   {
     name: 'name',
+    label:"Name",
     placeholder: 'Name',
     type: 'text',
   },
   {
     name: 'username',
+    label:"Username",
     placeholder: 'Username',
     type: 'text',
   },
   {
     name: 'email',
+    label:"Email",
     placeholder: 'Email',
     type: 'text',
   },
 
   {
     name: 'password',
+    label:"Password",
     placeholder: 'Password',
     type: 'password',
   },
   {
     name: 'confirmPassword',
+    label:"Confirm Password",
     placeholder: 'Confirm Password',
     type: 'password',
   },
@@ -88,11 +94,13 @@ export const UserRegisterFormFields: FieldConfig[] = [
 export const LoginFileds: FieldConfig[] = [
   {
     name: 'email',
+    label:"Email",
     placeholder: 'Email',
     type: 'text',
   },
   {
     name: 'password',
+    label:"Password",
     placeholder: 'Password',
     type: 'password',
   },
@@ -101,29 +109,39 @@ export const LoginFileds: FieldConfig[] = [
 export const CompanyRegisterFields: FieldConfig[] = [
   {
     name: 'companyName',
+    label:"Company Name",
     placeholder: 'Company Name',
     type: 'text',
   },
   {
     name: 'gstin',
+    label:"GSTIN",
     placeholder: 'GSTIN',
     type: 'text',
   },
   {
     name: 'email',
-    placeholder: 'Email',
+    label:"Email",
+    placeholder:"Email",
     type: 'text',
   },
   {
     name: 'password',
     placeholder: 'Password',
+    label:"Password",
     type: 'password',
   },
   {
     name: 'confirmPassword',
+    label:"Confirm Password",
     placeholder: 'Confirm Password',
     type: 'password',
   },
+  {
+    name: 'companyRegistrationProof',
+    label:"Company registration proof / GST Certificate",
+    type: 'file',
+  }
 ];
 
 export const ResetPasswordFields: FieldConfig[] = [
@@ -142,6 +160,7 @@ export const adminMenuItems: ISideBarItems[] = [
     navigate: '/admin/dashboard',
   },
   { icon: Users, label: 'Manage Users', navigate: '/admin/manage-user' },
+  {icon:Building2 , label:'Manage Company',navigate:'/admin/manage-company'},
   { icon: Code, label: 'Manage Problems', navigate: '/admin/manage-problems' },
   {
     icon: Globe,
@@ -152,6 +171,7 @@ export const adminMenuItems: ISideBarItems[] = [
   { icon: CreditCard, label: 'Plans' , navigate: '/admin/manage-plans'},
   { icon: CreditCard, label: 'Payment', navigate: '/admin/manage-payments' },
   { icon: Settings, label: 'Settings', navigate:"/admin/settings"},
+  
 ];
 
 export const LANGUAGES: { label: string; value: TLanguages }[] = [

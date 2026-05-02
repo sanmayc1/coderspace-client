@@ -315,15 +315,10 @@ const UserProfile: React.FC = () => {
                 ))
               ) : (
                 <div className="flex flex-wrap gap-3">
-                  <span className="border border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-2xl px-6 py-2.5 text-sm sm:text-base text-gray-400 font-bold transition-colors cursor-default border-dashed">
-                    Data Structures
-                  </span>
-                  <span className="border border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-2xl px-6 py-2.5 text-sm sm:text-base text-gray-400 font-bold transition-colors cursor-default border-dashed">
-                    Algorithms
-                  </span>
-                  <span className="border border-gray-200 bg-gray-50 hover:bg-gray-100 rounded-2xl px-6 py-2.5 text-sm sm:text-base text-gray-400 font-bold transition-colors cursor-default border-dashed">
-                    Problem Solving
-                  </span>
+                 <div className="flex items-center space-x-2">
+                        <div className="h-2 w-2 bg-red-400 rounded-full"></div>
+                        <span className="text-sm text-gray-400 font-semibold">No Skills Added</span>
+                      </div>
                 </div>
               )}
             </div>

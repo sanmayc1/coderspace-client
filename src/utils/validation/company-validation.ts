@@ -2,10 +2,15 @@ import z from 'zod';
 import { strongEmailRegex } from '../regex';
 import { nameSchema, passwordSchema } from './user-validation';
 
+
 export const CompanyRegistreSchema = z
   .object({
     companyName: nameSchema,
-    email: z.string().trim().regex(strongEmailRegex, { message: 'Invalid email format' }).max(50, { message: 'Email must be at most 50 characters long' }),
+    email: z
+      .string()
+      .trim()
+      .regex(strongEmailRegex, { message: 'Invalid email format' })
+      .max(50, { message: 'Email must be at most 50 characters long' }),
     gstin: z
       .string()
       .trim()
@@ -15,6 +20,24 @@ export const CompanyRegistreSchema = z
       .max(15, { message: 'GSTIN must be at most 15 characters long' }),
     password: passwordSchema,
     confirmPassword: z.string(),
+    companyRegistrationProof: z
+      .any()
+      .refine((file) => typeof window !== "undefined" && file instanceof window.File, {
+        message: 'File is required',
+      })
+      .refine(
+        (file) => {
+          if (!file) return false;
+          const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+          return validTypes.includes(file.type);
+        },
+        {
+          message: 'Only JPG, JPEG, and PNG files are allowed',
+        }
+      )
+      .refine((file) => !file || file.size <= 1 * 1024 * 1024, {
+        message: 'File size must be less than 1MB',
+      }),
   })
   .superRefine(({ password, confirmPassword }, ctx) => {
     if (password !== confirmPassword) {
@@ -27,8 +50,14 @@ export const CompanyRegistreSchema = z
   });
 
 export const createContestSchema = z.object({
-  title: z.string().min(1, 'Title is required').max(50, { message: 'Title must be at most 50 characters long' }),
-  description: z.string().min(1, 'Description is required').max(50, { message: 'Description must be at most 50 characters long' }),
+  title: z
+    .string()
+    .min(1, 'Title is required')
+    .max(50, { message: 'Title must be at most 50 characters long' }),
+  description: z
+    .string()
+    .min(1, 'Description is required')
+    .max(50, { message: 'Description must be at most 50 characters long' }),
   dateAndTime: z
     .string()
     .min(1, 'Date and time is required')

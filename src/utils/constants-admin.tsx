@@ -7,6 +7,14 @@ export const SORT_SELECT_1 = [
   { label: 'Oldest First', value: 'OLDEST' as TSort },
 ];
 
+
+export const COMPANY_SORT_SELECT = [
+  { label: 'All Companies', value: 'All' as TSort },
+  { label: 'Approved Companies', value: 'APPROVED' as TSort },
+  { label: 'Unapproved Companies', value: 'UNAPPROVED' as TSort },
+
+];
+
 export const SORT_SELECT_2 = [
   { label: 'Title Ascending', value: 'NAME_ASC' as TSort },
   { label: 'Title Descending', value: 'NAME_DESC' as TSort },
