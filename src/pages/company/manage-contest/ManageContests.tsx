@@ -105,7 +105,7 @@ const ManageContests: React.FC = () => {
     {
       key: 'view',
       label: 'Visibility',
-      render: (val: string) => val.charAt(0).toUpperCase() + val.slice(1),
+      render: (val: string) => val === 'public' ? 'Listed' : 'Unlisted',
     },
     {
       key: 'id',

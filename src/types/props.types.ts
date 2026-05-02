@@ -14,6 +14,7 @@ export interface FieldConfig {
   label?: string;
   placeholder?: string;
   type?: string;
+  instructions?: string;
 }
 
 export interface CustomFormProps<T extends ZodObject<any>> {

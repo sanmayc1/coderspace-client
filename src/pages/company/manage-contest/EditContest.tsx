@@ -534,8 +534,8 @@ const EditContest: React.FC = () => {
             ></SelectTag>
             <SelectTag
               options={[
-                { label: 'Public', value: 'public' },
-                { label: 'Private', value: 'private' },
+                { label: 'Listed', value: 'public' },
+                { label: 'Unlisted', value: 'private' },
               ]}
               placeholder="Select Visibility"
               label="Visibility"

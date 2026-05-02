@@ -82,6 +82,7 @@ export const UserRegisterFormFields: FieldConfig[] = [
     label:"Password",
     placeholder: 'Password',
     type: 'password',
+    instructions: 'Must be 8-20 characters long, contain at least 1 uppercase letter, 1 number, and 1 special character (@$!%*?&).',
   },
   {
     name: 'confirmPassword',
@@ -130,6 +131,7 @@ export const CompanyRegisterFields: FieldConfig[] = [
     placeholder: 'Password',
     label:"Password",
     type: 'password',
+    instructions: 'Must be 8-20 characters long, contain at least 1 uppercase letter, 1 number, and 1 special character (@$!%*?&).',
   },
   {
     name: 'confirmPassword',

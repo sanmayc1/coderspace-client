@@ -2,6 +2,7 @@ import type { CustomFormProps } from '@/types/props.types';
 import { useState } from 'react';
 import type { z, ZodObject } from 'zod';
 import { Button } from '../ui/button';
+import { Eye, EyeOff, Info } from 'lucide-react';
 
 function CustomForm<T extends ZodObject<any>>({
   fields,
@@ -21,6 +22,11 @@ function CustomForm<T extends ZodObject<any>>({
 
   const [formValues, setFormValues] = useState<Partial<FormValues>>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<keyof FormValues, string>>>({});
+  const [showPassword, setShowPassword] = useState<Record<string, boolean>>({});
+
+  const togglePasswordVisibility = (fieldName: string) => {
+    setShowPassword((prev) => ({ ...prev, [fieldName]: !prev[fieldName] }));
+  };
 
   if (error) {
     setErrors(error as Partial<Record<keyof FormValues, string>>);
@@ -92,21 +98,46 @@ function CustomForm<T extends ZodObject<any>>({
             </label>
           )}
 
-          <input
-            id={field.name}
-            name={field.name}
-            type={field.type || 'text'}
-            placeholder={field.placeholder}
-            {...(field.type !== 'file' ? { value: (formValues[field.name as keyof FormValues] as string) || '' } : { accept: 'image/jpeg, image/png, image/jpg' })}
-            onChange={handleChange}
-            className={`border-1 p-2 rounded-md text-sm ${
-              errors[field.name as keyof FormValues]
-                ? 'outline-red-600 border-red-300'
-                : 'outline-gray-200'
-            }`}
-          />
+          <div className="relative w-full">
+            <input
+              id={field.name}
+              name={field.name}
+              type={field.type === 'password' && showPassword[field.name] ? 'text' : (field.type || 'text')}
+              placeholder={field.placeholder}
+              {...(field.type !== 'file' ? { value: (formValues[field.name as keyof FormValues] as string) || '' } : { accept: 'image/jpeg, image/png, image/jpg' })}
+              onChange={handleChange}
+              className={`w-full border-1 p-2 rounded-md text-sm ${field.type === 'password' ? 'pr-10' : ''} ${
+                errors[field.name as keyof FormValues]
+                  ? 'outline-red-600 border-red-300'
+                  : 'outline-gray-200'
+              }`}
+            />
+            {field.type === 'password' && (
+              <button
+                type="button"
+                onClick={() => togglePasswordVisibility(field.name)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                {showPassword[field.name] ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            )}
+          </div>
+          
+          {field.instructions && errors[field.name as keyof FormValues] && (
+            <div className="flex items-start gap-1 mt-1 pl-1 text-red-400">
+              <Info size={12} className="mt-[2px] shrink-0" />
+              <p className="text-[10px] leading-tight">{field.instructions}</p>
+            </div>
+          )}
 
-          {errors[field.name as keyof FormValues] && (
+          {field.instructions && !errors[field.name as keyof FormValues] && !formValues[field.name as keyof FormValues] && (
+            <div className="flex items-start gap-1 mt-1 pl-1 text-gray-500">
+              <Info size={12} className="mt-[2px] shrink-0" />
+              <p className="text-[10px] leading-tight">{field.instructions}</p>
+            </div>
+          )}
+
+          {!field.instructions && errors[field.name as keyof FormValues] && (
             <span className="text-xs pt-1 pl-1 text-red-400">
               {errors[field.name as keyof FormValues]}
             </span>

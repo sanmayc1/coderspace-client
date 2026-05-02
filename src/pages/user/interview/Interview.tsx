@@ -6,7 +6,14 @@ import Loader from '@/components/user/InterviewConnectingLoader';
 import type { IGetInterviewQuestionResponse } from '@/types/response.types';
 import { toastifyOptionsCenter } from '@/utils/toastify.options';
 import { Canvas } from '@react-three/fiber';
-import { Mic, PhoneOff, Square, Repeat, MessageCircleQuestionMark } from 'lucide-react';
+import {
+  Mic,
+  PhoneOff,
+  Square,
+  Repeat,
+  MessageCircleQuestionMark,
+  SkipForward,
+} from 'lucide-react';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -150,7 +157,19 @@ const Interview = () => {
     }
   };
 
+  const handleSkipQuestion = async () => {
+    if (questionNumber < totalQuestions) {
+      setQuestionNumber(questionNumber + 1);
+    } else {
+      setIsLoading(true);
+      await finishInterview(params.id as string);
+      setIsLoading(false);
+      setIsFeedbackModalOpen(true);
+    }
+  };
+
   const handleNextQuestion = () => {
+    if (isTalkingRef.current) return;
     setShowNextQuestion(false);
     playVoice();
   };
@@ -212,6 +231,15 @@ const Interview = () => {
             <MessageCircleQuestionMark size={16} fill="black" strokeWidth={2} />
             <span className="text-white text-xs hover:text-gray-600 transition-colors">
               Show Question
+            </span>
+          </button>
+          <button
+            className=" text-white cursor-pointer hover:text-gray-600 transition-colors flex flex-col items-center gap-1"
+            onClick={() => handleSkipQuestion()}
+          >
+            <SkipForward size={16} fill="black" strokeWidth={2} />
+            <span className="text-white text-xs hover:text-gray-600 transition-colors">
+              Skip Question
             </span>
           </button>
         </div>
@@ -326,7 +354,11 @@ const Interview = () => {
           </p>
           <div className="flex gap-4 justify-end">
             <Button onClick={() => setIsEndInterviewModalOpen(false)}>Cancel</Button>
-            <Button disabled={isEndInterviewLoading} onClick={handleEndInterview} className="bg-red-500 hover:bg-red-600">
+            <Button
+              disabled={isEndInterviewLoading}
+              onClick={handleEndInterview}
+              className="bg-red-500 hover:bg-red-600"
+            >
               {isEndInterviewLoading ? <LoadingSpin size={14} /> : 'End'}
             </Button>
           </div>
