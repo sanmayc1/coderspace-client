@@ -20,8 +20,8 @@ const Footer = () => {
               <div>
                 <h3 className="text-lg font-bold">Connect</h3>
                 <ul className="flex flex-col gap-5 text-gray-400 select-none text-sm pt-5">
-                  <li className="hover:text-white ">GitHub</li>
-                  <li className="hover:text-white ">LinkedIn</li>
+                  <li className="hover:text-white "><a href="https://github.com/sanmayc1" target='_blank'>GitHub</a></li>
+                  <li className="hover:text-white "><a href="https://www.linkedin.com/in/sanmayc/" target='_blank'>LinkedIn</a></li>
          
                 </ul>
               </div>
