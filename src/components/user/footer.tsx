@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import MotionScrollWrap from '../common/MotionScrollWraper';
 
 const Footer = () => {
+  const navigate = useNavigate()
   return (
     <>
       <MotionScrollWrap>
@@ -10,9 +12,9 @@ const Footer = () => {
               <div>
                 <h3 className="text-lg font-bold ">Explore</h3>
                 <ul className="flex flex-col gap-5 text-gray-400 select-none text-sm pt-5">
-                  <li className="hover:text-white ">Problems</li>
-                  <li className="hover:text-white ">contest</li>
-                  <li className="hover:text-white ">Problems</li>
+                  <li className="hover:text-white " onClick={() => navigate('/problems')}>Problems</li>
+                  <li className="hover:text-white " onClick={() => navigate('/contest')}>Contest</li>
+                  <li className="hover:text-white " onClick={() => navigate('/interview')}>Interviews</li>
                 </ul>
               </div>
               <div>
@@ -20,7 +22,7 @@ const Footer = () => {
                 <ul className="flex flex-col gap-5 text-gray-400 select-none text-sm pt-5">
                   <li className="hover:text-white ">GitHub</li>
                   <li className="hover:text-white ">LinkedIn</li>
-                  <li className="hover:text-white ">Instagram</li>
+         
                 </ul>
               </div>
             </div>
