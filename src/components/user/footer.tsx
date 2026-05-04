@@ -32,7 +32,7 @@ const Footer = () => {
                 className="hover:text-white text-gray-400 text-sm"
                 href="mailto:sanmayc9@gmail.com"
               >
-                coderspace.support@gmail.com
+                sanmayc9@gmail.com
               </a>
             </div>
           </div>
