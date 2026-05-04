@@ -37,7 +37,7 @@ const Footer = () => {
             </div>
           </div>
           <p className="text-center text-gray-300 text-xs py-5  ">
-            © 2025 CoderSpace. All rights reserved.
+            © 2026 CoderSpace. All rights reserved.
           </p>
         </footer>
       </MotionScrollWrap>
