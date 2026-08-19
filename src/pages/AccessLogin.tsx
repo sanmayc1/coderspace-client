@@ -18,7 +18,7 @@ const AccessLogin: React.FC = () => {
       >
         <div className="min-h-screen flex justify-center items-center">
           <div className="w-full grid sm:grid-cols-2 ">
-            {/* developers */}
+        
 
             <div className="py-10 flex flex-col justify-center items-center font-[anybody-regular] gap-10 sm:border-r-2  sm:border-b-0 border-b-2">
               <h3 className="text-3xl font-bold">For Coders</h3>
