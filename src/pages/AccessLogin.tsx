@@ -45,7 +45,7 @@ const AccessLogin: React.FC = () => {
               </div>
             </div>
 
-            {/* company */}
+           
 
             <div className="py-10 flex flex-col justify-center items-center font-[anybody-regular] gap-10">
               <h3 className="text-3xl font-bold">For Companies</h3>
